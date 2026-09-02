@@ -1,0 +1,38 @@
+{
+  "checkpoint": "/root/sprite/sprite_isaaclab/IsaacLab/logs/rsl_rl/sprite0825_stage2_g57_native_pm01_unconditioned/2026-08-31_14-16-07_stage2_G57_native_pm01_scratch_1000_env8192/model_500.pt",
+  "command_ramp_rate_mps2": 0.0,
+  "grid": {
+    "0.00": {
+      "mae_vx": 0.002574831247329712,
+      "mean_vx": 0.002375001087784767,
+      "p10_vx": -3.846911567961797e-05,
+      "p90_vx": 0.006266739219427109
+    },
+    "0.15": {
+      "mae_vx": 0.03142029047012329,
+      "mean_vx": 0.18142029643058777,
+      "p10_vx": 0.1712009161710739,
+      "p90_vx": 0.18796886503696442
+    },
+    "0.30": {
+      "mae_vx": 0.008862045593559742,
+      "mean_vx": 0.3059992790222168,
+      "p10_vx": 0.2942887246608734,
+      "p90_vx": 0.31625378131866455
+    },
+    "0.45": {
+      "mae_vx": 0.032433584332466125,
+      "mean_vx": 0.4175664186477661,
+      "p10_vx": 0.40465134382247925,
+      "p90_vx": 0.4351550042629242
+    }
+  },
+  "heading_hold": false,
+  "num_envs": 128,
+  "policy_kind": "rsl_rl_checkpoint",
+  "protocol": "grid",
+  "seed": 42,
+  "step_dt": 0.01,
+  "survival_rate": 1.0,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G57NativePM01Forward100Hz-v0"
+}

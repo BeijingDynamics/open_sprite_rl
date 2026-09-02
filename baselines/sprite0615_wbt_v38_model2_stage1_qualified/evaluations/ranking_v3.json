@@ -1,0 +1,59 @@
+[
+  {
+    "model": "model_2",
+    "runs": 30,
+    "full_matrix": true,
+    "clean_worst_terminations_per_env": 0.0,
+    "push_worst_terminations_per_env": 0.0,
+    "clean_body_pos_p90": 0.04366511645416418,
+    "clean_joint_pos_p90": 1.0232585299015045,
+    "clean_seam_action_p99": 1.7543048735459634,
+    "clean_ankle_motor_ratio_p90": 0.9888376196225486,
+    "j4340_rated_rms_max": 0.410796532089399,
+    "ankle_rated_rms_max": 0.4848561225689851,
+    "upper_rated_rms_max": 0.3068910671202624,
+    "peak_torque_p99_max": 0.38336107164621347,
+    "speed_p99_max": 0.39307938635349265,
+    "peak_torque_speed_p99_max": 0.4576236242055892,
+    "quality_gates": {
+      "body_tracking_within_5pct": true,
+      "joint_tracking_within_5pct": true,
+      "action_continuity_within_10pct": true,
+      "ankle_load_p90_within_5pct": true,
+      "lr_tracking_gap_within_10pct": true,
+      "contact_slip_within_10pct": true,
+      "contact_tilt_within_10pct": true
+    },
+    "hardware_gates": {
+      "j4340_rated_rms_le_1": true,
+      "ankle_rated_rms_le_1": true,
+      "upper_rated_rms_le_1": true,
+      "peak_torque_p99_le_1": true,
+      "speed_p99_le_1": true,
+      "peak_torque_speed_p99_le_1": true
+    },
+    "quick_candidate": true,
+    "isaac_matrix_pass": true,
+    "promote": true,
+    "full_gates": {
+      "complete_matrix": true,
+      "clean_zero_termination": true,
+      "push_termination_le_1pct": true,
+      "beats_robustness_baseline": true,
+      "body_tracking_within_5pct": true,
+      "joint_tracking_within_5pct": true,
+      "action_continuity_within_10pct": true,
+      "ankle_load_p90_within_5pct": true,
+      "lr_tracking_gap_within_10pct": true,
+      "contact_slip_within_10pct": true,
+      "contact_tilt_within_10pct": true,
+      "j4340_rated_rms_le_1": true,
+      "ankle_rated_rms_le_1": true,
+      "upper_rated_rms_le_1": true,
+      "peak_torque_p99_le_1": true,
+      "speed_p99_le_1": true,
+      "peak_torque_speed_p99_le_1": true,
+      "physical_model_confirmed": true
+    }
+  }
+]

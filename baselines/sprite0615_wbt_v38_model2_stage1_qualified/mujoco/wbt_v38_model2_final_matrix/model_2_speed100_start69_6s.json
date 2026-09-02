@@ -1,0 +1,460 @@
+{
+  "schema": "sprite0615_wbt_mujoco_eval_v1",
+  "contract": "/home/tony/sprite/sprite_deploy/mujoco/wbt_v38_model2_candidate/deploy/contract.json",
+  "policy": "/home/tony/sprite/sprite_deploy/mujoco/wbt_v38_model2_candidate/deploy/policy.onnx",
+  "reference": "/home/tony/sprite/sprite_deploy/mujoco/wbt_v38_model2_candidate/deploy/reference_motion.npz",
+  "body_aliases": {
+    "left_foot_link": "left_ankle_roll_link",
+    "right_foot_link": "right_ankle_roll_link"
+  },
+  "requested_seconds": 6.0,
+  "elapsed_seconds": 6.039999999999557,
+  "loop_reference": false,
+  "speed_scale": 1.0,
+  "fell": false,
+  "final_root": [
+    1.7521563845710981,
+    -0.007968297490278373,
+    0.4542777775024073
+  ],
+  "min_root_z": 0.4405859759717491,
+  "forward_distance_m": 1.7521563845710981,
+  "max_abs_lateral_m": 0.08252494624913857,
+  "lateral_per_forward": 0.04709907573081124,
+  "mean_forward_speed_mps": 0.2900921166508654,
+  "tracking": {
+    "joint_pos_l2": {
+      "mean": 0.7911563546558928,
+      "rms": 0.8061134753267757,
+      "p50": 0.7659891257579141,
+      "p90": 1.02480876312224,
+      "p99": 1.0616713218025415,
+      "max": 1.0763556458788703
+    },
+    "body_pos_mean": {
+      "mean": 0.09249820696703495,
+      "rms": 0.093802650326149,
+      "p50": 0.09423902804864509,
+      "p90": 0.1075554575161257,
+      "p99": 0.11185130951591297,
+      "max": 0.11236822503149464
+    },
+    "body_pos_l2": {
+      "mean": 0.550914526208254,
+      "rms": 0.5583221080290587,
+      "p50": 0.5648022653485272,
+      "p90": 0.6344144003209689,
+      "p99": 0.6706662885010528,
+      "max": 0.6729454145830681
+    },
+    "anchor_rot6d": {
+      "mean": 0.09268535927333252,
+      "rms": 0.09691803011966217,
+      "p50": 0.09348877761379701,
+      "p90": 0.1284244009869766,
+      "p99": 0.15388562883415013,
+      "max": 0.16249372313000635
+    },
+    "root_xy": {
+      "mean": 0.086973374021725,
+      "rms": 0.08859820045941118,
+      "p50": 0.09053182917741029,
+      "p90": 0.10227738686699522,
+      "p99": 0.10721822225017362,
+      "max": 0.10774173878795967
+    },
+    "action_rate_l2": {
+      "mean": 0.8640367932542881,
+      "rms": 0.8747474053358499,
+      "p50": 0.8318320406536659,
+      "p90": 1.0623906953682618,
+      "p99": 1.2548179123862806,
+      "max": 1.5265736406086303
+    }
+  },
+  "torque": {
+    "left_hip_pitch_joint": {
+      "rms_nm": 4.100506385816847,
+      "peak_abs_nm": 9.7290555446796,
+      "limit_nm": 40.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.35522035031162325,
+      "torque_speed_envelope_peak_policy_step": 122,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": -8.399121591988731,
+      "torque_speed_envelope_peak_speed_rad_s": 1.3507535154634884
+    },
+    "right_hip_pitch_joint": {
+      "rms_nm": 4.156317169677658,
+      "peak_abs_nm": 11.5341949474148,
+      "limit_nm": 40.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.37048446585592265,
+      "torque_speed_envelope_peak_policy_step": 97,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": 9.187846308915647,
+      "torque_speed_envelope_peak_speed_rad_s": 1.3093312924904312
+    },
+    "waist_roll_joint": {
+      "rms_nm": 2.573260656134208,
+      "peak_abs_nm": 5.4538996843131,
+      "limit_nm": 97.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.28673580877346083,
+      "torque_speed_envelope_peak_policy_step": 4,
+      "torque_speed_envelope_peak_substep": 6,
+      "torque_speed_envelope_peak_torque_nm": 4.127461723605124,
+      "torque_speed_envelope_peak_speed_rad_s": 1.5342574916933827
+    },
+    "left_hip_roll_joint": {
+      "rms_nm": 5.514796638431413,
+      "peak_abs_nm": 11.770769241861295,
+      "limit_nm": 40.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.395158829357045,
+      "torque_speed_envelope_peak_policy_step": 4,
+      "torque_speed_envelope_peak_substep": 6,
+      "torque_speed_envelope_peak_torque_nm": 11.73501086459981,
+      "torque_speed_envelope_peak_speed_rad_s": 0.9465871064147358
+    },
+    "right_hip_roll_joint": {
+      "rms_nm": 4.689417683569516,
+      "peak_abs_nm": 10.887640254776583,
+      "limit_nm": 40.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.29029845683068134,
+      "torque_speed_envelope_peak_policy_step": 105,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": -10.887640254776583,
+      "torque_speed_envelope_peak_speed_rad_s": 0.16839929274350296
+    },
+    "waist_yaw_joint": {
+      "rms_nm": 1.5418264938640394,
+      "peak_abs_nm": 3.691812489415829,
+      "limit_nm": 40.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.23371543919362076,
+      "torque_speed_envelope_peak_policy_step": 67,
+      "torque_speed_envelope_peak_substep": 1,
+      "torque_speed_envelope_peak_torque_nm": 1.9700369204605632,
+      "torque_speed_envelope_peak_speed_rad_s": 1.715520035677406
+    },
+    "left_hip_yaw_joint": {
+      "rms_nm": 1.2513394381672356,
+      "peak_abs_nm": 4.4237584215670624,
+      "limit_nm": 40.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.16592861902389833,
+      "torque_speed_envelope_peak_policy_step": 2,
+      "torque_speed_envelope_peak_substep": 1,
+      "torque_speed_envelope_peak_torque_nm": 3.6452876947083768,
+      "torque_speed_envelope_peak_speed_rad_s": 0.6956067821688432
+    },
+    "right_hip_yaw_joint": {
+      "rms_nm": 1.1647132282583232,
+      "peak_abs_nm": 3.74836866875904,
+      "limit_nm": 40.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.12751961314518226,
+      "torque_speed_envelope_peak_policy_step": 39,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": 3.2870598277000753,
+      "torque_speed_envelope_peak_speed_rad_s": 0.4216910009584409
+    },
+    "head_pitch_joint": {
+      "rms_nm": 0.2558517190538892,
+      "peak_abs_nm": 0.9284966941354716,
+      "limit_nm": 3.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.31188568216673884,
+      "torque_speed_envelope_peak_policy_step": 74,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": -0.9284966941354716,
+      "torque_speed_envelope_peak_speed_rad_s": 0.1791261343299194
+    },
+    "left_shoulder_pitch_joint": {
+      "rms_nm": 0.6203369233140744,
+      "peak_abs_nm": 1.7148801779373564,
+      "limit_nm": 12.5,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.14377383554323347,
+      "torque_speed_envelope_peak_policy_step": 141,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": 1.7134171150338888,
+      "torque_speed_envelope_peak_speed_rad_s": 0.24255688663896008
+    },
+    "right_shoulder_pitch_joint": {
+      "rms_nm": 0.5319361143535771,
+      "peak_abs_nm": 1.2336313877679488,
+      "limit_nm": 12.5,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.11417014656528374,
+      "torque_speed_envelope_peak_policy_step": 4,
+      "torque_speed_envelope_peak_substep": 9,
+      "torque_speed_envelope_peak_torque_nm": 1.042549404121631,
+      "torque_speed_envelope_peak_speed_rad_s": 1.1137362547997713
+    },
+    "left_knee_joint": {
+      "rms_nm": 3.5868294164547136,
+      "peak_abs_nm": 12.60735757752406,
+      "limit_nm": 40.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.46061731159651464,
+      "torque_speed_envelope_peak_policy_step": 251,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": 7.581793407372597,
+      "torque_speed_envelope_peak_speed_rad_s": 2.520974082336429
+    },
+    "right_knee_joint": {
+      "rms_nm": 2.9621546881401843,
+      "peak_abs_nm": 14.41731186938578,
+      "limit_nm": 40.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.533175839373511,
+      "torque_speed_envelope_peak_policy_step": 76,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": -9.530106316280001,
+      "torque_speed_envelope_peak_speed_rad_s": 2.742785643890685
+    },
+    "head_roll_joint": {
+      "rms_nm": 0.16653642383512057,
+      "peak_abs_nm": 0.519414736261402,
+      "limit_nm": 3.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.1783152316438494,
+      "torque_speed_envelope_peak_policy_step": 133,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": -0.519414736261402,
+      "torque_speed_envelope_peak_speed_rad_s": 0.38852844766672057
+    },
+    "left_shoulder_roll_joint": {
+      "rms_nm": 0.7456068313725727,
+      "peak_abs_nm": 1.2950587193650285,
+      "limit_nm": 12.5,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.13012703452779859,
+      "torque_speed_envelope_peak_policy_step": 39,
+      "torque_speed_envelope_peak_substep": 6,
+      "torque_speed_envelope_peak_torque_nm": 1.2643255098896657,
+      "torque_speed_envelope_peak_speed_rad_s": 1.0491119953765804
+    },
+    "right_shoulder_roll_joint": {
+      "rms_nm": 1.066473491092091,
+      "peak_abs_nm": 1.7305519705604089,
+      "limit_nm": 12.5,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.1626923239777076,
+      "torque_speed_envelope_peak_policy_step": 143,
+      "torque_speed_envelope_peak_substep": 4,
+      "torque_speed_envelope_peak_torque_nm": -1.7258231255850056,
+      "torque_speed_envelope_peak_speed_rad_s": 0.8914783750873482
+    },
+    "left_ankle_pitch_joint": {
+      "rms_nm": 2.995406589710923,
+      "peak_abs_nm": 7.232037711577074,
+      "limit_nm": 25.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.3183844272433625,
+      "torque_speed_envelope_peak_policy_step": 4,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": 5.841897925415731,
+      "torque_speed_envelope_peak_speed_rad_s": 3.06644813483521
+    },
+    "right_ankle_pitch_joint": {
+      "rms_nm": 2.719572318610156,
+      "peak_abs_nm": 5.765154065434773,
+      "limit_nm": 25.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.2655430503420947,
+      "torque_speed_envelope_peak_policy_step": 69,
+      "torque_speed_envelope_peak_substep": 4,
+      "torque_speed_envelope_peak_torque_nm": -5.765154065434773,
+      "torque_speed_envelope_peak_speed_rad_s": 1.2647153622890064
+    },
+    "head_yaw_joint": {
+      "rms_nm": 0.041299884461823214,
+      "peak_abs_nm": 0.5523262552131861,
+      "limit_nm": 3.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.1858927474457386,
+      "torque_speed_envelope_peak_policy_step": 1,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": -0.5523262552131861,
+      "torque_speed_envelope_peak_speed_rad_s": 0.1338873725308784
+    },
+    "left_shoulder_yaw_joint": {
+      "rms_nm": 0.15796811360428942,
+      "peak_abs_nm": 0.4441963833432164,
+      "limit_nm": 12.5,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.07222365498570699,
+      "torque_speed_envelope_peak_policy_step": 37,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": -0.3507272923729674,
+      "torque_speed_envelope_peak_speed_rad_s": 1.5987901054660598
+    },
+    "right_shoulder_yaw_joint": {
+      "rms_nm": 0.20176394148080135,
+      "peak_abs_nm": 0.44805732752306077,
+      "limit_nm": 12.5,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.06894967043724987,
+      "torque_speed_envelope_peak_policy_step": 223,
+      "torque_speed_envelope_peak_substep": 9,
+      "torque_speed_envelope_peak_torque_nm": 0.3003893895267579,
+      "torque_speed_envelope_peak_speed_rad_s": 1.6260504320290647
+    },
+    "left_ankle_roll_joint": {
+      "rms_nm": 0.6040870928368107,
+      "peak_abs_nm": 1.9950090787284442,
+      "limit_nm": 25.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.08601617268410261,
+      "torque_speed_envelope_peak_policy_step": 27,
+      "torque_speed_envelope_peak_substep": 9,
+      "torque_speed_envelope_peak_torque_nm": -1.9950090787284442,
+      "torque_speed_envelope_peak_speed_rad_s": 0.22501230990801332
+    },
+    "right_ankle_roll_joint": {
+      "rms_nm": 0.6283695902317228,
+      "peak_abs_nm": 2.998271247378393,
+      "limit_nm": 25.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.20581345533581202,
+      "torque_speed_envelope_peak_policy_step": 104,
+      "torque_speed_envelope_peak_substep": 5,
+      "torque_speed_envelope_peak_torque_nm": -2.900466832394058,
+      "torque_speed_envelope_peak_speed_rad_s": 3.2505711783577813
+    },
+    "left_elbow_joint": {
+      "rms_nm": 0.2578351904755249,
+      "peak_abs_nm": 0.613930648477711,
+      "limit_nm": 12.5,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.09199808508283222,
+      "torque_speed_envelope_peak_policy_step": 260,
+      "torque_speed_envelope_peak_substep": 9,
+      "torque_speed_envelope_peak_torque_nm": -0.5391543907769587,
+      "torque_speed_envelope_peak_speed_rad_s": 1.7689396015900498
+    },
+    "right_elbow_joint": {
+      "rms_nm": 0.22325291306685088,
+      "peak_abs_nm": 0.5454583550348711,
+      "limit_nm": 12.5,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.08831492511303479,
+      "torque_speed_envelope_peak_policy_step": 224,
+      "torque_speed_envelope_peak_substep": 9,
+      "torque_speed_envelope_peak_torque_nm": 0.4359358075023692,
+      "torque_speed_envelope_peak_speed_rad_s": 1.9345302313365291
+    },
+    "left_wrist_yaw_joint": {
+      "rms_nm": 0.03144212592845253,
+      "peak_abs_nm": 0.18607346807165187,
+      "limit_nm": 12.5,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.02789525708539648,
+      "torque_speed_envelope_peak_policy_step": 155,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": 0.1081042425992822,
+      "torque_speed_envelope_peak_speed_rad_s": 0.6967384346080643
+    },
+    "right_wrist_yaw_joint": {
+      "rms_nm": 0.042532728716991305,
+      "peak_abs_nm": 0.2105251444226307,
+      "limit_nm": 12.5,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.03524986081224997,
+      "torque_speed_envelope_peak_policy_step": 223,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": -0.1290750946057479,
+      "torque_speed_envelope_peak_speed_rad_s": 0.9022435064405939
+    },
+    "left_wrist_pitch_joint": {
+      "rms_nm": 0.0903709166046342,
+      "peak_abs_nm": 0.7502666303968755,
+      "limit_nm": 3.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.25356020729212747,
+      "torque_speed_envelope_peak_policy_step": 1,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": -0.7502666303968755,
+      "torque_speed_envelope_peak_speed_rad_s": 0.2605204243653555
+    },
+    "right_wrist_pitch_joint": {
+      "rms_nm": 0.07931718641162021,
+      "peak_abs_nm": 0.5470527441138695,
+      "limit_nm": 3.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.18462847833622892,
+      "torque_speed_envelope_peak_policy_step": 4,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": -0.5470527441138695,
+      "torque_speed_envelope_peak_speed_rad_s": 0.17092922871868554
+    },
+    "left_wrist_roll_joint": {
+      "rms_nm": 0.28913875808859596,
+      "peak_abs_nm": 0.804721696137308,
+      "limit_nm": 3.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.28306512784350774,
+      "torque_speed_envelope_peak_policy_step": 19,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": -0.8014552845308227,
+      "torque_speed_envelope_peak_speed_rad_s": 1.1942847154350538
+    },
+    "right_wrist_roll_joint": {
+      "rms_nm": 0.1566085520222933,
+      "peak_abs_nm": 0.5510746926240988,
+      "limit_nm": 3.0,
+      "clip_fraction": 0.0,
+      "torque_speed_envelope_peak_ratio": 0.18633022817224945,
+      "torque_speed_envelope_peak_policy_step": 188,
+      "torque_speed_envelope_peak_substep": 0,
+      "torque_speed_envelope_peak_torque_nm": 0.5510746926240988,
+      "torque_speed_envelope_peak_speed_rad_s": 0.19802950398067967
+    }
+  },
+  "ankle_physical_motors": {
+    "left_motor_a": {
+      "torque_rms_nm": 1.6894644714028009,
+      "torque_peak_nm": 3.650669140360116,
+      "rated_torque_nm": 3.5,
+      "peak_torque_nm": 12.5,
+      "speed_rms_rad_s": 0.87563997610917,
+      "speed_peak_rad_s": 5.230711689324461,
+      "no_load_speed_rad_s": 36.2,
+      "torque_speed_envelope_peak_ratio": 0.319796928469505
+    },
+    "left_motor_b": {
+      "torque_rms_nm": 1.3469969289406298,
+      "torque_peak_nm": 3.812222650046675,
+      "rated_torque_nm": 3.5,
+      "peak_torque_nm": 12.5,
+      "speed_rms_rad_s": 1.2907951634824886,
+      "speed_peak_rad_s": 4.392166341295324,
+      "no_load_speed_rad_s": 36.2,
+      "torque_speed_envelope_peak_ratio": 0.3296329169100206
+    },
+    "right_motor_a": {
+      "torque_rms_nm": 1.2032308576611908,
+      "torque_peak_nm": 3.1789417799326545,
+      "rated_torque_nm": 3.5,
+      "peak_torque_nm": 12.5,
+      "speed_rms_rad_s": 1.574640742254225,
+      "speed_peak_rad_s": 4.345060223969991,
+      "no_load_speed_rad_s": 36.2,
+      "torque_speed_envelope_peak_ratio": 0.2833904744888497
+    },
+    "right_motor_b": {
+      "torque_rms_nm": 1.564511576247112,
+      "torque_peak_nm": 3.1457200405522374,
+      "rated_torque_nm": 3.5,
+      "peak_torque_nm": 12.5,
+      "speed_rms_rad_s": 0.8209860863617623,
+      "speed_peak_rad_s": 4.087631060154273,
+      "no_load_speed_rad_s": 36.2,
+      "torque_speed_envelope_peak_ratio": 0.27325702449936173
+    }
+  }
+}

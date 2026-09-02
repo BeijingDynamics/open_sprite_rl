@@ -1,0 +1,174 @@
+{
+  "schema": "sprite0615_wbt_stage1_completion_audit_v1",
+  "stage1_sim2sim_pass": true,
+  "physical_model_confirmed": true,
+  "sim2real_actuator_ready": true,
+  "global_gates": {
+    "frozen_baseline_hashes": true,
+    "asset_equivalence": true,
+    "qualified_candidate_exists": true
+  },
+  "baseline_checks": {
+    "v14a_model_45500_robustness_baseline.pt": {
+      "exists": true,
+      "read_only": true,
+      "expected_sha256": "eae35c46fc3392c2c9ec1ec8f4452011729f633f2b1f824adb3611a13a5fed7d",
+      "actual_sha256": "eae35c46fc3392c2c9ec1ec8f4452011729f633f2b1f824adb3611a13a5fed7d",
+      "pass": true
+    },
+    "v15a_model_47500_motion_quality_baseline.pt": {
+      "exists": true,
+      "read_only": true,
+      "expected_sha256": "860efe1f706119fdc47f9c2b76ac367ad9f82543f43721f24108eb453e76c2bc",
+      "actual_sha256": "860efe1f706119fdc47f9c2b76ac367ad9f82543f43721f24108eb453e76c2bc",
+      "pass": true
+    }
+  },
+  "asset_audit": "/home/tony/sprite/sprite_isaaclab/IsaacLab/baselines/sprite0615_wbt_v38_model2_stage1_qualified/audits/sprite0615_v38_asset_equivalence.json",
+  "isaac_ranking": "/home/tony/sprite/sprite_isaaclab/IsaacLab/baselines/sprite0615_wbt_v38_model2_stage1_qualified/evaluations/ranking_v3.json",
+  "mujoco_comparison": "/home/tony/sprite/sprite_isaaclab/IsaacLab/baselines/sprite0615_wbt_v38_model2_stage1_qualified/mujoco/wbt_v38_model2_final_matrix/comparison_to_frozen_baselines.json",
+  "candidates": [
+    {
+      "model": "model_2",
+      "mujoco_model": "deploy",
+      "pass": true,
+      "gates": {
+        "isaac_full_matrix": true,
+        "mujoco_matrix": true,
+        "checkpoint_and_exports_hash_match": true,
+        "deploy_interface": true
+      },
+      "hashes": {
+        "checkpoint": true,
+        "policy_onnx": true,
+        "reference_motion": true
+      },
+      "interface": {
+        "actor_dim_164": true,
+        "action_dim_31": true,
+        "no_horizontal_base_velocity": true,
+        "no_global_anchor_position": true,
+        "observation_terms_present": true
+      },
+      "observation_terms": [
+        "command",
+        "motion_anchor_ori_b",
+        "base_ang_vel",
+        "joint_pos",
+        "joint_vel",
+        "actions"
+      ],
+      "isaac": {
+        "model": "model_2",
+        "runs": 30,
+        "full_matrix": true,
+        "clean_worst_terminations_per_env": 0.0,
+        "push_worst_terminations_per_env": 0.0,
+        "clean_body_pos_p90": 0.04366511645416418,
+        "clean_joint_pos_p90": 1.0232585299015045,
+        "clean_seam_action_p99": 1.7543048735459634,
+        "clean_ankle_motor_ratio_p90": 0.9888376196225486,
+        "j4340_rated_rms_max": 0.410796532089399,
+        "ankle_rated_rms_max": 0.4848561225689851,
+        "upper_rated_rms_max": 0.3068910671202624,
+        "peak_torque_p99_max": 0.38336107164621347,
+        "speed_p99_max": 0.39307938635349265,
+        "peak_torque_speed_p99_max": 0.4576236242055892,
+        "quality_gates": {
+          "body_tracking_within_5pct": true,
+          "joint_tracking_within_5pct": true,
+          "action_continuity_within_10pct": true,
+          "ankle_load_p90_within_5pct": true,
+          "lr_tracking_gap_within_10pct": true,
+          "contact_slip_within_10pct": true,
+          "contact_tilt_within_10pct": true
+        },
+        "hardware_gates": {
+          "j4340_rated_rms_le_1": true,
+          "ankle_rated_rms_le_1": true,
+          "upper_rated_rms_le_1": true,
+          "peak_torque_p99_le_1": true,
+          "speed_p99_le_1": true,
+          "peak_torque_speed_p99_le_1": true
+        },
+        "quick_candidate": true,
+        "isaac_matrix_pass": true,
+        "promote": true,
+        "full_gates": {
+          "complete_matrix": true,
+          "clean_zero_termination": true,
+          "push_termination_le_1pct": true,
+          "beats_robustness_baseline": true,
+          "body_tracking_within_5pct": true,
+          "joint_tracking_within_5pct": true,
+          "action_continuity_within_10pct": true,
+          "ankle_load_p90_within_5pct": true,
+          "lr_tracking_gap_within_10pct": true,
+          "contact_slip_within_10pct": true,
+          "contact_tilt_within_10pct": true,
+          "j4340_rated_rms_le_1": true,
+          "ankle_rated_rms_le_1": true,
+          "upper_rated_rms_le_1": true,
+          "peak_torque_p99_le_1": true,
+          "speed_p99_le_1": true,
+          "peak_torque_speed_p99_le_1": true,
+          "physical_model_confirmed": true
+        }
+      },
+      "mujoco": {
+        "model": "deploy",
+        "sim2sim_pass": true,
+        "gates": {
+          "sim2sim_physical_safety": true,
+          "no_falls": true,
+          "root_height_not_regressed": true,
+          "joint_tracking_within_5pct": true,
+          "body_tracking_within_5pct": true,
+          "anchor_orientation_within_10pct": true,
+          "root_xy_within_10pct": true,
+          "action_continuity_within_10pct": true
+        },
+        "candidate": {
+          "model": "deploy",
+          "tracking_runs": 12,
+          "endurance_runs": 1,
+          "speed_scales": [
+            0.8,
+            1.0,
+            1.15
+          ],
+          "fell_cases": 0,
+          "min_root_z": 0.4383791664442144,
+          "joint_pos_l2_p90_worst": 1.0873999928360287,
+          "body_pos_mean_p90_worst": 0.13288748576522874,
+          "anchor_rot6d_p90_worst": 0.1583187946927993,
+          "root_xy_p90_worst": 0.12477325156456216,
+          "action_rate_l2_p99_worst": 1.4191163006289693,
+          "joint_rated_rms_ratio_max": 0.42230136760251147,
+          "joint_peak_ratio_max": 0.42934123050954165,
+          "ankle_rated_rms_ratio_max": 0.5295432844521787,
+          "ankle_peak_ratio_max": 0.37895483485635073,
+          "ankle_speed_ratio_max": 0.18964260671619654,
+          "joint_torque_speed_envelope_ratio_max": 0.6008277369365175,
+          "ankle_torque_speed_envelope_ratio_max": 0.4242829290096206,
+          "safety_gates": {
+            "all_cases_completed": true,
+            "no_falls": true,
+            "root_height_ge_025": true,
+            "joint_rated_rms_le_1": true,
+            "joint_peak_le_1": true,
+            "ankle_rated_rms_le_1": true,
+            "ankle_peak_le_1": true,
+            "ankle_speed_le_1": true,
+            "joint_torque_speed_envelope_le_1": true,
+            "ankle_torque_speed_envelope_le_1": true
+          },
+          "sim2sim_safety_pass": true,
+          "tracking_requires_baseline_comparison": true
+        },
+        "motion_baseline": "wbt_frozen_v15a_m47500",
+        "robustness_baseline": "wbt_frozen_v14a_m45500"
+      }
+    }
+  ]
+}

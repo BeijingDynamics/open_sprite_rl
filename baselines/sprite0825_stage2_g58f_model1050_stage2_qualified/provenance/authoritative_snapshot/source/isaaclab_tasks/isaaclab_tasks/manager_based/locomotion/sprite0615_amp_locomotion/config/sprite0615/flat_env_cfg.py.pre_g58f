@@ -1,0 +1,1305 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+import torch
+
+import isaaclab.sim as sim_utils
+from isaaclab.assets import ArticulationCfg, AssetBaseCfg
+from isaaclab.envs import ManagerBasedRLEnvCfg
+from isaaclab.managers import EventTermCfg as EventTerm
+from isaaclab.managers import ObservationGroupCfg as ObsGroup
+from isaaclab.managers import ObservationTermCfg as ObsTerm
+from isaaclab.managers import RewardTermCfg as RewTerm
+from isaaclab.managers import SceneEntityCfg
+from isaaclab.managers import TerminationTermCfg as DoneTerm
+from isaaclab.scene import InteractiveSceneCfg
+from isaaclab.sensors import ContactSensorCfg
+from isaaclab.terrains import TerrainImporterCfg
+from isaaclab.utils import configclass
+from isaaclab.utils.noise import AdditiveUniformNoiseCfg as Unoise
+
+from engineai_lab.tasks.velocity import mdp
+from engineai_lab.robots.actuator import DelayedImplicitActuatorCfg
+from isaaclab_tasks.manager_based.locomotion.sprite0615_tracking.coupled_ankle_actuator import (
+    DelayedCoupledAnkleDCMotorCfg,
+    DelayedDCMotorCfg,
+)
+from isaaclab_tasks.manager_based.locomotion.sprite0615_tracking.config.sprite0615.flat_env_cfg import (
+    SPRITE0615_PM01_RATED_ACTION_SCALE,
+    SPRITE0615_WBT_PM01_FULL_PEAK_CFG,
+)
+
+
+JOINT_CFG = SceneEntityCfg("robot", joint_names=[".*"], preserve_order=True)
+PM01_HOMOLOGOUS_JOINT_NAMES = [
+    "left_hip_pitch_joint",
+    "right_hip_pitch_joint",
+    "left_hip_roll_joint",
+    "right_hip_roll_joint",
+    "left_hip_yaw_joint",
+    "right_hip_yaw_joint",
+    "left_shoulder_pitch_joint",
+    "right_shoulder_pitch_joint",
+    "left_knee_joint",
+    "right_knee_joint",
+    "left_shoulder_roll_joint",
+    "right_shoulder_roll_joint",
+    "left_ankle_pitch_joint",
+    "right_ankle_pitch_joint",
+    "left_shoulder_yaw_joint",
+    "right_shoulder_yaw_joint",
+    "left_ankle_roll_joint",
+    "right_ankle_roll_joint",
+    "left_elbow_joint",
+    "right_elbow_joint",
+    "left_wrist_yaw_joint",
+    "right_wrist_yaw_joint",
+    "waist_yaw_joint",
+]
+PM01_HOMOLOGOUS_JOINT_CFG = SceneEntityCfg(
+    "robot", joint_names=PM01_HOMOLOGOUS_JOINT_NAMES, preserve_order=True
+)
+FOOT_NAMES = ["left_foot_link", "right_foot_link"]
+_PM01_ACTUATOR_DELAY_RANGE = (2, 8)
+
+
+def _build_pm01_delayed_sprite_actuators(*, coupled_ankles: bool = False):
+    """Apply EngineAI's native actuator-delay model to Sprite's motor groups."""
+    delayed_actuators = {}
+    for name, cfg in SPRITE0615_WBT_PM01_FULL_PEAK_CFG.actuators.items():
+        if coupled_ankles and name == "feet_j4310_pair":
+            delayed_actuators[name] = DelayedCoupledAnkleDCMotorCfg(
+                joint_names_expr=cfg.joint_names_expr,
+                effort_limit=12.5,
+                effort_limit_sim=25.0,
+                saturation_effort=12.5,
+                velocity_limit=36.2,
+                velocity_limit_sim=36.2,
+                stiffness=cfg.stiffness,
+                damping=cfg.damping,
+                armature=cfg.armature,
+                friction=cfg.friction,
+                dynamic_friction=cfg.dynamic_friction,
+                viscous_friction=cfg.viscous_friction,
+                min_delay=_PM01_ACTUATOR_DELAY_RANGE[0],
+                max_delay=_PM01_ACTUATOR_DELAY_RANGE[1],
+            )
+            continue
+        delayed_actuators[name] = DelayedImplicitActuatorCfg(
+            joint_names_expr=cfg.joint_names_expr,
+            effort_limit=cfg.effort_limit,
+            effort_limit_sim=cfg.effort_limit_sim,
+            velocity_limit=cfg.velocity_limit,
+            velocity_limit_sim=cfg.velocity_limit_sim,
+            stiffness=cfg.stiffness,
+            damping=cfg.damping,
+            armature=cfg.armature,
+            friction=cfg.friction,
+            dynamic_friction=cfg.dynamic_friction,
+            viscous_friction=cfg.viscous_friction,
+            min_delay=_PM01_ACTUATOR_DELAY_RANGE[0],
+            max_delay=_PM01_ACTUATOR_DELAY_RANGE[1],
+        )
+    return delayed_actuators
+
+
+def _build_pm01_full_motor_envelope_actuators():
+    """Keep PM01 delay while enforcing each physical motor's torque-speed line."""
+    actuators = {}
+    for name, cfg in SPRITE0615_WBT_PM01_FULL_PEAK_CFG.actuators.items():
+        if name == "feet_j4310_pair":
+            actuators[name] = DelayedCoupledAnkleDCMotorCfg(
+                joint_names_expr=cfg.joint_names_expr,
+                effort_limit=12.5,
+                effort_limit_sim=25.0,
+                saturation_effort=12.5,
+                velocity_limit=36.2,
+                velocity_limit_sim=36.2,
+                stiffness=cfg.stiffness,
+                damping=cfg.damping,
+                armature=cfg.armature,
+                friction=cfg.friction,
+                dynamic_friction=cfg.dynamic_friction,
+                viscous_friction=cfg.viscous_friction,
+                min_delay=_PM01_ACTUATOR_DELAY_RANGE[0],
+                max_delay=_PM01_ACTUATOR_DELAY_RANGE[1],
+            )
+            continue
+        peak_effort = float(cfg.effort_limit_sim)
+        no_load_speed = float(cfg.velocity_limit_sim)
+        actuators[name] = DelayedDCMotorCfg(
+            joint_names_expr=cfg.joint_names_expr,
+            effort_limit=peak_effort,
+            effort_limit_sim=peak_effort,
+            saturation_effort=peak_effort,
+            velocity_limit=no_load_speed,
+            velocity_limit_sim=no_load_speed,
+            stiffness=cfg.stiffness,
+            damping=cfg.damping,
+            armature=cfg.armature,
+            friction=cfg.friction,
+            dynamic_friction=cfg.dynamic_friction,
+            viscous_friction=cfg.viscous_friction,
+            min_delay=_PM01_ACTUATOR_DELAY_RANGE[0],
+            max_delay=_PM01_ACTUATOR_DELAY_RANGE[1],
+        )
+    return actuators
+
+
+def amp_frame(env):
+    """Match EngineAI AMP features: scaled joint pose plus root linear velocity."""
+    joint_pos = mdp.joint_pos(env, asset_cfg=JOINT_CFG)
+    root_lin_vel_b = mdp.robot_base_lin_vel_b(env)
+    return torch.cat((joint_pos * 9.0, root_lin_vel_b * 7.0), dim=-1)
+
+
+def amp_frame_pm01_homologous(env, asset_cfg: SceneEntityCfg):
+    """Use PM01's 23-DoF discriminator contract while retaining 31 policy actions."""
+    joint_pos = mdp.joint_pos(env, asset_cfg=asset_cfg)
+    root_lin_vel_b = mdp.robot_base_lin_vel_b(env)
+    return torch.cat((joint_pos * 9.0, root_lin_vel_b * 7.0), dim=-1)
+
+
+def amp_frame_pm01_homologous_conditioned(
+    env, asset_cfg: SceneEntityCfg, command_name: str = "base_velocity", max_forward_speed: float = 0.45
+):
+    """Condition the homologous AMP frame on deployable forward command only."""
+    joint_pos = mdp.joint_pos(env, asset_cfg=asset_cfg)
+    root_lin_vel_b = mdp.robot_base_lin_vel_b(env)
+    command = mdp.generated_commands(env, command_name=command_name)[:, :1]
+    normalized_command = torch.clamp(command, min=0.0, max=max_forward_speed) / max_forward_speed
+    return torch.cat((joint_pos * 9.0, root_lin_vel_b * 7.0, normalized_command), dim=-1)
+
+
+def amp_frame_full_conditioned(
+    env, asset_cfg: SceneEntityCfg, command_name: str = "base_velocity", max_forward_speed: float = 0.45
+):
+    """Condition the complete Sprite 31-DoF AMP frame on deployable forward command."""
+    joint_pos = mdp.joint_pos(env, asset_cfg=asset_cfg)
+    root_lin_vel_b = mdp.robot_base_lin_vel_b(env)
+    command = mdp.generated_commands(env, command_name=command_name)[:, :1]
+    normalized_command = torch.clamp(command, min=0.0, max=max_forward_speed) / max_forward_speed
+    return torch.cat((joint_pos * 9.0, root_lin_vel_b * 7.0, normalized_command), dim=-1)
+
+
+@configclass
+class Sprite0615Stage2SceneCfg(InteractiveSceneCfg):
+    terrain = TerrainImporterCfg(
+        prim_path="/World/ground",
+        terrain_type="plane",
+        collision_group=-1,
+        physics_material=sim_utils.RigidBodyMaterialCfg(
+            friction_combine_mode="multiply",
+            restitution_combine_mode="multiply",
+            static_friction=1.0,
+            dynamic_friction=1.0,
+            restitution=0.0,
+        ),
+        debug_vis=False,
+    )
+    robot: ArticulationCfg = SPRITE0615_WBT_PM01_FULL_PEAK_CFG.replace(
+        prim_path="{ENV_REGEX_NS}/Robot"
+    )
+    contact_forces = ContactSensorCfg(
+        prim_path="{ENV_REGEX_NS}/Robot/.*",
+        history_length=3,
+        track_air_time=True,
+        force_threshold=5.0,
+        debug_vis=False,
+    )
+    light = AssetBaseCfg(
+        prim_path="/World/light",
+        spawn=sim_utils.DistantLightCfg(color=(0.75, 0.75, 0.75), intensity=3000.0),
+    )
+
+
+@configclass
+class Sprite0615Stage2PM01ExactSceneCfg(Sprite0615Stage2SceneCfg):
+    robot: ArticulationCfg = SPRITE0615_WBT_PM01_FULL_PEAK_CFG.replace(
+        prim_path="{ENV_REGEX_NS}/Robot",
+        actuators=_build_pm01_delayed_sprite_actuators(),
+    )
+
+
+@configclass
+class Sprite0615Stage2PM01CoupledAnkleSceneCfg(Sprite0615Stage2SceneCfg):
+    """PM01 delay for all joints with physical-motor clipping for each ankle pair."""
+
+    robot: ArticulationCfg = SPRITE0615_WBT_PM01_FULL_PEAK_CFG.replace(
+        prim_path="{ENV_REGEX_NS}/Robot",
+        actuators=_build_pm01_delayed_sprite_actuators(coupled_ankles=True),
+    )
+
+
+@configclass
+class Sprite0615Stage2PM01FullMotorEnvelopeSceneCfg(Sprite0615Stage2SceneCfg):
+    """PM01 delay plus physical torque-speed clipping for every motor group."""
+
+    robot: ArticulationCfg = SPRITE0615_WBT_PM01_FULL_PEAK_CFG.replace(
+        prim_path="{ENV_REGEX_NS}/Robot",
+        actuators=_build_pm01_full_motor_envelope_actuators(),
+    )
+
+
+@configclass
+class ActionsCfg:
+    joint_pos = mdp.JointPositionActionCfg(
+        asset_name="robot",
+        joint_names=[".*"],
+        preserve_order=True,
+        use_default_offset=True,
+        scale=SPRITE0615_PM01_RATED_ACTION_SCALE,
+    )
+
+
+SPRITE0615_PM01_EXPLICIT_ACTION_SCALE = {
+    ".*_hip_pitch_joint": 0.5,
+    ".*_hip_roll_joint": 0.2,
+    ".*_hip_yaw_joint": 0.2,
+    ".*_knee_joint": 0.5,
+    ".*_ankle_pitch_joint": 0.5,
+    ".*_ankle_roll_joint": 0.2,
+    "waist_roll_joint": 0.12,
+    "waist_yaw_joint": 0.2,
+    ".*_shoulder_.*": 0.2,
+    ".*_elbow_joint": 0.2,
+    ".*_wrist_.*": 0.18,
+    "head_.*": 0.10,
+}
+
+
+@configclass
+class PM01ExplicitActionsCfg:
+    """PM01's explicit radian action scales mapped onto Sprite joint names."""
+
+    joint_pos = mdp.JointPositionActionCfg(
+        asset_name="robot",
+        joint_names=[".*"],
+        preserve_order=True,
+        use_default_offset=True,
+        scale=SPRITE0615_PM01_EXPLICIT_ACTION_SCALE,
+    )
+
+
+@configclass
+class ObservationsCfg:
+    @configclass
+    class PolicyCfg(ObsGroup):
+        joint_pos = ObsTerm(
+            func=mdp.joint_pos_rel,
+            noise=Unoise(n_min=-0.01, n_max=0.01),
+            params={"asset_cfg": JOINT_CFG},
+            history_length=15,
+        )
+        joint_vel = ObsTerm(
+            func=mdp.joint_vel_rel,
+            noise=Unoise(n_min=-1.5, n_max=1.5),
+            params={"asset_cfg": JOINT_CFG},
+            history_length=15,
+        )
+        actions = ObsTerm(func=mdp.last_action, history_length=15)
+        base_ang_vel = ObsTerm(
+            func=mdp.base_ang_vel,
+            noise=Unoise(n_min=-0.2, n_max=0.2),
+            history_length=15,
+        )
+        projected_gravity = ObsTerm(
+            func=mdp.projected_gravity,
+            noise=Unoise(n_min=-0.05, n_max=0.05),
+            history_length=15,
+        )
+        velocity_commands = ObsTerm(
+            func=mdp.generated_commands, params={"command_name": "base_velocity"}
+        )
+
+        def __post_init__(self):
+            self.enable_corruption = True
+            self.concatenate_terms = True
+
+    @configclass
+    class CriticCfg(PolicyCfg):
+        pass
+
+    @configclass
+    class AMPCfg(ObsGroup):
+        history = ObsTerm(func=amp_frame)
+
+        def __post_init__(self):
+            self.history_length = 5
+            self.concatenate_terms = True
+
+    policy: PolicyCfg = PolicyCfg()
+    critic: CriticCfg = CriticCfg()
+    amp: AMPCfg = AMPCfg()
+
+
+@configclass
+class PM01HomologousAMPCfg(ObsGroup):
+    history = ObsTerm(
+        func=amp_frame_pm01_homologous,
+        params={"asset_cfg": PM01_HOMOLOGOUS_JOINT_CFG},
+    )
+
+    def __post_init__(self):
+        self.history_length = 5
+        self.concatenate_terms = True
+
+
+@configclass
+class PM01HomologousObservationsCfg(ObservationsCfg):
+    amp: PM01HomologousAMPCfg = PM01HomologousAMPCfg()
+
+
+@configclass
+class PM01VelocityConditionedAMPCfg(ObsGroup):
+    history = ObsTerm(
+        func=amp_frame_pm01_homologous_conditioned,
+        params={"asset_cfg": PM01_HOMOLOGOUS_JOINT_CFG},
+    )
+
+    def __post_init__(self):
+        self.history_length = 5
+        self.concatenate_terms = True
+
+
+@configclass
+class PM01VelocityConditionedObservationsCfg(ObservationsCfg):
+    amp: PM01VelocityConditionedAMPCfg = PM01VelocityConditionedAMPCfg()
+
+
+@configclass
+class FullVelocityConditionedAMPCfg(ObsGroup):
+    history = ObsTerm(
+        func=amp_frame_full_conditioned,
+        params={"asset_cfg": JOINT_CFG},
+    )
+
+    def __post_init__(self):
+        self.history_length = 5
+        self.concatenate_terms = True
+
+
+@configclass
+class FullVelocityConditionedObservationsCfg(ObservationsCfg):
+    amp: FullVelocityConditionedAMPCfg = FullVelocityConditionedAMPCfg()
+
+
+@configclass
+class CommandsCfg:
+    base_velocity = mdp.UniformVelocityCommandCfg(
+        asset_name="robot",
+        resampling_time_range=(2.0, 4.0),
+        rel_standing_envs=0.35,
+        rel_heading_envs=0.0,
+        heading_command=False,
+        debug_vis=False,
+        ranges=mdp.UniformVelocityCommandCfg.Ranges(
+            lin_vel_x=(0.15, 0.45),
+            lin_vel_y=(0.0, 0.0),
+            ang_vel_z=(0.0, 0.0),
+            heading=(0.0, 0.0),
+        ),
+    )
+
+
+@configclass
+class RewardsCfg:
+    track_lin_vel_xy = RewTerm(
+        func=mdp.track_lin_vel_xy_yaw_frame_exp,
+        weight=2.0,
+        params={"command_name": "base_velocity", "sigma": 5.0},
+    )
+    track_ang_vel_z = RewTerm(
+        func=mdp.track_ang_vel_z_world_exp,
+        weight=2.5,
+        params={"command_name": "base_velocity", "sigma": 5.0},
+    )
+    base_orientation = RewTerm(func=mdp.base_orientation, weight=1.0)
+    base_height = RewTerm(
+        func=mdp.base_height_tracking,
+        weight=0.4,
+        params={"target_height": 0.472},
+    )
+    foot_position = RewTerm(
+        func=mdp.feet_position,
+        weight=0.5,
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names=FOOT_NAMES),
+            "command_name": "base_velocity",
+            "stand_threshold": 0.1,
+            "ankle_distance": 0.112,
+            "base_height_target": 0.472,
+        },
+    )
+    feet_orientation = RewTerm(
+        func=mdp.feet_orientation,
+        weight=0.25,
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names=FOOT_NAMES),
+            "command_name": "base_velocity",
+            "stand_threshold": 0.1,
+        },
+    )
+    feet_contact = RewTerm(
+        func=mdp.feet_contact_fixed,
+        weight=0.25,
+        params={
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=FOOT_NAMES),
+            "command_name": "base_velocity",
+            "stand_threshold": 0.1,
+            "force_threshold": 5.0,
+        },
+    )
+    feet_air_time = RewTerm(
+        func=mdp.feet_air_time_positive_biped,
+        weight=1.25,
+        params={
+            "command_name": "base_velocity",
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=FOOT_NAMES),
+            "threshold": 0.30,
+        },
+    )
+    stand_still = RewTerm(
+        func=mdp.stand_still_joint_deviation_l1,
+        weight=-1.0,
+        params={"command_name": "base_velocity", "command_threshold": 0.1},
+    )
+    foot_stumble = RewTerm(
+        func=mdp.feet_stumble,
+        weight=-1.0,
+        params={
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=FOOT_NAMES),
+            "tangential_threshold": 2.0,
+            "normal_threshold": 1.0,
+        },
+    )
+    joint_limits = RewTerm(
+        func=mdp.joint_pos_limits,
+        weight=-10.0,
+        params={"asset_cfg": JOINT_CFG},
+    )
+    energy = RewTerm(
+        func=mdp.energy_cost_with_curriculum,
+        weight=-0.004,
+        params={"asset_cfg": JOINT_CFG, "start_scale": 0.1, "power": 0.8, "interval_epochs": 4800},
+    )
+    feet_slide = RewTerm(
+        func=mdp.feet_slide,
+        weight=-0.25,
+        params={
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=FOOT_NAMES),
+            "asset_cfg": SceneEntityCfg("robot", body_names=FOOT_NAMES),
+        },
+    )
+    joint_vel = RewTerm(func=mdp.joint_vel_l2, weight=-1.0e-5, params={"asset_cfg": JOINT_CFG})
+    joint_acc = RewTerm(func=mdp.joint_acc_l2, weight=-1.25e-8, params={"asset_cfg": JOINT_CFG})
+    action_rate = RewTerm(
+        func=mdp.action_rate_with_curriculum,
+        weight=-0.06,
+        params={"start_scale": 0.1, "power": 0.8, "interval_epochs": 4800},
+    )
+    action_smoothness = RewTerm(
+        func=mdp.action_smoothness_with_curriculum,
+        weight=-0.04,
+        params={"start_scale": 0.1, "power": 0.8, "interval_epochs": 4800},
+    )
+    joint_torque = RewTerm(func=mdp.joint_torques_l2, weight=-1.0e-6, params={"asset_cfg": JOINT_CFG})
+    termination = RewTerm(func=mdp.is_terminated, weight=-200.0)
+
+
+@configclass
+class EventsCfg:
+    reset_base = EventTerm(
+        func=mdp.reset_root_state_uniform,
+        mode="reset",
+        params={
+            "pose_range": {"x": (0.0, 0.0), "y": (0.0, 0.0), "yaw": (-0.1, 0.1)},
+            "velocity_range": {
+                "x": (0.0, 0.0), "y": (0.0, 0.0), "z": (0.0, 0.0),
+                "roll": (0.0, 0.0), "pitch": (0.0, 0.0), "yaw": (0.0, 0.0),
+            },
+        },
+    )
+    reset_joints = EventTerm(
+        func=mdp.reset_joints_by_scale,
+        mode="reset",
+        params={"position_range": (0.95, 1.05), "velocity_range": (-0.1, 0.1)},
+    )
+
+
+@configclass
+class TerminationsCfg:
+    time_out = DoneTerm(func=mdp.time_out, time_out=True)
+    illegal_contact = DoneTerm(
+        func=mdp.illegal_contact,
+        params={
+            "sensor_cfg": SceneEntityCfg(
+                "contact_forces",
+                body_names=[r"^(?!left_foot_link$)(?!right_foot_link$).+$"],
+            ),
+            "threshold": 1.0,
+        },
+    )
+
+
+@configclass
+class Sprite0615Stage2AMPForwardEnvCfg(ManagerBasedRLEnvCfg):
+    scene: Sprite0615Stage2SceneCfg = Sprite0615Stage2SceneCfg(num_envs=4096, env_spacing=2.5)
+    observations: ObservationsCfg = ObservationsCfg()
+    actions: ActionsCfg = ActionsCfg()
+    commands: CommandsCfg = CommandsCfg()
+    rewards: RewardsCfg = RewardsCfg()
+    terminations: TerminationsCfg = TerminationsCfg()
+    events: EventsCfg = EventsCfg()
+
+    def __post_init__(self):
+        self.decimation = 4
+        self.episode_length_s = 20.0
+        self.sim.dt = 0.005
+        self.sim.render_interval = self.decimation
+        self.sim.physics_material = self.scene.terrain.physics_material
+        self.sim.physx.gpu_max_rigid_patch_count = 10 * 2**15
+        self.scene.contact_forces.update_period = self.sim.dt
+        self.viewer.eye = (1.8, -2.2, 1.0)
+        self.viewer.origin_type = "asset_root"
+        self.viewer.asset_name = "robot"
+
+
+@configclass
+class Sprite0615Stage2AMPForwardPlayEnvCfg(Sprite0615Stage2AMPForwardEnvCfg):
+    def __post_init__(self):
+        super().__post_init__()
+        self.scene.num_envs = 1
+        self.observations.policy.enable_corruption = False
+        self.observations.critic.enable_corruption = False
+        self.episode_length_s = 60.0
+
+
+_PM01_ACTION_DIM = 23.0
+_SPRITE_ACTION_DIM = 31.0
+_PM01_POLICY_DT = 0.01
+_SPRITE_POLICY_DT = 0.02
+_ACTION_RATE_COMPENSATION = (_PM01_ACTION_DIM / _SPRITE_ACTION_DIM) * (
+    _PM01_POLICY_DT / _SPRITE_POLICY_DT
+) ** 2
+_ACTION_SMOOTHNESS_COMPENSATION = (_PM01_ACTION_DIM / _SPRITE_ACTION_DIM) * (
+    _PM01_POLICY_DT / _SPRITE_POLICY_DT
+) ** 4
+_ACTION_RATE_COMPENSATION_100HZ = _PM01_ACTION_DIM / _SPRITE_ACTION_DIM
+_ACTION_SMOOTHNESS_COMPENSATION_100HZ = _PM01_ACTION_DIM / _SPRITE_ACTION_DIM
+
+
+@configclass
+class Sprite0615Stage2AMPForwardTimeNormalizedEnvCfg(Sprite0615Stage2AMPForwardEnvCfg):
+    """PM01 regularizers normalized for Sprite's action count and 50 Hz policy."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.rewards.action_rate.weight = -0.06 * _ACTION_RATE_COMPENSATION
+        self.rewards.action_smoothness.weight = -0.04 * _ACTION_SMOOTHNESS_COMPENSATION
+
+
+@configclass
+class Sprite0615Stage2AMPForwardPM01CurriculumEnvCfg(
+    Sprite0615Stage2AMPForwardTimeNormalizedEnvCfg
+):
+    """Stage-A commands using PM01's long segments and standing ratio."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.commands.base_velocity.resampling_time_range = (7.5, 7.5)
+        self.commands.base_velocity.rel_standing_envs = 0.1
+
+
+@configclass
+class Sprite0615Stage2AMPForwardPM01TimeHorizonEnvCfg(
+    Sprite0615Stage2AMPForwardPM01CurriculumEnvCfg
+):
+    """Preserve PM01 history durations when running Sprite at 50 Hz."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        # PM01 uses 15/5 frames at 100 Hz. At 50 Hz, 8/3 frames preserve
+        # the respective 0.14 s actor and 0.04 s AMP sample spans.
+        for group in (self.observations.policy, self.observations.critic):
+            group.joint_pos.history_length = 8
+            group.joint_vel.history_length = 8
+            group.actions.history_length = 8
+            group.base_ang_vel.history_length = 8
+            group.projected_gravity.history_length = 8
+        self.observations.amp.history_length = 3
+
+
+_SPRITE_TO_PM01_HEIGHT_RATIO = 0.95 / 1.38
+
+
+@configclass
+class Sprite0615Stage2AMPPM01MatchedCommandsEnvCfg(
+    Sprite0615Stage2AMPForwardTimeNormalizedEnvCfg
+):
+    """PM01 command curriculum with linear ranges scaled to Sprite height."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        command = self.commands.base_velocity
+        command.resampling_time_range = (7.5, 7.5)
+        command.rel_standing_envs = 0.1
+        command.rel_heading_envs = 1.0
+        command.heading_command = True
+        command.heading_control_stiffness = 0.5
+        command.ranges.lin_vel_x = (
+            -1.0 * _SPRITE_TO_PM01_HEIGHT_RATIO,
+            1.5 * _SPRITE_TO_PM01_HEIGHT_RATIO,
+        )
+        command.ranges.lin_vel_y = (
+            -0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO,
+            0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO,
+        )
+        command.ranges.ang_vel_z = (-1.0, 1.0)
+        command.ranges.heading = (-3.14, 3.14)
+
+
+@configclass
+class Sprite0615Stage2AMPPM01MatchedCommandsTimeHorizonEnvCfg(
+    Sprite0615Stage2AMPPM01MatchedCommandsEnvCfg
+):
+    """Matched PM01 commands with equivalent 0.14/0.04 s histories."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        for group in (self.observations.policy, self.observations.critic):
+            group.joint_pos.history_length = 8
+            group.joint_vel.history_length = 8
+            group.actions.history_length = 8
+            group.base_ang_vel.history_length = 8
+            group.projected_gravity.history_length = 8
+        self.observations.amp.history_length = 3
+
+
+@configclass
+class Sprite0615Stage2PM01RobustEventsCfg(EventsCfg):
+    """PM01 sim2sim randomization, with linear perturbations scaled to Sprite."""
+
+    physics_material = EventTerm(
+        func=mdp.randomize_rigid_body_material,
+        mode="startup",
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names=".*"),
+            "static_friction_range": (0.3, 1.6),
+            "dynamic_friction_range": (0.3, 1.2),
+            "restitution_range": (0.0, 0.5),
+            "num_buckets": 64,
+        },
+    )
+    add_joint_default_pos = EventTerm(
+        func=mdp.randomize_joint_default_pos,
+        mode="startup",
+        params={
+            "asset_cfg": JOINT_CFG,
+            "pos_distribution_params": (-0.01, 0.01),
+            "operation": "add",
+        },
+    )
+    base_com = EventTerm(
+        func=mdp.randomize_rigid_body_com,
+        mode="startup",
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names="pelvis_link"),
+            "com_range": {
+                "x": (-0.025 * _SPRITE_TO_PM01_HEIGHT_RATIO, 0.025 * _SPRITE_TO_PM01_HEIGHT_RATIO),
+                "y": (-0.05 * _SPRITE_TO_PM01_HEIGHT_RATIO, 0.05 * _SPRITE_TO_PM01_HEIGHT_RATIO),
+                "z": (-0.05 * _SPRITE_TO_PM01_HEIGHT_RATIO, 0.05 * _SPRITE_TO_PM01_HEIGHT_RATIO),
+            },
+        },
+    )
+    push_robot = EventTerm(
+        func=mdp.push_by_setting_velocity,
+        mode="interval",
+        interval_range_s=(1.0, 3.0),
+        params={
+            "velocity_range": {
+                "x": (-0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO, 0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO),
+                "y": (-0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO, 0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO),
+                "z": (-0.2 * _SPRITE_TO_PM01_HEIGHT_RATIO, 0.2 * _SPRITE_TO_PM01_HEIGHT_RATIO),
+                "roll": (-0.52, 0.52),
+                "pitch": (-0.52, 0.52),
+                "yaw": (-0.78, 0.78),
+            }
+        },
+    )
+
+
+@configclass
+class Sprite0615Stage2PM01StaticRobustEventsCfg(EventsCfg):
+    """First robustness curriculum stage: PM01 startup randomization without pushes."""
+
+    physics_material = EventTerm(
+        func=mdp.randomize_rigid_body_material,
+        mode="startup",
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names=".*"),
+            "static_friction_range": (0.3, 1.6),
+            "dynamic_friction_range": (0.3, 1.2),
+            "restitution_range": (0.0, 0.5),
+            "num_buckets": 64,
+        },
+    )
+    add_joint_default_pos = EventTerm(
+        func=mdp.randomize_joint_default_pos,
+        mode="startup",
+        params={
+            "asset_cfg": JOINT_CFG,
+            "pos_distribution_params": (-0.01, 0.01),
+            "operation": "add",
+        },
+    )
+    base_com = EventTerm(
+        func=mdp.randomize_rigid_body_com,
+        mode="startup",
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names="pelvis_link"),
+            "com_range": {
+                "x": (-0.025 * _SPRITE_TO_PM01_HEIGHT_RATIO, 0.025 * _SPRITE_TO_PM01_HEIGHT_RATIO),
+                "y": (-0.05 * _SPRITE_TO_PM01_HEIGHT_RATIO, 0.05 * _SPRITE_TO_PM01_HEIGHT_RATIO),
+                "z": (-0.05 * _SPRITE_TO_PM01_HEIGHT_RATIO, 0.05 * _SPRITE_TO_PM01_HEIGHT_RATIO),
+            },
+        },
+    )
+
+
+@configclass
+class Sprite0615Stage2PM01ExactRobustEventsCfg(Sprite0615Stage2PM01RobustEventsCfg):
+    """EngineAI reset distribution plus its startup and interval perturbations."""
+
+    reset_base = EventTerm(
+        func=mdp.reset_root_state_uniform,
+        mode="reset",
+        params={
+            "pose_range": {
+                "x": (-0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO, 0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO),
+                "y": (-0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO, 0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO),
+                "yaw": (-3.14, 3.14),
+            },
+            "velocity_range": {
+                "x": (0.0, 0.0),
+                "y": (0.0, 0.0),
+                "z": (0.0, 0.0),
+                "roll": (0.0, 0.0),
+                "pitch": (0.0, 0.0),
+                "yaw": (0.0, 0.0),
+            },
+        },
+    )
+    reset_joints = EventTerm(
+        func=mdp.reset_joints_by_scale,
+        mode="reset",
+        params={"position_range": (0.8, 1.2), "velocity_range": (-0.5, 0.5)},
+    )
+
+
+@configclass
+class Sprite0615Stage2AMPPM01MatchedCommandsTimeHorizonRobustEnvCfg(
+    Sprite0615Stage2AMPPM01MatchedCommandsTimeHorizonEnvCfg
+):
+    """G6: G4 plus the PM01 sim2sim robustness events."""
+
+    events: Sprite0615Stage2PM01RobustEventsCfg = Sprite0615Stage2PM01RobustEventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPPM01MatchedCommandsTimeHorizonStaticRobustEnvCfg(
+    Sprite0615Stage2AMPPM01MatchedCommandsTimeHorizonEnvCfg
+):
+    """G6a: static PM01 domain randomization before interval push training."""
+
+    events: Sprite0615Stage2PM01StaticRobustEventsCfg = Sprite0615Stage2PM01StaticRobustEventsCfg()
+
+
+@configclass
+class Sprite0615Stage2PM01ExactRewardsCfg(RewardsCfg):
+    """EngineAI PM01 rewards with names and geometry adapted to Sprite."""
+
+    waist_pos = RewTerm(
+        func=mdp.joint_deviation_exp,
+        weight=0.3,
+        params={
+            "asset_cfg": SceneEntityCfg("robot", joint_names=["waist_yaw_joint"]),
+            "scale": 3.0,
+            "tolerance": 0.0,
+        },
+    )
+    leg_joint_position = RewTerm(
+        func=mdp.joint_deviation_exp,
+        weight=0.3,
+        params={
+            "asset_cfg": SceneEntityCfg(
+                "robot",
+                joint_names=[".*hip_roll_joint", ".*hip_yaw_joint", ".*ankle_roll_joint"],
+            ),
+            "scale": 3.0,
+        },
+    )
+    arm_pitch_position = RewTerm(
+        func=mdp.joint_deviation_exp,
+        weight=0.3,
+        params={
+            "asset_cfg": SceneEntityCfg(
+                "robot", joint_names=[".*shoulder_pitch_joint", ".*elbow_joint"]
+            ),
+            "scale": 3.0,
+        },
+    )
+    arm_roll_position = RewTerm(
+        func=mdp.joint_deviation_exp,
+        weight=0.3,
+        params={
+            "asset_cfg": SceneEntityCfg("robot", joint_names=[".*shoulder_roll_joint"]),
+            "scale": 3.0,
+        },
+    )
+    arm_yaw_position = RewTerm(
+        func=mdp.joint_deviation_exp,
+        weight=0.3,
+        params={
+            "asset_cfg": SceneEntityCfg(
+                "robot", joint_names=[".*shoulder_yaw_joint", ".*wrist_yaw_joint"]
+            ),
+            "scale": 10.0,
+        },
+    )
+    feet_air_time = RewTerm(
+        func=mdp.feet_air_time,
+        weight=10.0,
+        params={
+            "command_name": "base_velocity",
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=FOOT_NAMES),
+            "threshold": 0.5,
+        },
+    )
+    feet_air_time_dense = RewTerm(
+        func=mdp.feet_air_time_positive_biped,
+        weight=1.25,
+        params={
+            "command_name": "base_velocity",
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=FOOT_NAMES),
+            "threshold": 0.5,
+        },
+    )
+    # Upstream PM01 leaves this term disabled.
+    stand_still = None
+
+
+@configclass
+class Sprite0615Stage2AMPPM01Exact100HzRobustEnvCfg(Sprite0615Stage2AMPForwardEnvCfg):
+    """G8: PM01's native 100 Hz temporal and reward contract on Sprite."""
+
+    scene: Sprite0615Stage2PM01ExactSceneCfg = Sprite0615Stage2PM01ExactSceneCfg(
+        num_envs=4096, env_spacing=2.5
+    )
+    rewards: Sprite0615Stage2PM01ExactRewardsCfg = Sprite0615Stage2PM01ExactRewardsCfg()
+    events: Sprite0615Stage2PM01ExactRobustEventsCfg = Sprite0615Stage2PM01ExactRobustEventsCfg()
+
+    def __post_init__(self):
+        super().__post_init__()
+
+        command = self.commands.base_velocity
+        command.resampling_time_range = (7.5, 7.5)
+        command.rel_standing_envs = 0.1
+        command.rel_heading_envs = 1.0
+        command.heading_command = True
+        command.heading_control_stiffness = 0.5
+        command.ranges.lin_vel_x = (
+            -1.0 * _SPRITE_TO_PM01_HEIGHT_RATIO,
+            1.5 * _SPRITE_TO_PM01_HEIGHT_RATIO,
+        )
+        command.ranges.lin_vel_y = (
+            -0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO,
+            0.5 * _SPRITE_TO_PM01_HEIGHT_RATIO,
+        )
+        command.ranges.ang_vel_z = (-1.0, 1.0)
+        command.ranges.heading = (-3.14, 3.14)
+
+        self.decimation = 5
+        self.sim.dt = 0.002
+        self.sim.render_interval = self.decimation
+        self.scene.contact_forces.update_period = 0.005
+
+
+@configclass
+class Sprite0615Stage2AMPPM01Exact100HzEnvCfg(
+    Sprite0615Stage2AMPPM01Exact100HzRobustEnvCfg
+):
+    """Deterministic G8 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPPM01ExplicitAction100HzRobustEnvCfg(
+    Sprite0615Stage2AMPPM01Exact100HzRobustEnvCfg
+):
+    """G9: isolate upstream PM01 explicit action scales from G8's rated scale."""
+
+    actions: PM01ExplicitActionsCfg = PM01ExplicitActionsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPPM01ExplicitAction100HzEnvCfg(
+    Sprite0615Stage2AMPPM01ExplicitAction100HzRobustEnvCfg
+):
+    """Deterministic G9 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPPM01ExplicitActionCoupledAnkle100HzRobustEnvCfg(
+    Sprite0615Stage2AMPPM01ExplicitAction100HzRobustEnvCfg
+):
+    """G10: G9 plus delayed differential-ankle clipping in physical motor space."""
+
+    scene: Sprite0615Stage2PM01CoupledAnkleSceneCfg = (
+        Sprite0615Stage2PM01CoupledAnkleSceneCfg(num_envs=4096, env_spacing=2.5)
+    )
+
+
+@configclass
+class Sprite0615Stage2AMPPM01ExplicitActionCoupledAnkle100HzEnvCfg(
+    Sprite0615Stage2AMPPM01ExplicitActionCoupledAnkle100HzRobustEnvCfg
+):
+    """Deterministic G10 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzRobustEnvCfg(
+    Sprite0615Stage2AMPPM01ExplicitActionCoupledAnkle100HzRobustEnvCfg
+):
+    """G12: isolate the Stage-2 stand/start/forward/stop curriculum."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        command = self.commands.base_velocity
+        command.rel_standing_envs = 0.1
+        command.rel_heading_envs = 0.0
+        command.heading_command = False
+        command.ranges.lin_vel_x = (0.15, 0.45)
+        command.ranges.lin_vel_y = (0.0, 0.0)
+        command.ranges.ang_vel_z = (0.0, 0.0)
+        command.ranges.heading = (0.0, 0.0)
+
+
+@configclass
+class Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzEnvCfg(
+    Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzRobustEnvCfg
+):
+    """Deterministic G12 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPPM01ForwardCurriculumLongAMPHistoryCoupledAnkle100HzRobustEnvCfg(
+    Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzRobustEnvCfg
+):
+    """G13: expose the same 0.14 s history to policy and expert AMP samples."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.observations.amp.history_length = 15
+
+
+@configclass
+class Sprite0615Stage2AMPPM01ForwardCurriculumLongAMPHistoryCoupledAnkle100HzEnvCfg(
+    Sprite0615Stage2AMPPM01ForwardCurriculumLongAMPHistoryCoupledAnkle100HzRobustEnvCfg
+):
+    """Deterministic G13 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPPM01ForwardCurriculumHomologousAMPCoupledAnkle100HzRobustEnvCfg(
+    Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzRobustEnvCfg
+):
+    """G14: restore PM01's 23-joint/26-D AMP contract on the 31-DoF policy."""
+
+    observations: PM01HomologousObservationsCfg = PM01HomologousObservationsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPPM01ForwardCurriculumHomologousAMPCoupledAnkle100HzEnvCfg(
+    Sprite0615Stage2AMPPM01ForwardCurriculumHomologousAMPCoupledAnkle100HzRobustEnvCfg
+):
+    """Deterministic G14 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPPM01MatchedCommandsHomologousAMPCoupledAnkle100HzRobustEnvCfg(
+    Sprite0615Stage2AMPPM01ExplicitActionCoupledAnkle100HzRobustEnvCfg
+):
+    """G15: align PM01 command and expert marginals with its 23-joint AMP contract."""
+
+    observations: PM01HomologousObservationsCfg = PM01HomologousObservationsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPPM01MatchedCommandsHomologousAMPCoupledAnkle100HzEnvCfg(
+    Sprite0615Stage2AMPPM01MatchedCommandsHomologousAMPCoupledAnkle100HzRobustEnvCfg
+):
+    """Deterministic G15 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzRobustEnvCfg(
+    Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzRobustEnvCfg
+):
+    """G16: forward curriculum with a velocity-conditioned 23-joint prior."""
+
+    observations: PM01VelocityConditionedObservationsCfg = (
+        PM01VelocityConditionedObservationsCfg()
+    )
+
+
+@configclass
+class Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzEnvCfg(
+    Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzRobustEnvCfg
+):
+    """Deterministic G16 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPFullVelocityConditionedCoupledAnkle100HzRobustEnvCfg(
+    Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzRobustEnvCfg
+):
+    """G20: command-conditioned AMP over Sprite's complete 31-DoF morphology."""
+
+    observations: FullVelocityConditionedObservationsCfg = (
+        FullVelocityConditionedObservationsCfg()
+    )
+
+
+@configclass
+class Sprite0615Stage2AMPFullVelocityConditionedCoupledAnkle100HzEnvCfg(
+    Sprite0615Stage2AMPFullVelocityConditionedCoupledAnkle100HzRobustEnvCfg
+):
+    """Deterministic G20 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPG23GentleYaw100HzRobustEnvCfg(
+    Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzRobustEnvCfg
+):
+    """G23: add bounded direct yaw-rate commands without changing the PM01 style prior."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        command = self.commands.base_velocity
+        command.rel_standing_envs = 0.1
+        command.rel_heading_envs = 0.0
+        command.heading_command = False
+        command.ranges.lin_vel_x = (0.25, 0.45)
+        command.ranges.lin_vel_y = (0.0, 0.0)
+        command.ranges.ang_vel_z = (-0.20, 0.20)
+        command.ranges.heading = (0.0, 0.0)
+
+
+@configclass
+class Sprite0615Stage2AMPG23GentleYaw100HzEnvCfg(
+    Sprite0615Stage2AMPG23GentleYaw100HzRobustEnvCfg
+):
+    """Deterministic G23 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPG24PM01HeadingGentle100HzRobustEnvCfg(
+    Sprite0615Stage2AMPG23GentleYaw100HzRobustEnvCfg
+):
+    """G24: PM01 heading control scaled to Sprite's gentle-yaw curriculum."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        command = self.commands.base_velocity
+        command.rel_heading_envs = 1.0
+        command.heading_command = True
+        command.heading_control_stiffness = 0.5
+        command.ranges.heading = (-0.40, 0.40)
+
+
+@configclass
+class Sprite0615Stage2AMPG24PM01HeadingGentle100HzEnvCfg(
+    Sprite0615Stage2AMPG24PM01HeadingGentle100HzRobustEnvCfg
+):
+    """Deterministic G24 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2AMPG25PM01HeadingRegularized100HzRobustEnvCfg(
+    Sprite0615Stage2AMPG24PM01HeadingGentle100HzRobustEnvCfg
+):
+    """G25: correct the inherited 50 Hz action regularizers for 100 Hz control."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.rewards.action_rate.weight = -0.06 * _ACTION_RATE_COMPENSATION_100HZ
+        self.rewards.action_smoothness.weight = -0.04 * _ACTION_SMOOTHNESS_COMPENSATION_100HZ
+
+
+@configclass
+class Sprite0615Stage2AMPG25PM01HeadingRegularized100HzEnvCfg(
+    Sprite0615Stage2AMPG25PM01HeadingRegularized100HzRobustEnvCfg
+):
+    """Deterministic G25 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0615Stage2G21ArmStyleFreeRewardsCfg(Sprite0615Stage2PM01ExactRewardsCfg):
+    """Let the full-31 AMP prior control arms instead of pulling them to PM01 defaults."""
+
+    arm_pitch_position = None
+    arm_roll_position = None
+    arm_yaw_position = None
+
+
+@configclass
+class Sprite0615Stage2AMPG21ArmStyleFree100HzRobustEnvCfg(
+    Sprite0615Stage2AMPFullVelocityConditionedCoupledAnkle100HzRobustEnvCfg
+):
+    """G21: isolate the PM01 arm-default reward conflict with V38 arm swing."""
+
+    rewards: Sprite0615Stage2G21ArmStyleFreeRewardsCfg = (
+        Sprite0615Stage2G21ArmStyleFreeRewardsCfg()
+    )
+
+
+@configclass
+class Sprite0615Stage2AMPG21ArmStyleFree100HzEnvCfg(
+    Sprite0615Stage2AMPG21ArmStyleFree100HzRobustEnvCfg
+):
+    """Deterministic G21 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0825Stage2AMPG57NativePM01Forward100HzRobustEnvCfg(
+    Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzRobustEnvCfg
+):
+    """G57: upstream PM01 command MDP on the current Sprite0825 asset."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.scene.robot.spawn.usd_path = str(
+            Path.home()
+            / "sprite/sprite_isaaclab/assets/sprite0825_sanitized_v4/sprite0825.usd"
+        )
+
+
+@configclass
+class Sprite0825Stage2AMPG57NativePM01Forward100HzEnvCfg(
+    Sprite0825Stage2AMPG57NativePM01Forward100HzRobustEnvCfg
+):
+    """Deterministic G57 evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0825Stage2AMPG58FullMotorEnvelope100HzRobustEnvCfg(
+    Sprite0825Stage2AMPG57NativePM01Forward100HzRobustEnvCfg
+):
+    """G58A: retain G57 behavior under physical torque-speed envelopes."""
+
+    scene: Sprite0615Stage2PM01FullMotorEnvelopeSceneCfg = (
+        Sprite0615Stage2PM01FullMotorEnvelopeSceneCfg(num_envs=4096, env_spacing=2.5)
+    )
+
+
+@configclass
+class Sprite0825Stage2AMPG58FullMotorEnvelope100HzEnvCfg(
+    Sprite0825Stage2AMPG58FullMotorEnvelope100HzRobustEnvCfg
+):
+    """Deterministic G58A evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0825Stage2AMPG58HighSpeedRecovery100HzRobustEnvCfg(
+    Sprite0825Stage2AMPG58FullMotorEnvelope100HzRobustEnvCfg
+):
+    """G58B: recover upper command-band tracking without changing PM01 rewards."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.commands.base_velocity.ranges.lin_vel_x = (0.30, 0.45)
+
+
+@configclass
+class Sprite0825Stage2AMPG58HighSpeedRecovery100HzEnvCfg(
+    Sprite0825Stage2AMPG58HighSpeedRecovery100HzRobustEnvCfg
+):
+    """Deterministic G58B evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0825Stage2AMPG58GentleYaw100HzRobustEnvCfg(
+    Sprite0825Stage2AMPG58HighSpeedRecovery100HzRobustEnvCfg
+):
+    """G58C: add bounded symmetric direct yaw-rate commands to model 925."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        command = self.commands.base_velocity
+        command.ranges.lin_vel_x = (0.25, 0.45)
+        command.ranges.ang_vel_z = (-0.20, 0.20)
+
+
+@configclass
+class Sprite0825Stage2AMPG58GentleYaw100HzEnvCfg(
+    Sprite0825Stage2AMPG58GentleYaw100HzRobustEnvCfg
+):
+    """Deterministic G58C evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0825Stage2AMPG58LongTurn100HzRobustEnvCfg(
+    Sprite0825Stage2AMPG58GentleYaw100HzRobustEnvCfg
+):
+    """G58D: expose the physical policy to sustained gentle turn segments."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.episode_length_s = 30.0
+        command = self.commands.base_velocity
+        command.resampling_time_range = (20.0, 20.0)
+        command.ranges.ang_vel_z = (-0.25, 0.25)
+
+
+@configclass
+class Sprite0825Stage2AMPG58LongTurn100HzEnvCfg(
+    Sprite0825Stage2AMPG58LongTurn100HzRobustEnvCfg
+):
+    """Deterministic G58D evaluation task without training perturbations."""
+
+    events: EventsCfg = EventsCfg()

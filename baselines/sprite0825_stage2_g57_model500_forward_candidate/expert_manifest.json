@@ -1,0 +1,69 @@
+{
+  "joint_names": [
+    "left_hip_pitch_joint",
+    "right_hip_pitch_joint",
+    "waist_roll_joint",
+    "left_hip_roll_joint",
+    "right_hip_roll_joint",
+    "waist_yaw_joint",
+    "left_hip_yaw_joint",
+    "right_hip_yaw_joint",
+    "head_pitch_joint",
+    "left_shoulder_pitch_joint",
+    "right_shoulder_pitch_joint",
+    "left_knee_joint",
+    "right_knee_joint",
+    "head_roll_joint",
+    "left_shoulder_roll_joint",
+    "right_shoulder_roll_joint",
+    "left_ankle_pitch_joint",
+    "right_ankle_pitch_joint",
+    "head_yaw_joint",
+    "left_shoulder_yaw_joint",
+    "right_shoulder_yaw_joint",
+    "left_ankle_roll_joint",
+    "right_ankle_roll_joint",
+    "left_elbow_joint",
+    "right_elbow_joint",
+    "left_wrist_yaw_joint",
+    "right_wrist_yaw_joint",
+    "left_wrist_pitch_joint",
+    "right_wrist_pitch_joint",
+    "left_wrist_roll_joint",
+    "right_wrist_roll_joint"
+  ],
+  "mapped_sha256": "bf4bd17fa4b91c8e560d9cc462e36be45c599fdf87a5dcd0181cc91b1d2d11f8",
+  "mapped_source": "/home/tony/sprite/sprite_isaaclab/assets/sprite0615_references/stage2_amp/sprite0825_pm01_native_straight_vx045_mapped_100hz_headingcanon_v1.npz",
+  "method": "native PM01 100 Hz steady walk plus 10% native stand; no V38/G20 mixing",
+  "outputs": [
+    {
+      "frames": 400,
+      "path": "00_stand.npz",
+      "sha256": "98ba08bc07d00ba367540b88df304adf03edb41e99146412c0bf5836499db3d7"
+    },
+    {
+      "frames": 1200,
+      "path": "01_native_walk.npz",
+      "sha256": "160c8488b69d6dd024229337cfbc272c84d9329a868109b57265b1313ed741d8"
+    },
+    {
+      "frames": 1200,
+      "path": "02_native_walk.npz",
+      "sha256": "160c8488b69d6dd024229337cfbc272c84d9329a868109b57265b1313ed741d8"
+    },
+    {
+      "frames": 1200,
+      "path": "03_native_walk.npz",
+      "sha256": "160c8488b69d6dd024229337cfbc272c84d9329a868109b57265b1313ed741d8"
+    }
+  ],
+  "phase_source": "/home/tony/sprite/sprite_isaaclab/assets/sprite0615_references/stage2_amp/pm01_native_g55_straight_vx045_100hz_v1.npz",
+  "phase_source_sha256": "26ac87cab3bc93fe6aaf9e4de027cdeb3f7e841672e08c1e5d35474f8f26195a",
+  "schema": "sprite0825-g57-native-pm01-amp-v1",
+  "stand_sampling_fraction": 0.1,
+  "walk_velocity_body_mean": [
+    0.21380842013807802,
+    0.0018400968837492709,
+    0.0008208147186621474
+  ]
+}

@@ -1,0 +1,18 @@
+Open Sprite RL contains original Beijing Dynamics code and Sprite0825 assets,
+plus interfaces and derived data based on third-party open-source projects.
+
+Isaac Lab
+Copyright (c) 2022-2026, NVIDIA CORPORATION & AFFILIATES.
+BSD 3-Clause License. Pinned upstream commit:
+b4c321024792976150ca55fddb26fa34480d974e
+
+EngineAI AMP and PM01-derived expert data
+Copyright (c) 2025-, Shenzhen Zhongqing Robot Technology Co., Ltd. (EngineAI).
+BSD 3-Clause License. Pinned upstream commit:
+83ba64bbb58a02e14483e52adce5f893f3f31cdf
+
+RSL-RL is installed as a dependency of Isaac Lab and retains its upstream
+license. MuJoCo and ONNX Runtime are runtime dependencies and are not vendored.
+
+No third-party project name is used to endorse this project. Full copied
+license texts are in third_party_licenses/.

@@ -1,0 +1,68 @@
+{
+  "checkpoint": "/root/sprite/sprite_isaaclab/IsaacLab/logs/rsl_rl/sprite0825_stage2_g58_preserve925_gentle_yaw/2026-09-01_21-22-15_stage2_G58F_preserve925_gentle_yaw_400_env8192/model_1050.pt",
+  "duration_s": 30.0,
+  "grid": {
+    "+0.00": {
+      "mae_vx": 0.0063095372170209885,
+      "mae_yaw_rate": 0.001659465255215764,
+      "mean_abs_vy": 0.04149310290813446,
+      "mean_vx": 0.2979084849357605,
+      "mean_yaw_rate": 0.0016316568944603205,
+      "p10_yaw_rate": 0.0006522329058498144,
+      "p90_yaw_rate": 0.002713844645768404,
+      "survival_rate": 1.0
+    },
+    "+0.20": {
+      "mae_vx": 0.005087926052510738,
+      "mae_yaw_rate": 0.005899862386286259,
+      "mean_abs_vy": 0.04088019207119942,
+      "mean_vx": 0.2962743043899536,
+      "mean_yaw_rate": 0.19410014152526855,
+      "p10_yaw_rate": 0.19179917871952057,
+      "p90_yaw_rate": 0.19699057936668396,
+      "survival_rate": 1.0
+    },
+    "+0.40": {
+      "mae_vx": 0.020209521055221558,
+      "mae_yaw_rate": 0.024884309619665146,
+      "mean_abs_vy": 0.044432513415813446,
+      "mean_vx": 0.2797904908657074,
+      "mean_yaw_rate": 0.37511569261550903,
+      "p10_yaw_rate": 0.3697011470794678,
+      "p90_yaw_rate": 0.3811475932598114,
+      "survival_rate": 1.0
+    },
+    "-0.20": {
+      "mae_vx": 0.006500886753201485,
+      "mae_yaw_rate": 0.00985730066895485,
+      "mean_abs_vy": 0.0410224124789238,
+      "mean_vx": 0.29476526379585266,
+      "mean_yaw_rate": -0.1901427060365677,
+      "p10_yaw_rate": -0.19441571831703186,
+      "p90_yaw_rate": -0.1869126409292221,
+      "survival_rate": 1.0
+    },
+    "-0.40": {
+      "mae_vx": 0.02417198196053505,
+      "mae_yaw_rate": 0.03253917396068573,
+      "mean_abs_vy": 0.04435025155544281,
+      "mean_vx": 0.2758280634880066,
+      "mean_yaw_rate": -0.36746084690093994,
+      "p10_yaw_rate": -0.377524733543396,
+      "p90_yaw_rate": -0.36182865500450134,
+      "survival_rate": 1.0
+    }
+  },
+  "num_envs": 160,
+  "protocol": "moving_yaw_grid",
+  "seed": 46,
+  "step_dt": 0.01,
+  "survival_rate": 1.0,
+  "symmetry": {
+    "0.20_abs_rate_difference": 0.003957435488700867,
+    "0.40_abs_rate_difference": 0.007654845714569092
+  },
+  "target_vx": 0.3,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G58Preserve925GentleYaw100Hz-v0",
+  "warmup_s": 5.0
+}

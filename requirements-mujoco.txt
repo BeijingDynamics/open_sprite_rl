@@ -1,0 +1,6 @@
+mujoco==3.9.0
+numpy==2.4.6
+onnxruntime==1.28.0
+glfw==2.10.0
+PyOpenGL==3.1.10
+scipy==1.17.1

@@ -1,0 +1,38 @@
+{
+  "checkpoint": "/root/sprite/sprite_isaaclab/IsaacLab/logs/rsl_rl/sprite0825_stage2_g58_preserve925_gentle_yaw/2026-09-01_21-22-15_stage2_G58F_preserve925_gentle_yaw_400_env8192/model_1050.pt",
+  "command_ramp_rate_mps2": 0.0,
+  "grid": {
+    "0.00": {
+      "mae_vx": 0.001383852562867105,
+      "mean_vx": -0.001383852562867105,
+      "p10_vx": -0.0014570021303370595,
+      "p90_vx": -0.0012736606877297163
+    },
+    "0.15": {
+      "mae_vx": 0.0627959668636322,
+      "mean_vx": 0.21279597282409668,
+      "p10_vx": 0.20183506608009338,
+      "p90_vx": 0.22116202116012573
+    },
+    "0.30": {
+      "mae_vx": 0.005682696588337421,
+      "mean_vx": 0.29865509271621704,
+      "p10_vx": 0.29125091433525085,
+      "p90_vx": 0.307160347700119
+    },
+    "0.45": {
+      "mae_vx": 0.0763479471206665,
+      "mean_vx": 0.37365204095840454,
+      "p10_vx": 0.36155304312705994,
+      "p90_vx": 0.38370826840400696
+    }
+  },
+  "heading_hold": false,
+  "num_envs": 128,
+  "policy_kind": "rsl_rl_checkpoint",
+  "protocol": "grid",
+  "seed": 43,
+  "step_dt": 0.01,
+  "survival_rate": 1.0,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G58Preserve925GentleYaw100Hz-v0"
+}

@@ -1,0 +1,10 @@
+*.pt -text
+*.onnx -text
+*.npz -text
+*.usd -text
+*.STL -text
+*.tar.gz -text
+*.json text eol=lf
+*.py text eol=lf
+*.sh text eol=lf
+*.md text eol=lf

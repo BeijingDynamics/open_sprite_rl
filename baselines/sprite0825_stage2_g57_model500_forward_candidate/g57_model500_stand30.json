@@ -1,0 +1,23 @@
+{
+  "checkpoint": "/root/sprite/sprite_isaaclab/IsaacLab/logs/rsl_rl/sprite0825_stage2_g57_native_pm01_unconditioned/2026-08-31_14-16-07_stage2_G57_native_pm01_scratch_1000_env8192/model_500.pt",
+  "command_ramp_rate_mps2": 0.0,
+  "diagnostic_max_abs_integrated_body_z_ang_vel_deg": 25.230098724365234,
+  "diagnostic_mean_abs_integrated_body_z_ang_vel_deg": 17.719255447387695,
+  "diagnostic_p90_abs_integrated_body_z_ang_vel_deg": 21.61344337463379,
+  "duration_s": 30.0,
+  "heading_hold": false,
+  "max_abs_final_heading_error_deg": 2.7793827056884766,
+  "max_horizontal_displacement_m": 0.05268241465091705,
+  "mean_abs_final_heading_error_deg": 1.0758527517318726,
+  "mean_horizontal_displacement_m": 0.02187054231762886,
+  "num_envs": 64,
+  "p90_abs_final_heading_error_deg": 2.372607946395874,
+  "p90_horizontal_displacement_m": 0.033247482031583786,
+  "policy_kind": "rsl_rl_checkpoint",
+  "protocol": "stand",
+  "seed": 42,
+  "stand_gate_pass_rate": 1.0,
+  "step_dt": 0.01,
+  "survival_rate": 1.0,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G57NativePM01Forward100Hz-v0"
+}

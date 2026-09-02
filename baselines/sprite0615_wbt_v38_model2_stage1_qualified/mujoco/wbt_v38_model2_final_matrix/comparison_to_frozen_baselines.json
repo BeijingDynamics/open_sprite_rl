@@ -1,0 +1,56 @@
+[
+  {
+    "model": "deploy",
+    "sim2sim_pass": true,
+    "gates": {
+      "sim2sim_physical_safety": true,
+      "no_falls": true,
+      "root_height_not_regressed": true,
+      "joint_tracking_within_5pct": true,
+      "body_tracking_within_5pct": true,
+      "anchor_orientation_within_10pct": true,
+      "root_xy_within_10pct": true,
+      "action_continuity_within_10pct": true
+    },
+    "candidate": {
+      "model": "deploy",
+      "tracking_runs": 12,
+      "endurance_runs": 1,
+      "speed_scales": [
+        0.8,
+        1.0,
+        1.15
+      ],
+      "fell_cases": 0,
+      "min_root_z": 0.4383791664442144,
+      "joint_pos_l2_p90_worst": 1.0873999928360287,
+      "body_pos_mean_p90_worst": 0.13288748576522874,
+      "anchor_rot6d_p90_worst": 0.1583187946927993,
+      "root_xy_p90_worst": 0.12477325156456216,
+      "action_rate_l2_p99_worst": 1.4191163006289693,
+      "joint_rated_rms_ratio_max": 0.42230136760251147,
+      "joint_peak_ratio_max": 0.42934123050954165,
+      "ankle_rated_rms_ratio_max": 0.5295432844521787,
+      "ankle_peak_ratio_max": 0.37895483485635073,
+      "ankle_speed_ratio_max": 0.18964260671619654,
+      "joint_torque_speed_envelope_ratio_max": 0.6008277369365175,
+      "ankle_torque_speed_envelope_ratio_max": 0.4242829290096206,
+      "safety_gates": {
+        "all_cases_completed": true,
+        "no_falls": true,
+        "root_height_ge_025": true,
+        "joint_rated_rms_le_1": true,
+        "joint_peak_le_1": true,
+        "ankle_rated_rms_le_1": true,
+        "ankle_peak_le_1": true,
+        "ankle_speed_le_1": true,
+        "joint_torque_speed_envelope_le_1": true,
+        "ankle_torque_speed_envelope_le_1": true
+      },
+      "sim2sim_safety_pass": true,
+      "tracking_requires_baseline_comparison": true
+    },
+    "motion_baseline": "wbt_frozen_v15a_m47500",
+    "robustness_baseline": "wbt_frozen_v14a_m45500"
+  }
+]

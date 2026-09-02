@@ -1,0 +1,93 @@
+{
+  "baseline": "/root/gpufree-data/g58f_preserve925_gentle_yaw_400/screen/model_925_style_vx030.json",
+  "baseline_mean_vx": 0.2998035252094269,
+  "candidate": "/root/gpufree-data/g58f_preserve925_gentle_yaw_400/screen/model_1050_style_vx030.json",
+  "candidate_mean_vx": 0.300282746553421,
+  "diagnostics": {
+    "baseline_phase_backward_jump_rate": 0.44734519720077515,
+    "candidate_phase_backward_jump_rate": 0.43892043828964233,
+    "note": "Nearest-phase jumps are diagnostic only because bilateral poses can alias by half a gait cycle."
+  },
+  "failed_gates": [],
+  "gates": {
+    "body_phase_error": {
+      "baseline": 0.08331777900457382,
+      "candidate": 0.08371762931346893,
+      "limit": 0.09164955690503121,
+      "pass": true,
+      "ratio": 1.0047990994679918
+    },
+    "contact_duty_symmetry": {
+      "baseline": 0.002744138240814209,
+      "candidate": 0.0015527606010437012,
+      "limit": 0.00301855206489563,
+      "pass": true,
+      "ratio": 0.565846347661765
+    },
+    "joint_phase_error": {
+      "baseline": 0.12297224998474121,
+      "candidate": 0.12635497748851776,
+      "limit": 0.13526947498321534,
+      "pass": true,
+      "ratio": 1.0275080557133522
+    },
+    "left_contact_slip": {
+      "baseline": 0.02830187790095806,
+      "candidate": 0.028467928990721703,
+      "limit": 0.03113206569105387,
+      "pass": true,
+      "ratio": 1.0058671403482389
+    },
+    "left_contact_tilt": {
+      "baseline": 0.007208657916635275,
+      "candidate": 0.007799970451742411,
+      "limit": 0.007929523708298802,
+      "pass": true,
+      "ratio": 1.0820281031428298
+    },
+    "physical_target_delta": {
+      "baseline": 0.020377468317747116,
+      "candidate": 0.020932786166667938,
+      "limit": 0.02241521514952183,
+      "pass": true,
+      "ratio": 1.0272515623757434
+    },
+    "raw_action_second_delta": {
+      "baseline": 0.051486507058143616,
+      "candidate": 0.05521102994680405,
+      "limit": 0.05663515776395798,
+      "pass": true,
+      "ratio": 1.072339785731713
+    },
+    "right_contact_slip": {
+      "baseline": 0.028398344293236732,
+      "candidate": 0.029334820806980133,
+      "limit": 0.03123817872256041,
+      "pass": true,
+      "ratio": 1.0329764476433378
+    },
+    "right_contact_tilt": {
+      "baseline": 0.007300379686057568,
+      "candidate": 0.008023486472666264,
+      "limit": 0.008030417654663325,
+      "pass": true,
+      "ratio": 1.0990505723955293
+    },
+    "survival": {
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "limit": 1.0,
+      "pass": true
+    },
+    "swing_height_symmetry": {
+      "baseline": 4.4733285903930664e-05,
+      "candidate": 1.7307698726654053e-05,
+      "limit": 4.9206614494323735e-05,
+      "pass": true,
+      "ratio": 0.38690872751499
+    }
+  },
+  "max_regression": 0.1,
+  "pass": true,
+  "schema": "sprite0615_stage2_style_comparison_v1"
+}

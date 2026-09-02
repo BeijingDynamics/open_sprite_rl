@@ -1,0 +1,671 @@
+import os
+from pathlib import Path
+
+from isaaclab.utils import configclass
+from isaaclab_rl.rsl_rl import (
+    RslRlMLPModelCfg,
+    RslRlOnPolicyRunnerCfg,
+    RslRlPpoAlgorithmCfg,
+    RslRlSymmetryCfg,
+)
+
+from .... import g16_symmetry
+
+
+_REFERENCE_RELATIVE = Path(
+    "sprite/sprite_isaaclab/IsaacLab/baselines/"
+    "sprite0615_wbt_v38_model2_stage1_qualified/deploy/model_2/reference_motion.npz"
+)
+
+
+def _is_accessible(path: Path, *, directory: bool = False) -> bool:
+    """Probe optional home/root candidates without failing task registration."""
+    try:
+        return path.is_dir() if directory else path.is_file()
+    except PermissionError:
+        return False
+
+
+def _resolve_v38_reference() -> str:
+    override = os.environ.get("SPRITE0615_V38_REFERENCE")
+    candidates = [Path(override)] if override else []
+    candidates.extend((Path("/home/tony") / _REFERENCE_RELATIVE, Path("/root") / _REFERENCE_RELATIVE))
+    for candidate in candidates:
+        if _is_accessible(candidate):
+            return str(candidate)
+    return str(candidates[0])
+
+
+V38_REFERENCE = _resolve_v38_reference()
+
+
+def _resolve_stand_walk_reference() -> str:
+    override = os.environ.get("SPRITE0615_STAGE2_STAND_WALK_EXPERT")
+    relative = Path(
+        "sprite/sprite_isaaclab/assets/sprite0615_references/stage2_amp/"
+        "sprite0615_v38_stand10_walk_stand10_amp.npz"
+    )
+    candidates = [Path(override)] if override else []
+    candidates.extend((Path("/home/tony") / relative, Path("/root") / relative))
+    for candidate in candidates:
+        if _is_accessible(candidate):
+            return str(candidate)
+    return str(candidates[0])
+
+
+STAND_WALK_REFERENCE = _resolve_stand_walk_reference()
+
+
+def _resolve_pm01_mapped_reference() -> str:
+    override = os.environ.get("SPRITE0615_STAGE2_PM01_MAPPED_EXPERT")
+    relative = Path(
+        "sprite/sprite_isaaclab/assets/sprite0615_references/stage2_amp/"
+        "sprite0615_pm01_locomotion_axis_default_mapped_v2.npz"
+    )
+    candidates = [Path(override)] if override else []
+    candidates.extend((Path("/home/tony") / relative, Path("/root") / relative))
+    for candidate in candidates:
+        if _is_accessible(candidate):
+            return str(candidate)
+    return str(candidates[0])
+
+
+PM01_MAPPED_REFERENCE = _resolve_pm01_mapped_reference()
+
+
+def _resolve_pm01_mapped_100hz_reference() -> str:
+    override = os.environ.get("SPRITE0615_STAGE2_PM01_MAPPED_100HZ_EXPERT")
+    relative = Path(
+        "sprite/sprite_isaaclab/assets/sprite0615_references/stage2_amp/"
+        "sprite0615_pm01_locomotion_axis_default_mapped_100hz_v1.npz"
+    )
+    candidates = [Path(override)] if override else []
+    candidates.extend((Path("/home/tony") / relative, Path("/root") / relative))
+    for candidate in candidates:
+        if _is_accessible(candidate):
+            return str(candidate)
+    return str(candidates[0])
+
+
+PM01_MAPPED_100HZ_REFERENCE = _resolve_pm01_mapped_100hz_reference()
+
+
+def _resolve_pm01_homologous_100hz_reference() -> str:
+    override = os.environ.get("SPRITE0615_STAGE2_PM01_HOMOLOGOUS_100HZ_EXPERT")
+    relative = Path(
+        "sprite/sprite_isaaclab/assets/sprite0615_references/stage2_amp/"
+        "sprite0615_pm01_locomotion_homologous23_100hz_v1.npz"
+    )
+    candidates = [Path(override)] if override else []
+    candidates.extend((Path("/home/tony") / relative, Path("/root") / relative))
+    for candidate in candidates:
+        if _is_accessible(candidate):
+            return str(candidate)
+    return str(candidates[0])
+
+
+PM01_HOMOLOGOUS_100HZ_REFERENCE = _resolve_pm01_homologous_100hz_reference()
+
+
+def _resolve_pm01_multispeed_100hz_reference() -> str:
+    override = os.environ.get("SPRITE0615_STAGE2_PM01_MULTISPEED_100HZ_EXPERT")
+    relative = Path(
+        "sprite/sprite_isaaclab/assets/sprite0615_references/stage2_amp/"
+        "sprite0615_pm01_multispeed_100hz_v1"
+    )
+    candidates = [Path(override)] if override else []
+    candidates.extend((Path("/home/tony") / relative, Path("/root") / relative))
+    for candidate in candidates:
+        if _is_accessible(candidate, directory=True):
+            return str(candidate)
+    return str(candidates[0])
+
+
+PM01_MULTISPEED_100HZ_REFERENCE = _resolve_pm01_multispeed_100hz_reference()
+
+
+def _resolve_g16_conditioned_reference(kind: str) -> str:
+    env_name = f"SPRITE0615_STAGE2_G16_{kind.upper()}_EXPERT"
+    override = os.environ.get(env_name)
+    relative = Path(
+        "sprite/sprite_isaaclab/assets/sprite0615_references/stage2_amp/"
+        f"g16_conditioned/{kind}_conditioned_v1"
+    )
+    candidates = [Path(override)] if override else []
+    candidates.extend((Path("/home/tony") / relative, Path("/root") / relative))
+    for candidate in candidates:
+        if _is_accessible(candidate, directory=True):
+            return str(candidate)
+    return str(candidates[0])
+
+
+G16_PM01_CONDITIONED_REFERENCE = _resolve_g16_conditioned_reference("pm01")
+G16_V38_CONDITIONED_REFERENCE = _resolve_g16_conditioned_reference("v38")
+G18_HYBRID_CONDITIONED_REFERENCE = _resolve_g16_conditioned_reference("hybrid_low_pm01_v38")
+
+
+def _resolve_g20_full31_reference() -> str:
+    override = os.environ.get("SPRITE0615_STAGE2_G20_FULL31_EXPERT")
+    relative = Path("sprite/stage2_scratch/g20_full31_conditioned_v1")
+    candidates = [Path(override)] if override else []
+    candidates.extend((Path("/home/tony") / relative, Path("/root") / relative))
+    for candidate in candidates:
+        if _is_accessible(candidate, directory=True):
+            return str(candidate)
+    return str(candidates[0])
+
+
+G20_FULL31_CONDITIONED_REFERENCE = _resolve_g20_full31_reference()
+
+# The files are ordinary 100 Hz expert clips. G20 adds command labels in its
+# loader; G22 deliberately reuses the same motion data without conditioning the
+# discriminator, matching EngineAI PM01's separation of style and task command.
+G22_FULL31_UNCONDITIONED_REFERENCE = G20_FULL31_CONDITIONED_REFERENCE
+
+
+@configclass
+class Sprite0615Stage2AMPPPORunnerCfg(RslRlOnPolicyRunnerCfg):
+    """EngineAI PM01 AMP runner adapted only for Sprite's dimensions and data."""
+
+    num_steps_per_env = 24
+    max_iterations = 20_000
+    save_interval = 250
+    experiment_name = "sprite0615_amp_locomotion_stage2"
+    run_name = "stage_a_forward_clean"
+    obs_groups = {"actor": ["policy"], "critic": ["critic"]}
+
+    algorithm = RslRlPpoAlgorithmCfg(
+        value_loss_coef=1.0,
+        use_clipped_value_loss=True,
+        clip_param=0.2,
+        entropy_coef=0.008,
+        num_learning_epochs=5,
+        num_mini_batches=4,
+        learning_rate=1.0e-3,
+        schedule="adaptive",
+        gamma=0.99,
+        lam=0.95,
+        desired_kl=0.01,
+        max_grad_norm=1.0,
+    )
+    actor = RslRlMLPModelCfg(
+        hidden_dims=[512, 256, 128],
+        activation="elu",
+        obs_normalization=True,
+        distribution_cfg=RslRlMLPModelCfg.GaussianDistributionCfg(
+            init_std=1.0,
+            std_type="scalar",
+        ),
+    )
+    critic = RslRlMLPModelCfg(
+        hidden_dims=[512, 256, 128],
+        activation="elu",
+        obs_normalization=True,
+    )
+
+    style_reward_weight = 2.0
+    frame_length = 5
+    frame_dim = 34
+    frame_normalization = True
+    discriminator_hidden_dims = [512, 256, 128]
+    dataset_path = V38_REFERENCE
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.class_name = "engineai_lab.algorithms.amp_ppo:AMPPPO"
+
+
+@configclass
+class Sprite0615Stage2StandWalkAMPPPORunnerCfg(Sprite0615Stage2AMPPPORunnerCfg):
+    """One-variable A/B: PM01-like stand/walk expert coverage."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_standwalk"
+    run_name = "stage_a_forward_clean_standwalk_expert"
+    dataset_path = STAND_WALK_REFERENCE
+
+
+@configclass
+class Sprite0615Stage2TimeHorizonAMPPPORunnerCfg(Sprite0615Stage2AMPPPORunnerCfg):
+    """AMP runner with PM01's 0.04 s discriminator history span at 50 Hz."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_timehorizon"
+    run_name = "stage_a_forward_pm01_timehorizon"
+    frame_length = 3
+
+
+@configclass
+class Sprite0615Stage2PM01MappedAMPPPORunnerCfg(Sprite0615Stage2AMPPPORunnerCfg):
+    """PM01 locomotion expert adapted to Sprite axes and default pose."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_pm01_mapped"
+    run_name = "stage2_G1_pm01_mapped_frames5"
+    dataset_path = PM01_MAPPED_REFERENCE
+
+
+@configclass
+class Sprite0615Stage2PM01MappedTimeHorizonAMPPPORunnerCfg(
+    Sprite0615Stage2PM01MappedAMPPPORunnerCfg
+):
+    """Mapped PM01 expert with PM01's 0.04 s discriminator history span."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_pm01_mapped_timehorizon"
+    run_name = "stage2_G2_pm01_mapped_frames3"
+    frame_length = 3
+
+
+@configclass
+class Sprite0615Stage2PM01MatchedCommandsAMPPPORunnerCfg(
+    Sprite0615Stage2PM01MappedAMPPPORunnerCfg
+):
+    """Mapped PM01 expert paired with PM01's command support."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_pm01_matched_commands"
+    run_name = "stage2_G3_pm01_matched_commands_frames5"
+
+
+@configclass
+class Sprite0615Stage2PM01MatchedCommandsTimeHorizonAMPPPORunnerCfg(
+    Sprite0615Stage2PM01MatchedCommandsAMPPPORunnerCfg
+):
+    """Matched PM01 command support with PM01-equivalent time horizons."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_pm01_matched_commands_timehorizon"
+    run_name = "stage2_G4_pm01_matched_commands_frames3"
+    frame_length = 3
+
+
+@configclass
+class Sprite0615Stage2PM01MatchedCommandsTimeHorizonRobustAMPPPORunnerCfg(
+    Sprite0615Stage2PM01MatchedCommandsTimeHorizonAMPPPORunnerCfg
+):
+    """G6: PM01-matched command policy with PM01 deployment randomization."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_pm01_robust"
+    run_name = "stage2_G6_pm01_robust_from_G4m2000"
+
+
+@configclass
+class Sprite0615Stage2PM01MatchedCommandsTimeHorizonStaticRobustAMPPPORunnerCfg(
+    Sprite0615Stage2PM01MatchedCommandsTimeHorizonAMPPPORunnerCfg
+):
+    """G6a: low-LR continuation under static PM01 domain randomization."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_pm01_static_robust"
+    run_name = "stage2_G6a_pm01_static_robust_from_G4m2000"
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.learning_rate = 1.0e-4
+
+
+@configclass
+class Sprite0615Stage2PM01Exact100HzRobustAMPPPORunnerCfg(
+    Sprite0615Stage2PM01MappedAMPPPORunnerCfg
+):
+    """G8: native PM01 100 Hz actor/discriminator sampling and expert data."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_pm01_exact100hz_robust"
+    run_name = "stage2_G8_pm01_exact100hz_robust_scratch"
+    max_iterations = 80_000
+    frame_length = 5
+    dataset_path = PM01_MAPPED_100HZ_REFERENCE
+
+
+@configclass
+class Sprite0615Stage2PM01ExplicitAction100HzRobustAMPPPORunnerCfg(
+    Sprite0615Stage2PM01Exact100HzRobustAMPPPORunnerCfg
+):
+    """G9: G8 contract with upstream PM01 explicit action scales."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_pm01_explicit_action100hz_robust"
+    run_name = "stage2_G9_pm01_explicit_action100hz_robust_scratch"
+
+
+@configclass
+class Sprite0615Stage2PM01ExplicitActionCoupledAnkle100HzRobustAMPPPORunnerCfg(
+    Sprite0615Stage2PM01ExplicitAction100HzRobustAMPPPORunnerCfg
+):
+    """G10: G9 policy contract with physical differential-ankle clipping."""
+
+    experiment_name = (
+        "sprite0615_amp_locomotion_stage2_pm01_explicit_action_coupled_ankle100hz_robust"
+    )
+    run_name = "stage2_G10_pm01_explicit_action_coupled_ankle100hz_robust_scratch"
+
+
+@configclass
+class Sprite0615Stage2PM01MultispeedCoupledAnkle100HzRobustAMPPPORunnerCfg(
+    Sprite0615Stage2PM01ExplicitActionCoupledAnkle100HzRobustAMPPPORunnerCfg
+):
+    """G11: G10 with boundary-safe, command-speed-covered PM01 expert clips."""
+
+    experiment_name = (
+        "sprite0615_amp_locomotion_stage2_pm01_multispeed_coupled_ankle100hz_robust"
+    )
+    run_name = "stage2_G11_pm01_multispeed_coupled_ankle100hz_robust_scratch"
+    dataset_path = PM01_MULTISPEED_100HZ_REFERENCE
+
+
+@configclass
+class Sprite0615Stage2PM01ForwardCurriculumCoupledAnkle100HzRobustAMPPPORunnerCfg(
+    Sprite0615Stage2PM01ExplicitActionCoupledAnkle100HzRobustAMPPPORunnerCfg
+):
+    """G12: G10 with commands limited to the forward Stage-2 milestone."""
+
+    experiment_name = (
+        "sprite0615_amp_locomotion_stage2_pm01_forward_curriculum_"
+        "coupled_ankle100hz_robust"
+    )
+    run_name = "stage2_G12_pm01_forward_curriculum_coupled_ankle100hz_robust_scratch"
+
+
+@configclass
+class Sprite0615Stage2PM01ForwardCurriculumLongAMPHistoryCoupledAnkle100HzRobustAMPPPORunnerCfg(
+    Sprite0615Stage2PM01ForwardCurriculumCoupledAnkle100HzRobustAMPPPORunnerCfg
+):
+    """G13: give the AMP discriminator 0.14 s of gait history."""
+
+    experiment_name = (
+        "sprite0615_amp_locomotion_stage2_pm01_forward_curriculum_"
+        "long_amp_history_coupled_ankle100hz_robust"
+    )
+    run_name = (
+        "stage2_G13_pm01_forward_curriculum_long_amp_history_"
+        "coupled_ankle100hz_robust_scratch"
+    )
+    frame_length = 15
+
+
+@configclass
+class Sprite0615Stage2PM01ForwardCurriculumHomologousAMPCoupledAnkle100HzRobustAMPPPORunnerCfg(
+    Sprite0615Stage2PM01ForwardCurriculumCoupledAnkle100HzRobustAMPPPORunnerCfg
+):
+    """G14: PM01-homologous 23-joint discriminator, full 31-DoF policy."""
+
+    experiment_name = (
+        "sprite0615_amp_locomotion_stage2_pm01_forward_curriculum_"
+        "homologous_amp_coupled_ankle100hz_robust"
+    )
+    run_name = (
+        "stage2_G14_pm01_forward_curriculum_homologous_amp_"
+        "coupled_ankle100hz_robust_scratch"
+    )
+    frame_length = 5
+    frame_dim = 26
+    dataset_path = PM01_HOMOLOGOUS_100HZ_REFERENCE
+
+
+@configclass
+class Sprite0615Stage2PM01MatchedCommandsHomologousAMPCoupledAnkle100HzRobustAMPPPORunnerCfg(
+    Sprite0615Stage2PM01ExplicitActionCoupledAnkle100HzRobustAMPPPORunnerCfg
+):
+    """G15: PM01 command distribution and homologous AMP observation contract."""
+
+    experiment_name = (
+        "sprite0615_amp_locomotion_stage2_pm01_matched_commands_"
+        "homologous_amp_coupled_ankle100hz_robust"
+    )
+    run_name = (
+        "stage2_G15_pm01_matched_commands_homologous_amp_"
+        "coupled_ankle100hz_robust_scratch"
+    )
+    frame_length = 5
+    frame_dim = 26
+    dataset_path = PM01_HOMOLOGOUS_100HZ_REFERENCE
+
+
+@configclass
+class Sprite0615Stage2VelocityConditionedPM01AMPPPORunnerCfg(
+    Sprite0615Stage2PM01ForwardCurriculumHomologousAMPCoupledAnkle100HzRobustAMPPPORunnerCfg
+):
+    """G16A: conditional prior with the validated PM01 multi-speed clips."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g16a_velocity_conditioned_pm01"
+    run_name = "stage2_G16A_velocity_conditioned_pm01_scratch"
+    frame_dim = 27
+    dataset_path = G16_PM01_CONDITIONED_REFERENCE
+    expert_stand_probability = 0.1
+    expert_command_min = 0.15
+    expert_command_max = 0.45
+    expert_mirror_probability = 0.0
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.class_name = (
+            "isaaclab_tasks.manager_based.locomotion.sprite0615_amp_locomotion."
+            "velocity_conditioned_amp:VelocityConditionedAMPPPO"
+        )
+
+
+@configclass
+class Sprite0615Stage2VelocityConditionedV38AMPPPORunnerCfg(
+    Sprite0615Stage2VelocityConditionedPM01AMPPPORunnerCfg
+):
+    """G16B: the same conditional prior with time-scaled V38 motion."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g16b_velocity_conditioned_v38"
+    run_name = "stage2_G16B_velocity_conditioned_v38_scratch"
+    dataset_path = G16_V38_CONDITIONED_REFERENCE
+
+
+@configclass
+class Sprite0615Stage2VelocityConditionedV38SymmetricAMPPPORunnerCfg(
+    Sprite0615Stage2VelocityConditionedV38AMPPPORunnerCfg
+):
+    """G17: balanced V38 expert prior plus asset-verified policy equivariance."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g17_v38_symmetric"
+    run_name = "stage2_G17_v38_symmetric_scratch"
+    expert_mirror_probability = 0.5
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.symmetry_cfg = RslRlSymmetryCfg(
+            use_data_augmentation=True,
+            use_mirror_loss=True,
+            data_augmentation_func=g16_symmetry.compute_symmetric_states,
+            mirror_loss_coeff=0.02,
+        )
+
+
+@configclass
+class Sprite0615Stage2VelocityConditionedHybridSymmetricAMPPPORunnerCfg(
+    Sprite0615Stage2VelocityConditionedV38SymmetricAMPPPORunnerCfg
+):
+    """G18: PM01 low-speed support with V38 medium/high-speed style."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g18_hybrid_symmetric"
+    run_name = "stage2_G18_hybrid_symmetric_scratch"
+    dataset_path = G18_HYBRID_CONDITIONED_REFERENCE
+
+
+@configclass
+class Sprite0615Stage2VelocityConditionedHybridClipLabelSymmetricAMPPPORunnerCfg(
+    Sprite0615Stage2VelocityConditionedHybridSymmetricAMPPPORunnerCfg
+):
+    """G19: condition hybrid expert frames on the selected clip's true speed label."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g19_hybrid_clip_label_symmetric"
+    run_name = "stage2_G19_hybrid_clip_label_symmetric_scratch"
+    expert_condition_source = "selected_clip"
+
+
+@configclass
+class Sprite0615Stage2VelocityConditionedFull31SymmetricAMPPPORunnerCfg(
+    Sprite0615Stage2VelocityConditionedHybridClipLabelSymmetricAMPPPORunnerCfg
+):
+    """G20: preserve Sprite-specific waist, head, and wrist motion in the AMP contract."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g20_full31_symmetric"
+    run_name = "stage2_G20_full31_symmetric_scratch"
+    frame_dim = 35
+    dataset_path = G20_FULL31_CONDITIONED_REFERENCE
+
+
+@configclass
+class Sprite0615Stage2PM01UnconditionedFull31SymmetricAMPPPORunnerCfg(
+    Sprite0615Stage2PM01ForwardCurriculumCoupledAnkle100HzRobustAMPPPORunnerCfg
+):
+    """G22: PM01's unconditioned AMP boundary with Sprite's full morphology."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g22_pm01_unconditioned_full31"
+    run_name = "stage2_G22_pm01_unconditioned_full31_symmetric_scratch"
+    frame_length = 5
+    frame_dim = 34
+    dataset_path = G22_FULL31_UNCONDITIONED_REFERENCE
+    expert_mirror_probability = 0.5
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.class_name = (
+            "isaaclab_tasks.manager_based.locomotion.sprite0615_amp_locomotion."
+            "unconditioned_amp:UnconditionedAMPPPO"
+        )
+        self.algorithm.symmetry_cfg = RslRlSymmetryCfg(
+            use_data_augmentation=True,
+            use_mirror_loss=True,
+            data_augmentation_func=g16_symmetry.compute_symmetric_states,
+            mirror_loss_coeff=0.02,
+        )
+
+
+@configclass
+class Sprite0615Stage2G23GentleYawPM01UnconditionedAMPPPORunnerCfg(
+    Sprite0615Stage2PM01UnconditionedFull31SymmetricAMPPPORunnerCfg
+):
+    """G23: preserve G22 style while learning bounded direct yaw-rate commands."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g23_gentle_yaw"
+    run_name = "stage2_G23_gentle_yaw_from_G22Rm5"
+    save_interval = 20
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.learning_rate = 1.0e-5
+
+
+@configclass
+class Sprite0615Stage2G24PM01HeadingGentleUnconditionedAMPPPORunnerCfg(
+    Sprite0615Stage2PM01UnconditionedFull31SymmetricAMPPPORunnerCfg
+):
+    """G24: PM01 heading-command curriculum with the G22 full-body prior."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g24_pm01_heading_gentle"
+    run_name = "stage2_G24_pm01_heading_gentle_from_G22Rm5"
+    save_interval = 20
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.learning_rate = 1.0e-5
+
+
+@configclass
+class Sprite0615Stage2G25PM01HeadingRegularizedUnconditionedAMPPPORunnerCfg(
+    Sprite0615Stage2PM01UnconditionedFull31SymmetricAMPPPORunnerCfg
+):
+    """G25: G24 heading curriculum with correctly scaled 100 Hz regularizers."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g25_pm01_heading_regularized"
+    run_name = "stage2_G25_pm01_heading_regularized_from_G24Fm59"
+    save_interval = 10
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.learning_rate = 2.0e-6
+
+
+@configclass
+class Sprite0615Stage2G26TeacherAnchoredPM01HeadingAMPPPORunnerCfg(
+    Sprite0615Stage2G25PM01HeadingRegularizedUnconditionedAMPPPORunnerCfg
+):
+    """G26: preserve the qualified straight controller while learning heading."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g26_teacher_anchor"
+    run_name = "stage2_G26_teacher_anchor_from_G25Rm300"
+    save_interval = 10
+    teacher_anchor_weight = 0.1
+    teacher_anchor_yaw_scale = 0.05
+    teacher_anchor_batch_size = 8192
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.class_name = (
+            "isaaclab_tasks.manager_based.locomotion.sprite0615_amp_locomotion."
+            "teacher_anchored_amp:TeacherAnchoredUnconditionedAMPPPO"
+        )
+        self.algorithm.learning_rate = 1.0e-6
+
+
+@configclass
+class Sprite0615Stage2G27CleanReplayPM01HeadingAMPPPORunnerCfg(
+    Sprite0615Stage2G25PM01HeadingRegularizedUnconditionedAMPPPORunnerCfg
+):
+    """G27: retain clean teacher control laws while optimizing robust heading."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g27_clean_replay"
+    run_name = "stage2_G27_clean_replay_from_G25Rm300"
+    save_interval = 10
+    clean_replay_weight = 0.1
+    clean_replay_batch_size = 8192
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.class_name = (
+            "isaaclab_tasks.manager_based.locomotion.sprite0615_amp_locomotion."
+            "teacher_anchored_amp:CleanReplayAnchoredUnconditionedAMPPPO"
+        )
+        self.algorithm.learning_rate = 1.0e-6
+
+
+@configclass
+class Sprite0615Stage2G28TemporalReplayPM01HeadingAMPPPORunnerCfg(
+    Sprite0615Stage2G25PM01HeadingRegularizedUnconditionedAMPPPORunnerCfg
+):
+    """G28: preserve clean 100 Hz action timing while polishing robust heading."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g28_temporal_replay"
+    run_name = "stage2_G28_temporal_replay_from_G27m30"
+    save_interval = 5
+    clean_replay_weight = 0.03
+    temporal_replay_weight = 0.03
+    clean_replay_batch_size = 4096
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.class_name = (
+            "isaaclab_tasks.manager_based.locomotion.sprite0615_amp_locomotion."
+            "teacher_anchored_amp:TemporalCleanReplayAnchoredUnconditionedAMPPPO"
+        )
+        self.algorithm.learning_rate = 2.0e-7
+
+
+@configclass
+class Sprite0615Stage2G29IntegratedTemporalReplayPM01HeadingAMPPPORunnerCfg(
+    Sprite0615Stage2G28TemporalReplayPM01HeadingAMPPPORunnerCfg
+):
+    """G29: combine temporal replay and PPO gradients in each minibatch."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g29_integrated_temporal_replay"
+    run_name = "stage2_G29_integrated_temporal_from_G27m30"
+    save_interval = 1
+    clean_replay_weight = 0.03
+    temporal_replay_weight = 50.0
+    clean_replay_batch_size = 1024
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.algorithm.class_name = (
+            "isaaclab_tasks.manager_based.locomotion.sprite0615_amp_locomotion."
+            "teacher_anchored_amp:IntegratedTemporalCleanReplayAMPPPO"
+        )
+        self.algorithm.learning_rate = 2.0e-7
+
+
+@configclass
+class Sprite0615Stage2G31BalancedStandIntegratedTemporalAMPPPORunnerCfg(
+    Sprite0615Stage2G29IntegratedTemporalReplayPM01HeadingAMPPPORunnerCfg
+):
+    """G31: retain G29 style while balancing stand and moving push exposure."""
+
+    experiment_name = "sprite0615_amp_locomotion_stage2_g31_balanced_stand"
+    run_name = "stage2_G31_balanced_stand_from_G29m9"

@@ -1,0 +1,14 @@
+APPROVED: Tony approved Sprite0825 Stage 2 G58F model1050 MuJoCo keyboard review on 2026-09-02.
+
+Review script:
+/home/tony/sprite/review_sprite0825_g58f_model1050_mujoco_keyboard_on_234.sh
+
+Tony's decision: Very good; the robot has strong and precise control feel.
+
+The approved session exercised keyboard-controlled walking, stopping,
+restarting, and turning. Its authoritative summary reports 385.35 simulated
+seconds, survived=true, zero robot self-contact samples, actor horizontal base
+velocity absent, vx MAE 0.02362 m/s, and yaw-rate MAE 0.03480 rad/s.
+
+This approval satisfies the final MuJoCo keyboard visual gate for guarded
+Stage 2 promotion of model1050.

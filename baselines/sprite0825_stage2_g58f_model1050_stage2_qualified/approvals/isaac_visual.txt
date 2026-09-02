@@ -1,0 +1,13 @@
+APPROVED: Tony approved Sprite0825 Stage 2 G58F model1050 Isaac visual review on 2026-09-02.
+
+Review script:
+/home/tony/sprite/sprite_isaaclab/IsaacLab/review_sprite0825_g58b925_g58f1050_visual_ab_on_234.sh
+
+Tony's decision: model1050 visual OK.
+
+The reviewed straight sequence included stand, 0.15 m/s, 0.30 m/s,
+0.45 m/s, stop, restart, and final stand. Reported real-time factor was
+stable at approximately 0.235. COMMAND duration denotes simulated time.
+
+This approval satisfies only the Isaac visual gate. It does not approve the
+separate MuJoCo keyboard walk/turn/stop/restart gate.

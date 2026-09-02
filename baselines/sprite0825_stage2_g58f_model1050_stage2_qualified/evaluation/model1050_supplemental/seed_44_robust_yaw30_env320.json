@@ -1,0 +1,40 @@
+{
+  "checkpoint": "/root/sprite/sprite_isaaclab/IsaacLab/logs/rsl_rl/sprite0825_stage2_g58_preserve925_gentle_yaw/2026-09-01_21-22-15_stage2_G58F_preserve925_gentle_yaw_400_env8192/model_1050.pt",
+  "command_ramp_rate_mps2": 0.0,
+  "heading_hold": false,
+  "num_envs": 320,
+  "policy_kind": "rsl_rl_checkpoint",
+  "protocol": "yaw",
+  "seed": 44,
+  "step_dt": 0.01,
+  "survival_rate": 0.9937500357627869,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G58Preserve925GentleYaw100Hz-Robust-v0",
+  "yaw_grid": {
+    "+0.00": {
+      "mae_wz_rad_s": 0.0041273063980042934,
+      "mean_vx_m_s": 0.29763758182525635,
+      "mean_wz_rad_s": 0.002274547703564167,
+      "p10_wz_rad_s": -0.0037687006406486034,
+      "p90_wz_rad_s": 0.008100677281618118
+    },
+    "+0.20": {
+      "mae_wz_rad_s": 0.006130616646260023,
+      "mean_vx_m_s": 0.2937278151512146,
+      "mean_wz_rad_s": 0.1965460181236267,
+      "p10_wz_rad_s": 0.18830987811088562,
+      "p90_wz_rad_s": 0.2051410973072052
+    },
+    "-0.20": {
+      "mae_wz_rad_s": 0.010497411713004112,
+      "mean_vx_m_s": 0.2877007722854614,
+      "mean_wz_rad_s": -0.19024431705474854,
+      "p10_wz_rad_s": -0.20027591288089752,
+      "p90_wz_rad_s": -0.1811314970254898
+    }
+  },
+  "yaw_symmetry": {
+    "magnitude_gap_rad_s": 0.006301701068878174,
+    "magnitude_ratio_min_over_max": 0.9679377675056458,
+    "zero_command_abs_wz_rad_s": 0.002274547703564167
+  }
+}

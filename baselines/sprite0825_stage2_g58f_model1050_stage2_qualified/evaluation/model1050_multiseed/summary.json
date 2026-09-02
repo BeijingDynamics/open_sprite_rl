@@ -1,0 +1,135 @@
+{
+  "schema": "sprite0825_g58e_alpha050_multiseed_qualification_v1",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "pass": false,
+  "failures": [
+    "seed 44: robust yaw survival below 0.99"
+  ],
+  "worst": {
+    "speed_mae_m_s": 0.07665408402681351,
+    "stand_displacement_m": 0.014436125755310059,
+    "stand_heading_error_deg": 0.2864116132259369,
+    "robust_gait_termination_rate": 0.0,
+    "robust_yaw_termination_rate": 0.010416626930236816,
+    "robust_yaw_mae_rad_s": 0.01232570968568325,
+    "robust_gait_mean_abs_heading_drift_deg": 8.102005004882812
+  },
+  "rows": [
+    {
+      "seed": 42,
+      "clean_survival": 1.0,
+      "stand_survival": 1.0,
+      "stand_pass_rate": 1.0,
+      "stand_max_displacement_m": 0.013857115991413593,
+      "stand_max_heading_error_deg": 0.24314267933368683,
+      "speed_mae_m_s": {
+        "0.15": 0.06041131168603897,
+        "0.30": 0.005836850963532925,
+        "0.45": 0.07334644347429276
+      },
+      "robust_gait_survival": 1.0,
+      "robust_gait_mean_abs_heading_drift_deg": 7.4008965492248535,
+      "robust_yaw_survival": 1.0,
+      "robust_yaw_mae_rad_s": {
+        "+0.20": 0.007281056605279446,
+        "-0.20": 0.01232570968568325
+      },
+      "robust_yaw_zero_abs_rad_s": 0.0016462350031360984,
+      "robust_yaw_symmetry_gap_rad_s": 0.0062196701765060425
+    },
+    {
+      "seed": 43,
+      "clean_survival": 1.0,
+      "stand_survival": 1.0,
+      "stand_pass_rate": 1.0,
+      "stand_max_displacement_m": 0.013650819659233093,
+      "stand_max_heading_error_deg": 0.2257957011461258,
+      "speed_mae_m_s": {
+        "0.15": 0.0627959668636322,
+        "0.30": 0.005682696588337421,
+        "0.45": 0.0763479471206665
+      },
+      "robust_gait_survival": 1.0,
+      "robust_gait_mean_abs_heading_drift_deg": 6.011144638061523,
+      "robust_yaw_survival": 1.0,
+      "robust_yaw_mae_rad_s": {
+        "+0.20": 0.006123233586549759,
+        "-0.20": 0.009061898104846478
+      },
+      "robust_yaw_zero_abs_rad_s": 0.000993926776573062,
+      "robust_yaw_symmetry_gap_rad_s": 0.004339635372161865
+    },
+    {
+      "seed": 44,
+      "clean_survival": 1.0,
+      "stand_survival": 1.0,
+      "stand_pass_rate": 1.0,
+      "stand_max_displacement_m": 0.014098604209721088,
+      "stand_max_heading_error_deg": 0.17743933200836182,
+      "speed_mae_m_s": {
+        "0.15": 0.06119556725025177,
+        "0.30": 0.0065003009513020515,
+        "0.45": 0.07494150847196579
+      },
+      "robust_gait_survival": 1.0,
+      "robust_gait_mean_abs_heading_drift_deg": 5.786708831787109,
+      "robust_yaw_survival": 0.9895833730697632,
+      "robust_yaw_mae_rad_s": {
+        "+0.20": 0.006695271469652653,
+        "-0.20": 0.011253032833337784
+      },
+      "robust_yaw_zero_abs_rad_s": 0.0021879812702536583,
+      "robust_yaw_symmetry_gap_rad_s": 0.007815822958946228
+    },
+    {
+      "seed": 45,
+      "clean_survival": 1.0,
+      "stand_survival": 1.0,
+      "stand_pass_rate": 1.0,
+      "stand_max_displacement_m": 0.01405643206089735,
+      "stand_max_heading_error_deg": 0.2864116132259369,
+      "speed_mae_m_s": {
+        "0.15": 0.06313002109527588,
+        "0.30": 0.0049069225788116455,
+        "0.45": 0.07665408402681351
+      },
+      "robust_gait_survival": 1.0,
+      "robust_gait_mean_abs_heading_drift_deg": 7.475782871246338,
+      "robust_yaw_survival": 1.0,
+      "robust_yaw_mae_rad_s": {
+        "+0.20": 0.006343730725347996,
+        "-0.20": 0.009480860084295273
+      },
+      "robust_yaw_zero_abs_rad_s": 0.0010445506777614355,
+      "robust_yaw_symmetry_gap_rad_s": 0.0052475035190582275
+    },
+    {
+      "seed": 46,
+      "clean_survival": 1.0,
+      "stand_survival": 1.0,
+      "stand_pass_rate": 1.0,
+      "stand_max_displacement_m": 0.014436125755310059,
+      "stand_max_heading_error_deg": 0.2136079967021942,
+      "speed_mae_m_s": {
+        "0.15": 0.060779549181461334,
+        "0.30": 0.005928337574005127,
+        "0.45": 0.07389070093631744
+      },
+      "robust_gait_survival": 1.0,
+      "robust_gait_mean_abs_heading_drift_deg": 8.102005004882812,
+      "robust_yaw_survival": 1.0,
+      "robust_yaw_mae_rad_s": {
+        "+0.20": 0.006881272420287132,
+        "-0.20": 0.01157365646213293
+      },
+      "robust_yaw_zero_abs_rad_s": 0.0009867814369499683,
+      "robust_yaw_symmetry_gap_rad_s": 0.004763394594192505
+    }
+  ]
+}

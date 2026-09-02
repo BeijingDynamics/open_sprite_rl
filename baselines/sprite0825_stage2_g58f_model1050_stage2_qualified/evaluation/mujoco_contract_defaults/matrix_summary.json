@@ -1,0 +1,245 @@
+{
+  "schema": "sprite0825_g58f_model1050_mujoco_contract_matrix_v1",
+  "rows": [
+    {
+      "case": "left_p020_40s",
+      "survived": true,
+      "sim_time_s": 40.00000000000292,
+      "command_mean": [
+        0.2999999999999871,
+        0.0,
+        0.19999999999999654
+      ],
+      "actual_mean": [
+        0.29653035880197853,
+        -0.021311484190886628,
+        0.21005080222246786
+      ],
+      "mean_abs_error": [
+        0.016612376509988366,
+        0.04454483273762543,
+        0.03854574196200548
+      ],
+      "completed_cycles": 0,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.3832203988852765,
+          "peak_torque_ratio_max": 0.6405138681897088,
+          "max_speed_ratio_max": 0.9309610725943767,
+          "torque_speed_envelope_max": 1.0
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.4285630667380289,
+          "peak_torque_ratio_max": 0.36215400034546497,
+          "max_speed_ratio_max": 0.19357702859247078,
+          "torque_speed_envelope_max": 0.36215400034546497
+        }
+      }
+    },
+    {
+      "case": "left_p040_40s",
+      "survived": true,
+      "sim_time_s": 40.00000000000292,
+      "command_mean": [
+        0.2999999999999871,
+        0.0,
+        0.3999999999999931
+      ],
+      "actual_mean": [
+        0.2752191469233628,
+        -0.039513925224020245,
+        0.39659670296582217
+      ],
+      "mean_abs_error": [
+        0.027102441189407734,
+        0.04951452401513681,
+        0.023021853668360126
+      ],
+      "completed_cycles": 0,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.3848740711201732,
+          "peak_torque_ratio_max": 0.6405138681897088,
+          "max_speed_ratio_max": 0.9323712646519897,
+          "torque_speed_envelope_max": 1.0
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.4235306666768105,
+          "peak_torque_ratio_max": 0.3552153193965394,
+          "max_speed_ratio_max": 0.2022592465792648,
+          "torque_speed_envelope_max": 0.3552153193965394
+        }
+      }
+    },
+    {
+      "case": "right_m020_40s",
+      "survived": true,
+      "sim_time_s": 40.00000000000292,
+      "command_mean": [
+        0.2999999999999871,
+        0.0,
+        -0.19999999999999654
+      ],
+      "actual_mean": [
+        0.2958668146930035,
+        0.02254588334134437,
+        -0.21190210272262885
+      ],
+      "mean_abs_error": [
+        0.01681939486831959,
+        0.04504532647536749,
+        0.03837222840220396
+      ],
+      "completed_cycles": 0,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.38365364838674,
+          "peak_torque_ratio_max": 0.6405138681897088,
+          "max_speed_ratio_max": 0.9286329765202047,
+          "torque_speed_envelope_max": 1.0
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.43118164485622107,
+          "peak_torque_ratio_max": 0.3657333366470339,
+          "max_speed_ratio_max": 0.19153158255175598,
+          "torque_speed_envelope_max": 0.3657333366470339
+        }
+      }
+    },
+    {
+      "case": "right_m040_40s",
+      "survived": true,
+      "sim_time_s": 40.00000000000292,
+      "command_mean": [
+        0.2999999999999871,
+        0.0,
+        -0.3999999999999931
+      ],
+      "actual_mean": [
+        0.27439672719193076,
+        0.03966891291609597,
+        -0.39750792861139594
+      ],
+      "mean_abs_error": [
+        0.027083188026841946,
+        0.0494273560044524,
+        0.02517677411659043
+      ],
+      "completed_cycles": 0,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.38174435612615304,
+          "peak_torque_ratio_max": 0.6405138681897088,
+          "max_speed_ratio_max": 0.9286329765202047,
+          "torque_speed_envelope_max": 1.0
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.42786654329336626,
+          "peak_torque_ratio_max": 0.3562784054001017,
+          "max_speed_ratio_max": 0.19858742593828593,
+          "torque_speed_envelope_max": 0.3562784054001017
+        }
+      }
+    },
+    {
+      "case": "start_stop_20",
+      "survived": true,
+      "sim_time_s": 63.00000000003103,
+      "command_mean": [
+        0.14907186440677414,
+        0.0,
+        0.0
+      ],
+      "actual_mean": [
+        0.15056926616739477,
+        -3.624583503854728e-05,
+        0.0029032461692589853
+      ],
+      "mean_abs_error": [
+        0.0832514270615149,
+        0.0252914608689125,
+        0.034098086496493714
+      ],
+      "completed_cycles": 20,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.2963977187873521,
+          "peak_torque_ratio_max": 0.6405138681897088,
+          "max_speed_ratio_max": 0.9313145927227711,
+          "torque_speed_envelope_max": 1.0
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.3211210302380864,
+          "peak_torque_ratio_max": 0.3741259564713257,
+          "max_speed_ratio_max": 0.18764806503244738,
+          "torque_speed_envelope_max": 0.3741259564713257
+        }
+      }
+    },
+    {
+      "case": "straight_60s",
+      "survived": true,
+      "sim_time_s": 60.00000000002736,
+      "command_mean": [
+        0.29999999999997085,
+        0.0,
+        0.0
+      ],
+      "actual_mean": [
+        0.30458874359612864,
+        0.0003380737419529822,
+        -0.0005394054975508627
+      ],
+      "mean_abs_error": [
+        0.016936591478601586,
+        0.04255421790844436,
+        0.04253994021211744
+      ],
+      "completed_cycles": 0,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.38675929798871644,
+          "peak_torque_ratio_max": 0.6405138681897088,
+          "max_speed_ratio_max": 0.9286329765202047,
+          "torque_speed_envelope_max": 1.0
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.4281740578755202,
+          "peak_torque_ratio_max": 0.3538980913532101,
+          "max_speed_ratio_max": 0.1852425263148246,
+          "torque_speed_envelope_max": 0.3538980913532101
+        }
+      }
+    }
+  ],
+  "gates": {
+    "six_cases_present": true,
+    "all_survive": true,
+    "actor_has_no_horizontal_base_velocity": true,
+    "no_robot_self_contacts": true,
+    "twenty_start_stop_cycles": true,
+    "straight_vx_mae_le_0p08": true,
+    "yaw_mae_le_0p12": true,
+    "j4340p_rated_rms_le_1": true,
+    "j4340p_peak_torque_le_1": true,
+    "j4340p_max_speed_le_1": true,
+    "j4340p_torque_speed_le_1": true,
+    "j4310p_rated_rms_le_1": true,
+    "j4310p_peak_torque_le_1": true,
+    "j4310p_max_speed_le_1": true,
+    "j4310p_torque_speed_le_1": true
+  },
+  "qualified": true
+}

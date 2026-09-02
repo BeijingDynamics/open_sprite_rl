@@ -1,0 +1,294 @@
+{
+  "schema": "sprite0825_stage2_aligned_motor_qualification_v1",
+  "pairing": "actuator.applied_effort with actuator._joint_vel from the same physics substep",
+  "float_tolerance": 1e-06,
+  "scenarios": [
+    {
+      "source": "/root/gpufree-data/g58f_preserve925_gentle_yaw_400/model1050_postqual/motor_aligned/vx015_yaw000.json",
+      "target_vx_m_s": 0.15,
+      "target_yaw_rate_rad_s": 0.0,
+      "survival_rate": 1.0,
+      "actor_contains_horizontal_base_velocity": false,
+      "j4340p": {
+        "rated_torque_rms_worst": {
+          "name": "left_hip_roll_joint",
+          "value": 0.3967651128768921
+        },
+        "peak_torque_max_worst": {
+          "name": "left_knee_joint",
+          "value": 0.6040477752685547
+        },
+        "max_speed_worst": {
+          "name": "left_knee_joint",
+          "value": 0.7842113971710205
+        },
+        "peak_torque_speed_max_worst": {
+          "name": "left_knee_joint",
+          "value": 1.0000001192092896
+        },
+        "peak_torque_speed_p99_worst": {
+          "name": "right_knee_joint",
+          "value": 0.9136989116668701
+        }
+      },
+      "j4310p": {
+        "rated_torque_rms_worst": {
+          "name": "left_motor_a",
+          "value": 0.38683801889419556
+        },
+        "peak_torque_max_worst": {
+          "name": "left_motor_a",
+          "value": 0.3481455445289612
+        },
+        "max_speed_worst": {
+          "name": "right_motor_b",
+          "value": 0.25726741552352905
+        },
+        "peak_torque_speed_max_worst": {
+          "name": "left_motor_a",
+          "value": 0.3481455445289612
+        },
+        "peak_torque_speed_p99_worst": {
+          "name": "left_motor_a",
+          "value": 0.32121336460113525
+        }
+      }
+    },
+    {
+      "source": "/root/gpufree-data/g58f_preserve925_gentle_yaw_400/model1050_postqual/motor_aligned/vx030_yawm040.json",
+      "target_vx_m_s": 0.3,
+      "target_yaw_rate_rad_s": -0.4,
+      "survival_rate": 1.0,
+      "actor_contains_horizontal_base_velocity": false,
+      "j4340p": {
+        "rated_torque_rms_worst": {
+          "name": "right_hip_roll_joint",
+          "value": 0.4121924638748169
+        },
+        "peak_torque_max_worst": {
+          "name": "right_knee_joint",
+          "value": 0.5689941644668579
+        },
+        "max_speed_worst": {
+          "name": "left_knee_joint",
+          "value": 0.9249663352966309
+        },
+        "peak_torque_speed_max_worst": {
+          "name": "left_knee_joint",
+          "value": 1.0000001192092896
+        },
+        "peak_torque_speed_p99_worst": {
+          "name": "left_knee_joint",
+          "value": 1.0
+        }
+      },
+      "j4310p": {
+        "rated_torque_rms_worst": {
+          "name": "left_motor_a",
+          "value": 0.4520224928855896
+        },
+        "peak_torque_max_worst": {
+          "name": "left_motor_b",
+          "value": 0.417900413274765
+        },
+        "max_speed_worst": {
+          "name": "left_motor_b",
+          "value": 0.2952997088432312
+        },
+        "peak_torque_speed_max_worst": {
+          "name": "left_motor_b",
+          "value": 0.417900413274765
+        },
+        "peak_torque_speed_p99_worst": {
+          "name": "left_motor_a",
+          "value": 0.3843127191066742
+        }
+      }
+    },
+    {
+      "source": "/root/gpufree-data/g58f_preserve925_gentle_yaw_400/model1050_postqual/motor_aligned/vx030_yawp040.json",
+      "target_vx_m_s": 0.3,
+      "target_yaw_rate_rad_s": 0.4,
+      "survival_rate": 1.0,
+      "actor_contains_horizontal_base_velocity": false,
+      "j4340p": {
+        "rated_torque_rms_worst": {
+          "name": "left_hip_roll_joint",
+          "value": 0.41461414098739624
+        },
+        "peak_torque_max_worst": {
+          "name": "left_knee_joint",
+          "value": 0.5729125738143921
+        },
+        "max_speed_worst": {
+          "name": "right_knee_joint",
+          "value": 0.9312153458595276
+        },
+        "peak_torque_speed_max_worst": {
+          "name": "left_knee_joint",
+          "value": 1.0000001192092896
+        },
+        "peak_torque_speed_p99_worst": {
+          "name": "right_knee_joint",
+          "value": 1.0
+        }
+      },
+      "j4310p": {
+        "rated_torque_rms_worst": {
+          "name": "right_motor_b",
+          "value": 0.4477890431880951
+        },
+        "peak_torque_max_worst": {
+          "name": "right_motor_a",
+          "value": 0.4157830476760864
+        },
+        "max_speed_worst": {
+          "name": "right_motor_b",
+          "value": 0.2938525080680847
+        },
+        "peak_torque_speed_max_worst": {
+          "name": "right_motor_a",
+          "value": 0.4157830476760864
+        },
+        "peak_torque_speed_p99_worst": {
+          "name": "right_motor_b",
+          "value": 0.37817907333374023
+        }
+      }
+    },
+    {
+      "source": "/root/gpufree-data/g58f_preserve925_gentle_yaw_400/model1050_postqual/motor_aligned/vx045_yaw000.json",
+      "target_vx_m_s": 0.45,
+      "target_yaw_rate_rad_s": 0.0,
+      "survival_rate": 1.0,
+      "actor_contains_horizontal_base_velocity": false,
+      "j4340p": {
+        "rated_torque_rms_worst": {
+          "name": "left_hip_roll_joint",
+          "value": 0.3915609121322632
+        },
+        "peak_torque_max_worst": {
+          "name": "right_knee_joint",
+          "value": 0.560800313949585
+        },
+        "max_speed_worst": {
+          "name": "right_knee_joint",
+          "value": 0.9705747365951538
+        },
+        "peak_torque_speed_max_worst": {
+          "name": "left_knee_joint",
+          "value": 1.0000001192092896
+        },
+        "peak_torque_speed_p99_worst": {
+          "name": "left_knee_joint",
+          "value": 1.0
+        }
+      },
+      "j4310p": {
+        "rated_torque_rms_worst": {
+          "name": "left_motor_b",
+          "value": 0.47564882040023804
+        },
+        "peak_torque_max_worst": {
+          "name": "right_motor_a",
+          "value": 0.4341179430484772
+        },
+        "max_speed_worst": {
+          "name": "right_motor_b",
+          "value": 0.31950846314430237
+        },
+        "peak_torque_speed_max_worst": {
+          "name": "right_motor_a",
+          "value": 0.4341179430484772
+        },
+        "peak_torque_speed_p99_worst": {
+          "name": "right_motor_a",
+          "value": 0.38030895590782166
+        }
+      }
+    }
+  ],
+  "overall": {
+    "j4340p": {
+      "rated_torque_rms_worst": {
+        "name": "left_hip_roll_joint",
+        "value": 0.41461414098739624,
+        "target_vx_m_s": 0.3,
+        "target_yaw_rate_rad_s": 0.4
+      },
+      "peak_torque_max_worst": {
+        "name": "left_knee_joint",
+        "value": 0.6040477752685547,
+        "target_vx_m_s": 0.15,
+        "target_yaw_rate_rad_s": 0.0
+      },
+      "max_speed_worst": {
+        "name": "right_knee_joint",
+        "value": 0.9705747365951538,
+        "target_vx_m_s": 0.45,
+        "target_yaw_rate_rad_s": 0.0
+      },
+      "peak_torque_speed_max_worst": {
+        "name": "left_knee_joint",
+        "value": 1.0000001192092896,
+        "target_vx_m_s": 0.15,
+        "target_yaw_rate_rad_s": 0.0
+      },
+      "peak_torque_speed_p99_worst": {
+        "name": "left_knee_joint",
+        "value": 1.0,
+        "target_vx_m_s": 0.3,
+        "target_yaw_rate_rad_s": -0.4
+      }
+    },
+    "j4310p": {
+      "rated_torque_rms_worst": {
+        "name": "left_motor_b",
+        "value": 0.47564882040023804,
+        "target_vx_m_s": 0.45,
+        "target_yaw_rate_rad_s": 0.0
+      },
+      "peak_torque_max_worst": {
+        "name": "right_motor_a",
+        "value": 0.4341179430484772,
+        "target_vx_m_s": 0.45,
+        "target_yaw_rate_rad_s": 0.0
+      },
+      "max_speed_worst": {
+        "name": "right_motor_b",
+        "value": 0.31950846314430237,
+        "target_vx_m_s": 0.45,
+        "target_yaw_rate_rad_s": 0.0
+      },
+      "peak_torque_speed_max_worst": {
+        "name": "right_motor_a",
+        "value": 0.4341179430484772,
+        "target_vx_m_s": 0.45,
+        "target_yaw_rate_rad_s": 0.0
+      },
+      "peak_torque_speed_p99_worst": {
+        "name": "left_motor_a",
+        "value": 0.3843127191066742,
+        "target_vx_m_s": 0.3,
+        "target_yaw_rate_rad_s": -0.4
+      }
+    }
+  },
+  "gates": {
+    "all_scenarios_survive": true,
+    "actor_has_no_horizontal_base_velocity": true,
+    "j4340p_rated_torque_rms_le_1": true,
+    "j4340p_peak_torque_le_1": true,
+    "j4340p_max_speed_le_1": true,
+    "j4340p_peak_torque_speed_le_1": true,
+    "j4310p_rated_torque_rms_le_1": true,
+    "j4310p_peak_torque_le_1": true,
+    "j4310p_max_speed_le_1": true,
+    "j4310p_peak_torque_speed_le_1": true
+  },
+  "qualified": true,
+  "residual_risks": [
+    "J4340P knee torque-speed p99 reaches the envelope boundary in high-speed or turning scenarios.",
+    "Recheck knee margin in MuJoCo and on hardware telemetry even though all present limits pass."
+  ]
+}
