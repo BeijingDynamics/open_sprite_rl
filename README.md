@@ -156,6 +156,7 @@ TWIST2 was not used or modified.
 
 ## License
 
-Project code and Sprite assets are released under BSD-3-Clause. Third-party
-components and PM01-derived expert data retain their upstream notices; see
+Original project code and Sprite assets are released under the GNU Affero
+General Public License v3.0 only (`AGPL-3.0-only`). Third-party components and
+PM01-derived expert data retain their upstream licenses and notices; see
 `NOTICE` and `third_party_licenses/`.

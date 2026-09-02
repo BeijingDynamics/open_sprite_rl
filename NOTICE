@@ -1,6 +1,15 @@
 Open Sprite RL contains original Beijing Dynamics code and Sprite0825 assets,
 plus interfaces and derived data based on third-party open-source projects.
 
+Copyright (c) 2026 Beijing Dynamics.
+
+Except where otherwise noted, the original Open Sprite RL code and Sprite
+assets are licensed under the GNU Affero General Public License version 3.0
+only (AGPL-3.0-only). See LICENSE.
+
+The following third-party components retain their upstream licenses and are
+not relicensed by the Open Sprite RL project license.
+
 Isaac Lab
 Copyright (c) 2022-2026, NVIDIA CORPORATION & AFFILIATES.
 BSD 3-Clause License. Pinned upstream commit:

@@ -131,3 +131,9 @@ pip install -r requirements-mujoco.txt
 J4340P 膝关节在仿真中的 torque-speed p99 已接近配置边界，真机必须重点监控。
 
 TWIST2 未被使用或修改。
+
+## 许可证
+
+本项目原创代码和 Sprite 资产采用 GNU Affero General Public License v3.0
+only（`AGPL-3.0-only`）。第三方组件及 PM01 派生 expert data 继续遵循其
+上游许可证和声明，详见 `NOTICE` 与 `third_party_licenses/`。
