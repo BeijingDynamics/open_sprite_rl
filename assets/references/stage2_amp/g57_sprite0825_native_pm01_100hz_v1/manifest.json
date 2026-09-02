@@ -33,7 +33,7 @@
     "right_wrist_roll_joint"
   ],
   "mapped_sha256": "bf4bd17fa4b91c8e560d9cc462e36be45c599fdf87a5dcd0181cc91b1d2d11f8",
-  "mapped_source": "/home/tony/sprite/sprite_isaaclab/assets/sprite0615_references/stage2_amp/sprite0825_pm01_native_straight_vx045_mapped_100hz_headingcanon_v1.npz",
+  "mapped_source": "../sprite0825_pm01_native_straight_vx045_mapped_100hz_headingcanon_v1.npz",
   "method": "native PM01 100 Hz steady walk plus 10% native stand; no V38/G20 mixing",
   "outputs": [
     {
@@ -57,7 +57,7 @@
       "sha256": "160c8488b69d6dd024229337cfbc272c84d9329a868109b57265b1313ed741d8"
     }
   ],
-  "phase_source": "/home/tony/sprite/sprite_isaaclab/assets/sprite0615_references/stage2_amp/pm01_native_g55_straight_vx045_100hz_v1.npz",
+  "phase_source": "../pm01_native_g55_straight_vx045_100hz_v1.npz",
   "phase_source_sha256": "26ac87cab3bc93fe6aaf9e4de027cdeb3f7e841672e08c1e5d35474f8f26195a",
   "schema": "sprite0825-g57-native-pm01-amp-v1",
   "stand_sampling_fraction": 0.1,

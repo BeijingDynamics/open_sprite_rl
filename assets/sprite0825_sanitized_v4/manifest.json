@@ -451,12 +451,12 @@
       "target_prefix": "meshes/"
     }
   ],
-  "output": "/home/tony/sprite/sprite_isaaclab/assets/sprite0825_sanitized_v4/sprite0825_float.urdf",
+  "output": "sprite0825_float.urdf",
   "output_sha256": "80924527cb9e61d85dc3f51f7bf43c631a938bcbe4fc9b1d4419c55ccb4a39e3",
-  "qualified_joint_contract": "/home/tony/sprite/sprite_isaaclab/assets/sprite0615_sanitized_v24_pm01_style_foot/sprite0615_float.urdf",
+  "qualified_joint_contract": "external://sprite0615/sprite0615_sanitized_v24_pm01_style_foot/sprite0615_float.urdf",
   "qualified_joint_contract_sha256": "a47ec70c452f37d4a8ebff7953a973dadddb3dd317061b13fe0ad16b7c88150e",
   "revolute_joint_count": 31,
   "schema": "sprite0825_sanitized_v4",
-  "source": "/home/tony/sprite/urdf/sprite0825/urdf/sprite0825.urdf",
+  "source": "external://beijing-dynamics/sprite0825/source/sprite0825.urdf",
   "source_sha256": "c7e5a4884a675126ce29734c4395498330d9585ed455d57792ad748ded3e9d31"
 }

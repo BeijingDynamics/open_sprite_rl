@@ -4,7 +4,8 @@ from __future__ import annotations
 import ast
 import hashlib
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
+import xml.etree.ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,6 +22,40 @@ EXPECTED = {
     "assets/sprite0825_sanitized_v4/sprite0825_float.urdf": "80924527cb9e61d85dc3f51f7bf43c631a938bcbe4fc9b1d4419c55ccb4a39e3",
 }
 
+RELEASE_ASSET_ROOTS = (ROOT / "assets", ROOT / "deploy")
+CAD_MARKERS = (
+    b"solidworks",
+    b"sw2urdf",
+    b"solidworks to urdf",
+    b"autodesk inventor",
+    b"blender",
+    b"catia",
+    b"creo parametric",
+    b"freecad",
+    b"fusion 360",
+    b"meshlab",
+    b"onshape",
+    b"siemens nx",
+    b"solid edge",
+)
+TEXT_ASSET_SUFFIXES = {
+    ".dae",
+    ".json",
+    ".mjcf",
+    ".mtl",
+    ".obj",
+    ".py",
+    ".sh",
+    ".txt",
+    ".urdf",
+    ".usda",
+    ".xacro",
+    ".xml",
+    ".yaml",
+    ".yml",
+}
+HOST_PATH_MARKERS = (b"/home/", b"/users/", b"\\users\\")
+
 
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
@@ -28,6 +63,49 @@ def sha256(path: Path) -> str:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def audit_release_assets(errors: list[str]) -> None:
+    asset_files = [
+        path
+        for root in RELEASE_ASSET_ROOTS
+        if root.is_dir()
+        for path in root.rglob("*")
+        if path.is_file()
+    ]
+    for path in asset_files:
+        relative = path.relative_to(ROOT)
+        lowered_name = path.name.lower().encode("utf-8")
+        lowered_content = path.read_bytes().lower()
+        for marker in CAD_MARKERS:
+            if marker in lowered_name or marker in lowered_content:
+                errors.append(f"CAD exporter residue in release asset: {relative}: {marker.decode()}")
+        if path.suffix.lower() in TEXT_ASSET_SUFFIXES:
+            for marker in HOST_PATH_MARKERS:
+                if marker in lowered_content:
+                    errors.append(f"host-specific path in release asset: {relative}: {marker.decode()}")
+
+    for path in [*ROOT.rglob("*.urdf"), *ROOT.rglob("*.xacro")]:
+        try:
+            document = ET.parse(path)
+        except ET.ParseError as exc:
+            errors.append(f"URDF parse failed: {path.relative_to(ROOT)}: {exc}")
+            continue
+        for mesh in document.iterfind(".//mesh"):
+            filename = mesh.get("filename")
+            if not filename:
+                errors.append(f"mesh without filename: {path.relative_to(ROOT)}")
+                continue
+            if (
+                "://" in filename
+                or PurePosixPath(filename).is_absolute()
+                or PureWindowsPath(filename).is_absolute()
+            ):
+                errors.append(f"non-portable mesh path: {path.relative_to(ROOT)}: {filename}")
+                continue
+            resolved = (path.parent / filename).resolve()
+            if not resolved.is_file():
+                errors.append(f"missing mesh: {path.relative_to(ROOT)}: {filename}")
 
 
 def main() -> None:
@@ -67,6 +145,8 @@ def main() -> None:
     residue.extend(p.relative_to(ROOT) for p in overlay.rglob("*.pyc"))
     if residue:
         errors.append(f"generated Python cache present: {residue[:5]}")
+
+    audit_release_assets(errors)
 
     if errors:
         print("RELEASE VERIFICATION FAILED")
