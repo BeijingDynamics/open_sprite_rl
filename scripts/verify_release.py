@@ -108,6 +108,63 @@ def audit_release_assets(errors: list[str]) -> None:
                 errors.append(f"missing mesh: {path.relative_to(ROOT)}: {filename}")
 
 
+def resolve_relative(base: Path, value: str, label: str, errors: list[str]) -> Path | None:
+    if "://" in value or PurePosixPath(value).is_absolute() or PureWindowsPath(value).is_absolute():
+        errors.append(f"non-portable {label}: {value}")
+        return None
+    resolved = (base / value).resolve()
+    if not resolved.exists():
+        errors.append(f"unresolved {label}: {value}")
+        return None
+    return resolved
+
+
+def audit_portable_metadata(errors: list[str]) -> None:
+    asset_dir = ROOT / "assets/sprite0825_sanitized_v4"
+    config_values: dict[str, str] = {}
+    for line in (asset_dir / "config.yaml").read_text(encoding="utf-8").splitlines():
+        if ":" in line and not line.lstrip().startswith("#"):
+            key, value = line.split(":", 1)
+            config_values[key.strip()] = value.strip()
+    for key in ("asset_path", "usd_dir"):
+        value = config_values.get(key)
+        if not value:
+            errors.append(f"missing asset config key: {key}")
+        else:
+            resolve_relative(asset_dir, value, f"asset config {key}", errors)
+
+    asset_manifest = json.loads((asset_dir / "manifest.json").read_text(encoding="utf-8"))
+    output = resolve_relative(
+        asset_dir, asset_manifest.get("output", ""), "asset manifest output", errors
+    )
+    if output is not None and sha256(output) != asset_manifest.get("output_sha256"):
+        errors.append("asset manifest output hash mismatch")
+    for key in ("qualified_joint_contract", "source"):
+        value = asset_manifest.get(key, "")
+        if not value.startswith("external://"):
+            errors.append(f"asset provenance is not an external URI: {key}: {value}")
+
+    reference_dir = (
+        ROOT
+        / "assets/references/stage2_amp/g57_sprite0825_native_pm01_100hz_v1"
+    )
+    reference_manifest = json.loads(
+        (reference_dir / "manifest.json").read_text(encoding="utf-8")
+    )
+    for path_key, hash_key in (
+        ("mapped_source", "mapped_sha256"),
+        ("phase_source", "phase_source_sha256"),
+    ):
+        source = resolve_relative(
+            reference_dir,
+            reference_manifest.get(path_key, ""),
+            f"reference manifest {path_key}",
+            errors,
+        )
+        if source is not None and sha256(source) != reference_manifest.get(hash_key):
+            errors.append(f"reference manifest hash mismatch: {path_key}")
+
+
 def main() -> None:
     errors: list[str] = []
     for relative, expected in EXPECTED.items():
@@ -147,6 +204,7 @@ def main() -> None:
         errors.append(f"generated Python cache present: {residue[:5]}")
 
     audit_release_assets(errors)
+    audit_portable_metadata(errors)
 
     if errors:
         print("RELEASE VERIFICATION FAILED")
