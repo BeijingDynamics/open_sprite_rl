@@ -1,0 +1,40 @@
+{
+  "checkpoint": "/root/gpufree-data/g59_native50_selected_model2999/model_2999.pt",
+  "command_ramp_rate_mps2": 0.0,
+  "heading_hold": false,
+  "num_envs": 96,
+  "policy_kind": "rsl_rl_checkpoint",
+  "protocol": "yaw",
+  "seed": 42,
+  "step_dt": 0.02,
+  "survival_rate": 1.0,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G60TimeNormalizedWaist50Hz-v0",
+  "yaw_grid": {
+    "+0.00": {
+      "mae_wz_rad_s": 0.009920640848577023,
+      "mean_vx_m_s": 0.2666283845901489,
+      "mean_wz_rad_s": 0.009920640848577023,
+      "p10_wz_rad_s": 0.008914411067962646,
+      "p90_wz_rad_s": 0.010979549027979374
+    },
+    "+0.20": {
+      "mae_wz_rad_s": 0.010574175976216793,
+      "mean_vx_m_s": 0.26754605770111084,
+      "mean_wz_rad_s": 0.2105741798877716,
+      "p10_wz_rad_s": 0.20753289759159088,
+      "p90_wz_rad_s": 0.21245957911014557
+    },
+    "-0.20": {
+      "mae_wz_rad_s": 0.010803842917084694,
+      "mean_vx_m_s": 0.2655884027481079,
+      "mean_wz_rad_s": -0.1891961544752121,
+      "p10_wz_rad_s": -0.19232094287872314,
+      "p90_wz_rad_s": -0.18367017805576324
+    }
+  },
+  "yaw_symmetry": {
+    "magnitude_gap_rad_s": 0.02137802541255951,
+    "magnitude_ratio_min_over_max": 0.8984774351119995,
+    "zero_command_abs_wz_rad_s": 0.009920640848577023
+  }
+}

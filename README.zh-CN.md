@@ -5,35 +5,38 @@ RTX 4090 级别的机器上复现当前已经通过 Isaac Lab 与 MuJoCo sim2sim
 
 ## 当前结果
 
-最终策略支持站立、起步、停止、再次起步、0.15/0.30/0.45 m/s 直行，以及
-`+-0.20`、`+-0.40 rad/s` 转向。Policy 频率 100 Hz，物理仿真 500 Hz，输出
-31 个关节位置目标。
+当前默认策略为 G60 model3450，支持站立、起步、停止、再次起步、
+0.15/0.30/0.45 m/s 直行以及双向转弯。Policy 频率 50 Hz，物理仿真和外部
+PD 为 500 Hz，输出 31 个关节位置目标。
 
-Actor observation 为 1488 维：15 帧关节位置、关节速度、上一时刻 action、
+Actor observation 为 795 维：8 帧关节位置、关节速度、上一时刻 action、
 base angular velocity、projected gravity，再加当前 `vx/vy/yaw_rate` 命令。
 其中明确没有水平本体速度、全局 root 位置和全局 yaw，便于后续 sim2real。
 
 最终 checkpoint：
 
 ```text
-baselines/sprite0825_stage2_g58f_model1050_stage2_qualified/model_1050.pt
-SHA256 deda0cc80023c00e6fd7723830bf3a9b9ceb4b33e72c9e1e446d9b0873f1d912
+baselines/sprite0825_stage2_g60_model3450_current/model_3450.pt
+SHA256 6a1a80a2a2f7073698c0886133c325a46462ace6bbd3cf7de70246beafb85f15
 ```
 
 ## 真正的训练主线
 
-当前结果采用 EngineAI PM01 风格的 command policy + AMP 路线，不是把之前的
-多条 reward 实验拼在一起：
+当前结果采用 EngineAI PM01 风格的 command policy + AMP 路线。当前 50 Hz
+主线与历史 100 Hz 主线都被保留：
 
-1. **G57**：在 Sprite0825 上从零开始。AMP 数据为 10% 原生站立和 90% 已确认的
+1. **G59**：以最终部署频率 50 Hz 从零训练。
+2. **G60**：从 G59 model2999 继续，按物理时间修正 action 正则项，并用软约束
+   控制腰部 roll；最终选择 model3450。
+3. **G57**：历史 100 Hz 主线在 Sprite0825 上从零开始。AMP 数据为 10% 原生站立和 90% 已确认的
    PM01 正常直行，策略从一开始就有可部署的速度命令接口。
-2. **G58A**：加入 Sprite 实际 J4340P 与差动 J4310P 的 torque-speed envelope。
-3. **G58B**：恢复 0.45 m/s 高速段，同时保持动作数据与整体方法不变。
-4. **G58F**：从视觉确认过的 G58B model925 出发，温和加入 yaw 命令覆盖，最终
+4. **G58A**：加入 Sprite 实际 J4340P 与差动 J4310P 的 torque-speed envelope。
+5. **G58B**：恢复 0.45 m/s 高速段，同时保持动作数据与整体方法不变。
+6. **G58F**：从视觉确认过的 G58B model925 出发，温和加入 yaw 命令覆盖，最终
    选择 model1050。
 
-V38 whole-body tracking 被保留为独立的动作跟踪基线，但它不是 G57 的父模型。
-这个区别很重要。
+G59 是全新的 50 Hz scratch run，不是从 G58F 续训；G60 才是从 G59 续训。
+`candidates/` 中另行保留了四个肩部 J4340P 的 G74 model5999，但它目前不是默认发布。
 
 ## 环境
 
@@ -81,27 +84,24 @@ export OMNI_KIT_ACCEPT_EULA=yes
 export ISAACLAB_ROOT="$HOME/IsaacLab"
 export SPRITE_RL_ROOT="$PWD"
 
-./scripts/01_train_g57.sh
-./scripts/02_train_g58a.sh
-./scripts/03_train_g58b.sh
-./scripts/04_train_g58f.sh
+./scripts/05_train_g59.sh
+./scripts/06_train_g60.sh
 ```
 
-四段在实际 4090 上的纯训练时间约为 65.6、17.0、8.6、22.8 分钟，后续多 seed
-资格测试另计。强化学习本身有随机性，复现目标是进入相同的验收区间并得到相同风格，
-不是要求 checkpoint 每个字节相同。仓库中保留了四个阶段的准确 handoff checkpoint，
-因此也可以逐阶段独立复现。
+仓库自带的 G59 model2999 是 G60 的准确 handoff。历史 100 Hz 主线仍可按
+`01_train_g57.sh` 到 `04_train_g58f.sh` 运行。强化学习本身有随机性，复现目标是
+进入相同验收区间并得到相同风格，不是要求 checkpoint 每个字节相同。
 
 严格从零训练时，每一段完成后应先跑资格测试，再把合格 checkpoint 的路径通过
 `SOURCE_CHECKPOINT` 传给下一段；不要盲目选择训练时间最长的模型。
 
-在 Isaac Lab 中播放项目自带的最终 `model1050`：
+在 Isaac Lab 中播放当前默认的 `model3450`：
 
 ```bash
 ./scripts/play_isaac.sh
 ```
 
-检查自己训练出的 G58F checkpoint 时可设置 `CHECKPOINT=/path/to/model_N.pt`。
+检查自己训练出的 G60 checkpoint 时可设置 `CHECKPOINT=/path/to/model_N.pt`。
 
 ## MuJoCo 播放
 
@@ -126,9 +126,9 @@ pip install -r requirements-mujoco.txt
 
 ## 安全边界
 
-这是仿真与 sim2sim 项目，不是可以直接上真机的控制器。真机前必须核对电机方向、
-零位、CAN ID、软硬限位、IMU 坐标、急停、电流和温度限制。高速行走与转向时，
-J4340P 膝关节在仿真中的 torque-speed p99 已接近配置边界，真机必须重点监控。
+本仓库保存训练与 sim2sim 结果，不是可以直接上真机的控制器；真机执行属于
+`open_sprite_runtime`。真机前必须核对电机方向、零位、CAN ID、软硬限位、
+并联机构解算、IMU 坐标、急停、电流和温度限制。
 
 TWIST2 未被使用或修改。
 

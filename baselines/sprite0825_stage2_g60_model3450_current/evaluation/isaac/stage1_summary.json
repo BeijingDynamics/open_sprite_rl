@@ -1,0 +1,176 @@
+{
+  "schema": "sprite0825_g60_gait_screen_v1",
+  "targets": {
+    "cadence_steps_min": [
+      135.0,
+      155.0
+    ],
+    "estimated_step_length_m": [
+      0.1,
+      0.13
+    ],
+    "command_speed_m_s": 0.3
+  },
+  "baseline_iteration": 2999,
+  "ranked": [
+    {
+      "iteration": 3450,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 136.59375,
+      "estimated_step_length_m": 0.12226749956607819,
+      "path_speed_m_s": 0.27798426151275635,
+      "mean_abs_heading_drift_deg": 0.9453654885292053,
+      "cadence_in_target": true,
+      "step_length_in_target": true,
+      "score_lower_is_better": 0.3382210969924925
+    },
+    {
+      "iteration": 3400,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 138.65625,
+      "estimated_step_length_m": 0.11806683242321014,
+      "path_speed_m_s": 0.27214112877845764,
+      "mean_abs_heading_drift_deg": 3.079881429672241,
+      "cadence_in_target": true,
+      "step_length_in_target": true,
+      "score_lower_is_better": 0.5535613189140954
+    },
+    {
+      "iteration": 3250,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 135.84375,
+      "estimated_step_length_m": 0.11954813450574875,
+      "path_speed_m_s": 0.2700718939304352,
+      "mean_abs_heading_drift_deg": 3.480189800262451,
+      "cadence_in_target": true,
+      "step_length_in_target": true,
+      "score_lower_is_better": 0.6061139792203901
+    },
+    {
+      "iteration": 3350,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 132.84375,
+      "estimated_step_length_m": 0.12557896971702576,
+      "path_speed_m_s": 0.2774439752101898,
+      "mean_abs_heading_drift_deg": 0.9050957560539246,
+      "cadence_in_target": false,
+      "step_length_in_target": true,
+      "score_lower_is_better": 0.6118212769428887
+    },
+    {
+      "iteration": 3200,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 134.0625,
+      "estimated_step_length_m": 0.12483784556388855,
+      "path_speed_m_s": 0.2780896723270416,
+      "mean_abs_heading_drift_deg": 5.388864994049072,
+      "cadence_in_target": false,
+      "step_length_in_target": true,
+      "score_lower_is_better": 0.7503242621819177
+    },
+    {
+      "iteration": 3000,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 131.625,
+      "estimated_step_length_m": 0.12405318766832352,
+      "path_speed_m_s": 0.2715464234352112,
+      "mean_abs_heading_drift_deg": 2.3150031566619873,
+      "cadence_in_target": false,
+      "step_length_in_target": true,
+      "score_lower_is_better": 0.9318782508373258
+    },
+    {
+      "iteration": 3500,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 131.53125,
+      "estimated_step_length_m": 0.12278452515602112,
+      "path_speed_m_s": 0.2685668170452118,
+      "mean_abs_heading_drift_deg": 5.195652008056641,
+      "cadence_in_target": false,
+      "step_length_in_target": true,
+      "score_lower_is_better": 1.1728853374719619
+    },
+    {
+      "iteration": 3300,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 130.03125,
+      "estimated_step_length_m": 0.1299663931131363,
+      "path_speed_m_s": 0.2808912396430969,
+      "mean_abs_heading_drift_deg": 4.928943634033203,
+      "cadence_in_target": false,
+      "step_length_in_target": true,
+      "score_lower_is_better": 1.1885494967301686
+    },
+    {
+      "iteration": 3150,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 130.875,
+      "estimated_step_length_m": 0.12584593892097473,
+      "path_speed_m_s": 0.2738719582557678,
+      "mean_abs_heading_drift_deg": 5.96329402923584,
+      "cadence_in_target": false,
+      "step_length_in_target": true,
+      "score_lower_is_better": 1.2397784570852912
+    },
+    {
+      "iteration": 2999,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 130.40625,
+      "estimated_step_length_m": 0.12571755051612854,
+      "path_speed_m_s": 0.2727193832397461,
+      "mean_abs_heading_drift_deg": 6.985328674316406,
+      "cadence_in_target": false,
+      "step_length_in_target": true,
+      "score_lower_is_better": 1.380915037790934
+    },
+    {
+      "iteration": 3050,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 126.09375,
+      "estimated_step_length_m": 0.13016940653324127,
+      "path_speed_m_s": 0.2729398012161255,
+      "mean_abs_heading_drift_deg": 1.0026371479034424,
+      "cadence_in_target": false,
+      "step_length_in_target": false,
+      "score_lower_is_better": 1.5324934224287663
+    },
+    {
+      "iteration": 3598,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 126.28125,
+      "estimated_step_length_m": 0.12769225239753723,
+      "path_speed_m_s": 0.2679971158504486,
+      "mean_abs_heading_drift_deg": 1.5460124015808105,
+      "cadence_in_target": false,
+      "step_length_in_target": true,
+      "score_lower_is_better": 1.592947295308113
+    },
+    {
+      "iteration": 3100,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 129.9375,
+      "estimated_step_length_m": 0.12529286742210388,
+      "path_speed_m_s": 0.2707434296607971,
+      "mean_abs_heading_drift_deg": 9.579313278198242,
+      "cadence_in_target": false,
+      "step_length_in_target": true,
+      "score_lower_is_better": 1.637140514453252
+    },
+    {
+      "iteration": 3550,
+      "survival_rate": 1.0,
+      "cadence_steps_min": 124.78125,
+      "estimated_step_length_m": 0.13088065385818481,
+      "path_speed_m_s": 0.2715533971786499,
+      "mean_abs_heading_drift_deg": 6.890933990478516,
+      "cadence_in_target": false,
+      "step_length_in_target": false,
+      "score_lower_is_better": 2.1657097061475112
+    }
+  ],
+  "top_g60_iterations": [
+    3450,
+    3400,
+    3250
+  ]
+}

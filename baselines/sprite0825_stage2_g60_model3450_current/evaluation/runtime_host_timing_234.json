@@ -1,0 +1,22 @@
+{
+  "samples": 5000,
+  "period_ms": 2.0,
+  "start_jitter_ms": {
+    "p50": 0.003361,
+    "p95": 0.013255500000000009,
+    "p99": 0.021042330000000355,
+    "max": 0.18477
+  },
+  "work_duration_ms": {
+    "p50": 0.000156,
+    "p95": 0.0006682000000000007,
+    "p99": 0.0008920300000000007,
+    "max": 0.002139
+  },
+  "start_jitter_limit_ms": 1.0,
+  "work_duration_limit_ms": 1.0,
+  "start_jitter_overrun_count": 0,
+  "work_duration_overrun_count": 0,
+  "host_probe_only_not_sbc_certification": true,
+  "accumulator": 0
+}

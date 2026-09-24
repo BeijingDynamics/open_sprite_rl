@@ -1,0 +1,109 @@
+{
+  "schema": "sprite0825_g60_model3450_heading_hold_stress_v1",
+  "controller": {
+    "type": "PM01 outer heading controller",
+    "heading_control_stiffness": 0.5,
+    "actor_global_yaw_observation": false
+  },
+  "open_loop": [
+    {
+      "seed": 101,
+      "survival_rate": 1.0,
+      "mean_abs_heading_drift_deg": 9.042458534240723,
+      "cadence_steps_min": 134.8577117919922,
+      "step_length_m": 0.12700605392456055,
+      "path_speed_m_s": 0.28472140431404114,
+      "heading_hold": false,
+      "heading_control_stiffness": null,
+      "heading_yaw_rate_limit_rad_s": null
+    },
+    {
+      "seed": 202,
+      "survival_rate": 1.0,
+      "mean_abs_heading_drift_deg": 9.079547882080078,
+      "cadence_steps_min": 135.1799774169922,
+      "step_length_m": 0.12680493295192719,
+      "path_speed_m_s": 0.28484463691711426,
+      "heading_hold": false,
+      "heading_control_stiffness": null,
+      "heading_yaw_rate_limit_rad_s": null
+    },
+    {
+      "seed": 43,
+      "survival_rate": 1.0,
+      "mean_abs_heading_drift_deg": 8.652929306030273,
+      "cadence_steps_min": 134.9560546875,
+      "step_length_m": 0.12666070461273193,
+      "path_speed_m_s": 0.28421980142593384,
+      "heading_hold": false,
+      "heading_control_stiffness": null,
+      "heading_yaw_rate_limit_rad_s": null
+    }
+  ],
+  "heading_hold": [
+    {
+      "seed": 101,
+      "survival_rate": 1.0,
+      "mean_abs_heading_drift_deg": 0.6019954681396484,
+      "cadence_steps_min": 135.1611328125,
+      "step_length_m": 0.12695646286010742,
+      "path_speed_m_s": 0.28531119227409363,
+      "heading_hold": true,
+      "heading_control_stiffness": 0.5,
+      "heading_yaw_rate_limit_rad_s": 0.2
+    },
+    {
+      "seed": 202,
+      "survival_rate": 1.0,
+      "mean_abs_heading_drift_deg": 0.551021933555603,
+      "cadence_steps_min": 134.96653747558594,
+      "step_length_m": 0.12691034376621246,
+      "path_speed_m_s": 0.28470578789711,
+      "heading_hold": true,
+      "heading_control_stiffness": 0.5,
+      "heading_yaw_rate_limit_rad_s": 0.2
+    },
+    {
+      "seed": 43,
+      "survival_rate": 1.0,
+      "mean_abs_heading_drift_deg": 0.5518897175788879,
+      "cadence_steps_min": 135.26995849609375,
+      "step_length_m": 0.1263284683227539,
+      "path_speed_m_s": 0.2841811776161194,
+      "heading_hold": true,
+      "heading_control_stiffness": 0.5,
+      "heading_yaw_rate_limit_rad_s": 0.2
+    }
+  ],
+  "paired": [
+    {
+      "seed": 101,
+      "open_loop_heading_deg": 9.042458534240723,
+      "heading_hold_deg": 0.6019954681396484,
+      "improvement_deg": 8.440463066101074
+    },
+    {
+      "seed": 202,
+      "open_loop_heading_deg": 9.079547882080078,
+      "heading_hold_deg": 0.551021933555603,
+      "improvement_deg": 8.528525948524475
+    },
+    {
+      "seed": 43,
+      "open_loop_heading_deg": 8.652929306030273,
+      "heading_hold_deg": 0.5518897175788879,
+      "improvement_deg": 8.101039588451385
+    }
+  ],
+  "gates": {
+    "three_paired_seeds": true,
+    "survival_all": true,
+    "heading_hold_le_5deg": true,
+    "heading_improves_each_seed": true,
+    "controller_contract_matches_runtime": true,
+    "cadence_120_to_150": true,
+    "step_length_0p10_to_0p16m": true,
+    "path_speed_0p24_to_0p32m_s": true
+  },
+  "qualified": true
+}

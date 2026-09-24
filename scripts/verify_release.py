@@ -20,9 +20,22 @@ EXPECTED = {
     "deploy/sprite0825_v4_stage2/scene_external_pd.xml": "6ec42ff665fde05db58b507cc2747fb2a877e64efea003ff6b3d9e2f8c72e04f",
     "assets/sprite0825_sanitized_v4/sprite0825.usd": "3a5e233385bd1dd32e012cf07a54325a58656c6abccd56c014469925353106e7",
     "assets/sprite0825_sanitized_v4/sprite0825_float.urdf": "80924527cb9e61d85dc3f51f7bf43c631a938bcbe4fc9b1d4419c55ccb4a39e3",
+    "baselines/sprite0825_stage2_g59_model2999_native50_parent/model_2999.pt": "eb84e5aedb8ace647d877788a98c86db6ce9670e4c003890e6e1d2ef21205a98",
+    "baselines/sprite0825_stage2_g59_model2999_native50_parent/deploy/policy.onnx": "38f2fbc52d385904d42e2410db89a88de7394e4525b60f5ae999921fb50ed1a7",
+    "baselines/sprite0825_stage2_g60_model3450_current/model_3450.pt": "6a1a80a2a2f7073698c0886133c325a46462ace6bbd3cf7de70246beafb85f15",
+    "baselines/sprite0825_stage2_g60_model3450_current/deploy/policy.onnx": "43f213e4c5b9079e13b7f6f3635f224766227757417a0940ca49d585231016e3",
+    "candidates/sprite0825_stage2_g74_model5999_4340_shoulders/model_5999.pt": "bc8e84802703926366f6d7348c1da7365d4fbbe678297888443ed8949c3b7825",
+    "candidates/sprite0825_stage2_g74_model5999_4340_shoulders/deploy/policy.onnx": "8ce307c446a7089587ec5a1ec28534fe8e2a395f4875797a5613ac408a72a8ea",
+    "candidates/sprite0825_stage2_g74_model5999_4340_shoulders/assets/isaac/sprite0825_sanitized_v5_4340_shoulders/sprite0825.usd": "d21e1ceed89cabcf65ff3d73b7fee9da3640c2b97e0ac704261e52401b97af27",
+    "candidates/sprite0825_stage2_g74_model5999_4340_shoulders/assets/isaac/sprite0825_sanitized_v5_4340_shoulders/sprite0825_float.urdf": "6c753d563b54103e4278c27a11a22e0f4f1076e4156f0873cb2325f1701a921b",
+    "candidates/sprite0825_stage2_g74_model5999_4340_shoulders/assets/mujoco/sprite0825_v5_4340_shoulders/scene_external_pd.xml": "b4f6dd161f6af1d4fadb44da155d1ff3c319341b541aab99fc4c176c22a40d9d",
 }
 
-RELEASE_ASSET_ROOTS = (ROOT / "assets", ROOT / "deploy")
+RELEASE_ASSET_ROOTS = (
+    ROOT / "assets",
+    ROOT / "deploy",
+    ROOT / "candidates/sprite0825_stage2_g74_model5999_4340_shoulders/assets",
+)
 CAD_MARKERS = (
     b"solidworks",
     b"sw2urdf",
@@ -191,6 +204,21 @@ def main() -> None:
         }
         errors.extend(f"contract check failed: {name}" for name, ok in checks.items() if not ok)
 
+    current_contract_path = (
+        ROOT
+        / "baselines/sprite0825_stage2_g60_model3450_current/deploy/contract.json"
+    )
+    if current_contract_path.is_file():
+        current = json.loads(current_contract_path.read_text(encoding="utf-8"))
+        checks = {
+            "current_actor_observation_dim": current.get("actor_observation_dim") == 795,
+            "current_action_dim": len(current.get("joint_names", [])) == 31,
+            "current_no_horizontal_velocity": current.get("observation_has_horizontal_base_velocity") is False,
+            "current_policy_dt": current.get("policy_dt") == 0.02,
+            "current_physics_dt": current.get("physics_dt") == 0.002,
+        }
+        errors.extend(f"contract check failed: {name}" for name, ok in checks.items() if not ok)
+
     overlay = ROOT / "isaaclab_overlay"
     for path in overlay.rglob("*.py"):
         try:
@@ -213,7 +241,7 @@ def main() -> None:
         raise SystemExit(1)
 
     print(f"RELEASE VERIFICATION PASSED ({len(EXPECTED)} artifact hashes)")
-    print("contract: 1488 observations, 31 actions, no horizontal base velocity")
+    print("current contract: 795 observations, 31 actions, no horizontal base velocity")
 
 
 if __name__ == "__main__":

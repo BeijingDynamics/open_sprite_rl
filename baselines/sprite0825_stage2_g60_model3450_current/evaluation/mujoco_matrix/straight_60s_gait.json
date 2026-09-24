@@ -1,0 +1,55 @@
+{
+  "schema": "sprite0825_mujoco_gait_trace_summary_v1",
+  "trace": "/home/tony/sprite/sprite_isaaclab/IsaacLab/baselines/sprite0825_stage2_g60_model3450_sim2sim_candidate/evaluation/mujoco_matrix/straight_60s_trace.json",
+  "steady_after_s": 8.0,
+  "steady_duration_s": 51.980000000000004,
+  "forward_speed_m_s": 0.27384294515590574,
+  "gait_cycle_hz": 1.0961538461538696,
+  "step_cadence_steps_min": 131.53846153846436,
+  "estimated_step_length_m": 0.12491081708865609,
+  "cadence_spectral_peak_fraction": 0.4452845410110875,
+  "pelvis_roll_deg": {
+    "mean": 0.001454079545252438,
+    "rms": 0.3044863525468992,
+    "p95_abs": 0.6798571370228049,
+    "peak_abs": 0.7343866758468999
+  },
+  "pelvis_pitch_deg": {
+    "mean": -0.2642830092324282,
+    "rms": 0.2947117880568862,
+    "p95_abs": 0.5023653531353911
+  },
+  "torso_roll_deg": {
+    "mean": -0.009045753457589688,
+    "rms": 6.932439170097775,
+    "p95_abs": 9.241436201785952,
+    "peak_abs": 9.280632528068587
+  },
+  "torso_pitch_deg": {
+    "mean": -0.2810933053834201,
+    "rms": 0.3057529750925912,
+    "p95_abs": 0.5127611578552356
+  },
+  "ankle_lateral_separation_m": {
+    "mean": 0.16140451473679118,
+    "p10": 0.15265661772331243,
+    "p90": 0.17147473343821695
+  },
+  "ankle_forward_separation_m": {
+    "mean": 0.06813228136899493,
+    "p90": 0.11437090726084391,
+    "peak": 0.11929095553854785
+  },
+  "joint_p05_p95_range_rad": {
+    "waist_roll_joint": 0.31724576959152817,
+    "waist_yaw_joint": 0.015228534230039848,
+    "left_hip_roll_joint": 0.04823220258690682,
+    "right_hip_roll_joint": 0.04744126434747328,
+    "left_hip_pitch_joint": 0.47720524219238963,
+    "right_hip_pitch_joint": 0.480390535166844,
+    "left_knee_joint": 0.6196893797774099,
+    "right_knee_joint": 0.6231924253033718,
+    "left_shoulder_pitch_joint": 0.08789017993624719,
+    "right_shoulder_pitch_joint": 0.08555760332494275
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "checkpoint": "/root/gpufree-data/g59_native50_selected_model2999/model_2999.pt",
+  "command_ramp_rate_mps2": 0.0,
+  "grid": {
+    "0.00": {
+      "mae_vx": 0.0004709059721790254,
+      "mean_vx": -0.0004709059721790254,
+      "p10_vx": -0.0005095693632028997,
+      "p90_vx": -0.0004313726385589689
+    },
+    "0.15": {
+      "mae_vx": 0.013338349759578705,
+      "mean_vx": 0.16333836317062378,
+      "p10_vx": 0.15819673240184784,
+      "p90_vx": 0.16950370371341705
+    },
+    "0.30": {
+      "mae_vx": 0.034640341997146606,
+      "mean_vx": 0.26535969972610474,
+      "p10_vx": 0.259518563747406,
+      "p90_vx": 0.27045807242393494
+    },
+    "0.45": {
+      "mae_vx": 0.07517217844724655,
+      "mean_vx": 0.3748278319835663,
+      "p10_vx": 0.3694780468940735,
+      "p90_vx": 0.38161030411720276
+    }
+  },
+  "heading_hold": false,
+  "num_envs": 96,
+  "policy_kind": "rsl_rl_checkpoint",
+  "protocol": "grid",
+  "seed": 42,
+  "step_dt": 0.02,
+  "survival_rate": 1.0,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G60TimeNormalizedWaist50Hz-v0"
+}

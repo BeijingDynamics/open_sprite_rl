@@ -1,0 +1,408 @@
+{
+  "schema": "sprite0825_g73_static_sim2real_contract_v1",
+  "qualified": true,
+  "checks": [
+    {
+      "name": "physics_dt_s",
+      "passed": true,
+      "actual": 0.002,
+      "expected": 0.002
+    },
+    {
+      "name": "decimation",
+      "passed": true,
+      "actual": 10.0,
+      "expected": 10.0
+    },
+    {
+      "name": "policy_dt_s",
+      "passed": true,
+      "actual": 0.02,
+      "expected": 0.02
+    },
+    {
+      "name": "asset_revision",
+      "passed": true,
+      "actual": [
+        "sprite0825_sanitized_v5_4340_shoulders",
+        "sprite0825.usd"
+      ],
+      "expected": [
+        "sprite0825_sanitized_v5_4340_shoulders",
+        "sprite0825.usd"
+      ]
+    },
+    {
+      "name": "legs_j4340.peak_torque_nm",
+      "passed": true,
+      "actual": 40.0,
+      "expected": 40.0
+    },
+    {
+      "name": "legs_j4340.no_load_speed_rad_s",
+      "passed": true,
+      "actual": 9.3,
+      "expected": 9.3
+    },
+    {
+      "name": "legs_j4340.sim_peak_torque_nm",
+      "passed": true,
+      "actual": 40.0,
+      "expected": 40.0
+    },
+    {
+      "name": "waist_yaw_j4340.peak_torque_nm",
+      "passed": true,
+      "actual": 40.0,
+      "expected": 40.0
+    },
+    {
+      "name": "waist_yaw_j4340.no_load_speed_rad_s",
+      "passed": true,
+      "actual": 9.3,
+      "expected": 9.3
+    },
+    {
+      "name": "waist_yaw_j4340.sim_peak_torque_nm",
+      "passed": true,
+      "actual": 40.0,
+      "expected": 40.0
+    },
+    {
+      "name": "shoulder_pitch_roll_j4340.peak_torque_nm",
+      "passed": true,
+      "actual": 40.0,
+      "expected": 40.0
+    },
+    {
+      "name": "shoulder_pitch_roll_j4340.no_load_speed_rad_s",
+      "passed": true,
+      "actual": 9.3,
+      "expected": 9.3
+    },
+    {
+      "name": "shoulder_pitch_roll_j4340.sim_peak_torque_nm",
+      "passed": true,
+      "actual": 40.0,
+      "expected": 40.0
+    },
+    {
+      "name": "shoulder_4340_joint_pattern",
+      "passed": true,
+      "actual": [
+        ".*_shoulder_(pitch|roll)_joint"
+      ],
+      "expected": [
+        ".*_shoulder_(pitch|roll)_joint"
+      ]
+    },
+    {
+      "name": "shoulder_4340_armature",
+      "passed": true,
+      "actual": 0.032,
+      "expected": 0.032
+    },
+    {
+      "name": "legacy_generic_shoulder_action_scale_absent",
+      "passed": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "shoulder_pitch_roll_action_scale_rad",
+      "passed": true,
+      "actual": 0.07915717472057639,
+      "expected": 0.07915717472057639
+    },
+    {
+      "name": "shoulder_yaw_action_scale_rad",
+      "passed": true,
+      "actual": 0.2,
+      "expected": 0.2
+    },
+    {
+      "name": "feet_orientation_reward_weight",
+      "passed": true,
+      "actual": 0.5,
+      "expected": 0.5
+    },
+    {
+      "name": "ankle_motor_peak_torque_nm",
+      "passed": true,
+      "actual": 12.5,
+      "expected": 12.5
+    },
+    {
+      "name": "ankle_pair_generalized_peak_nm",
+      "passed": true,
+      "actual": 25.0,
+      "expected": 25.0
+    },
+    {
+      "name": "ankle_actuator",
+      "passed": true,
+      "actual": "DelayedCoupledAnkleDCMotor",
+      "expected": "DelayedCoupledAnkleDCMotor"
+    },
+    {
+      "name": "distal_arm_peak_torque_nm",
+      "passed": true,
+      "actual": 12.5,
+      "expected": 12.5
+    },
+    {
+      "name": "actor_observation_terms",
+      "passed": true,
+      "actual": [
+        "joint_pos",
+        "joint_vel",
+        "actions",
+        "base_ang_vel",
+        "projected_gravity",
+        "velocity_commands"
+      ],
+      "expected": [
+        "joint_pos",
+        "joint_vel",
+        "actions",
+        "base_ang_vel",
+        "projected_gravity",
+        "velocity_commands"
+      ]
+    },
+    {
+      "name": "actor_observation_history_lengths",
+      "passed": true,
+      "actual": {
+        "joint_pos": 8,
+        "joint_vel": 8,
+        "actions": 8,
+        "base_ang_vel": 8,
+        "projected_gravity": 8,
+        "velocity_commands": 0
+      },
+      "expected": {
+        "joint_pos": 8,
+        "joint_vel": 8,
+        "actions": 8,
+        "base_ang_vel": 8,
+        "projected_gravity": 8,
+        "velocity_commands": 0
+      }
+    },
+    {
+      "name": "actor_observation_history_flattened",
+      "passed": true,
+      "actual": {
+        "joint_pos": "true",
+        "joint_vel": "true",
+        "actions": "true",
+        "base_ang_vel": "true",
+        "projected_gravity": "true",
+        "velocity_commands": "true"
+      },
+      "expected": {
+        "joint_pos": "true",
+        "joint_vel": "true",
+        "actions": "true",
+        "base_ang_vel": "true",
+        "projected_gravity": "true",
+        "velocity_commands": "true"
+      }
+    },
+    {
+      "name": "actor_observation_dimension",
+      "passed": true,
+      "actual": 795,
+      "expected": 795
+    },
+    {
+      "name": "actor_contains_base_lin_vel",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "runtime_observation_terms",
+      "passed": true,
+      "actual": [
+        "joint_pos",
+        "joint_vel",
+        "actions",
+        "base_ang_vel",
+        "projected_gravity",
+        "velocity_commands"
+      ],
+      "expected": [
+        "joint_pos",
+        "joint_vel",
+        "actions",
+        "base_ang_vel",
+        "projected_gravity",
+        "velocity_commands"
+      ]
+    },
+    {
+      "name": "action_joint_order",
+      "passed": true,
+      "actual": [
+        "left_hip_pitch_joint",
+        "right_hip_pitch_joint",
+        "waist_roll_joint",
+        "left_hip_roll_joint",
+        "right_hip_roll_joint",
+        "waist_yaw_joint",
+        "left_hip_yaw_joint",
+        "right_hip_yaw_joint",
+        "head_pitch_joint",
+        "left_shoulder_pitch_joint",
+        "right_shoulder_pitch_joint",
+        "left_knee_joint",
+        "right_knee_joint",
+        "head_roll_joint",
+        "left_shoulder_roll_joint",
+        "right_shoulder_roll_joint",
+        "left_ankle_pitch_joint",
+        "right_ankle_pitch_joint",
+        "head_yaw_joint",
+        "left_shoulder_yaw_joint",
+        "right_shoulder_yaw_joint",
+        "left_ankle_roll_joint",
+        "right_ankle_roll_joint",
+        "left_elbow_joint",
+        "right_elbow_joint",
+        "left_wrist_yaw_joint",
+        "right_wrist_yaw_joint",
+        "left_wrist_pitch_joint",
+        "right_wrist_pitch_joint",
+        "left_wrist_roll_joint",
+        "right_wrist_roll_joint"
+      ],
+      "expected": [
+        "left_hip_pitch_joint",
+        "right_hip_pitch_joint",
+        "waist_roll_joint",
+        "left_hip_roll_joint",
+        "right_hip_roll_joint",
+        "waist_yaw_joint",
+        "left_hip_yaw_joint",
+        "right_hip_yaw_joint",
+        "head_pitch_joint",
+        "left_shoulder_pitch_joint",
+        "right_shoulder_pitch_joint",
+        "left_knee_joint",
+        "right_knee_joint",
+        "head_roll_joint",
+        "left_shoulder_roll_joint",
+        "right_shoulder_roll_joint",
+        "left_ankle_pitch_joint",
+        "right_ankle_pitch_joint",
+        "head_yaw_joint",
+        "left_shoulder_yaw_joint",
+        "right_shoulder_yaw_joint",
+        "left_ankle_roll_joint",
+        "right_ankle_roll_joint",
+        "left_elbow_joint",
+        "right_elbow_joint",
+        "left_wrist_yaw_joint",
+        "right_wrist_yaw_joint",
+        "left_wrist_pitch_joint",
+        "right_wrist_pitch_joint",
+        "left_wrist_roll_joint",
+        "right_wrist_roll_joint"
+      ]
+    },
+    {
+      "name": "action_dimension",
+      "passed": true,
+      "actual": 31,
+      "expected": 31
+    },
+    {
+      "name": "algorithm",
+      "passed": true,
+      "actual": "UnconditionedAMPPPO",
+      "expected": "UnconditionedAMPPPO"
+    },
+    {
+      "name": "actor_groups",
+      "passed": true,
+      "actual": [
+        "policy"
+      ],
+      "expected": [
+        "policy"
+      ]
+    },
+    {
+      "name": "critic_groups",
+      "passed": true,
+      "actual": [
+        "critic"
+      ],
+      "expected": [
+        "critic"
+      ]
+    },
+    {
+      "name": "amp_expert_frame_stride",
+      "passed": true,
+      "actual": 2,
+      "expected": 2
+    },
+    {
+      "name": "amp_dataset",
+      "passed": true,
+      "actual": [
+        "stage2_amp",
+        "g72_g71_4340_shoulders_100hz_v1"
+      ],
+      "expected": [
+        "stage2_amp",
+        "g72_g71_4340_shoulders_100hz_v1"
+      ]
+    },
+    {
+      "name": "amp_symmetry",
+      "passed": true,
+      "actual": "true",
+      "expected": "true"
+    },
+    {
+      "name": "j4340_rated_torque_nm",
+      "passed": true,
+      "actual": 14.0,
+      "expected": 14.0
+    },
+    {
+      "name": "j4340_peak_torque_nm",
+      "passed": true,
+      "actual": 40.0,
+      "expected": 40.0
+    },
+    {
+      "name": "j4310_rated_torque_nm",
+      "passed": true,
+      "actual": 3.5,
+      "expected": 3.5
+    },
+    {
+      "name": "j4310_peak_torque_nm",
+      "passed": true,
+      "actual": 12.5,
+      "expected": 12.5
+    },
+    {
+      "name": "ankle_torque_mapping",
+      "passed": true,
+      "actual": "0.5 * (joint_pitch_torque +/- joint_roll_torque)",
+      "expected": "0.5 * (joint_pitch_torque +/- joint_roll_torque)"
+    }
+  ],
+  "failures": [],
+  "sources": {
+    "env": "/root/gpufree-data/g74_shoulder_center_setup/static_preflight/env.yaml",
+    "agent": "/root/gpufree-data/g74_shoulder_center_setup/static_preflight/agent.yaml",
+    "structure": "/root/gpufree-data/g74_shoulder_center_setup/static_preflight/runtime_structure.json"
+  }
+}

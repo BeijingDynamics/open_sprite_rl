@@ -1,0 +1,41 @@
+{
+  "checkpoint": "/root/gpufree-data/logs/rsl_rl/sprite0825_stage2_g74_shoulder_roll_center_50hz/2026-09-12_12-04-43_g74_shoulder_roll_center_scratch_6000_env4096/model_5999.pt",
+  "command_ramp_rate_mps2": 0.0,
+  "failure_count_during_straight": 0,
+  "failure_count_during_turn": 0,
+  "heading_control_stiffness": null,
+  "heading_hold": false,
+  "heading_stand_reset_semantics": null,
+  "heading_yaw_rate_limit_rad_s": null,
+  "num_envs": 512,
+  "policy_kind": "rsl_rl_checkpoint",
+  "pre_yaw_seconds": 8.0,
+  "protocol": "yaw_transitions",
+  "seed": 404,
+  "step_dt": 0.02,
+  "survival_rate": 1.0,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G74ShoulderRollCenter50Hz-Robust-v0",
+  "turn_duration_s": 120.0,
+  "yaw_grid": {
+    "+0.20": {
+      "mae_wz_rad_s": 0.005771907977759838,
+      "mean_vx_m_s": 0.26141357421875,
+      "mean_wz_rad_s": 0.2054683417081833,
+      "p10_wz_rad_s": 0.20052014291286469,
+      "p90_wz_rad_s": 0.2103584110736847
+    },
+    "-0.20": {
+      "mae_wz_rad_s": 0.004246343858540058,
+      "mean_vx_m_s": 0.25968503952026367,
+      "mean_wz_rad_s": -0.1967308074235916,
+      "p10_wz_rad_s": -0.20209527015686035,
+      "p90_wz_rad_s": -0.19151142239570618
+    }
+  },
+  "yaw_ramp_rate_rad_s2": 0.5,
+  "yaw_symmetry": {
+    "magnitude_gap_rad_s": 0.008737534284591675,
+    "magnitude_ratio_min_over_max": 0.9574750065803528,
+    "zero_command_abs_wz_rad_s": null
+  }
+}

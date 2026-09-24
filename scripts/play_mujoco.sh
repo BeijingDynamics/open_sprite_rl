@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
-PACKAGE="$ROOT/baselines/sprite0825_stage2_g58f_model1050_stage2_qualified"
+PACKAGE="$ROOT/baselines/sprite0825_stage2_g60_model3450_current"
 CONTRACT="$PACKAGE/deploy/contract.json"
 RUNNER="$PACKAGE/runtime/run_sprite0825_stage2_mujoco.py"
 MJCF="$ROOT/deploy/sprite0825_v4_stage2/scene_external_pd.xml"
@@ -20,7 +20,7 @@ check_hash() {
   }
 }
 
-check_hash "$PACKAGE/deploy/policy.onnx" 75a5c89552539da344e21566843f6c1fd1eac52e7601bbf8b5de64aaaae9eb26
+check_hash "$PACKAGE/deploy/policy.onnx" 43f213e4c5b9079e13b7f6f3635f224766227757417a0940ca49d585231016e3
 check_hash "$MJCF" 6ec42ff665fde05db58b507cc2747fb2a877e64efea003ff6b3d9e2f8c72e04f
 
 mkdir -p "$ROOT/outputs"

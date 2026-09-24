@@ -1,0 +1,84 @@
+{
+  "schema": "sprite0825_g60_model3450_robust_stress_v1",
+  "rows": {
+    "gait": [
+      {
+        "seed": 101,
+        "survival_rate": 1.0,
+        "cadence_steps_min": 134.8577117919922,
+        "estimated_step_length_m": 0.12700605392456055,
+        "path_speed_m_s": 0.28472140431404114,
+        "mean_abs_heading_drift_deg": 9.042458534240723
+      },
+      {
+        "seed": 202,
+        "survival_rate": 1.0,
+        "cadence_steps_min": 135.1799774169922,
+        "estimated_step_length_m": 0.12680493295192719,
+        "path_speed_m_s": 0.28484463691711426,
+        "mean_abs_heading_drift_deg": 9.079547882080078
+      },
+      {
+        "seed": 43,
+        "survival_rate": 1.0,
+        "cadence_steps_min": 134.9560546875,
+        "estimated_step_length_m": 0.12666070461273193,
+        "path_speed_m_s": 0.28421980142593384,
+        "mean_abs_heading_drift_deg": 8.652929306030273
+      }
+    ],
+    "transitions": {
+      "survival_rate": 1.0,
+      "complete_cycle_protocol_rate": 0.99609375,
+      "all_starts_within_1s_rate": 0.999804675579071,
+      "all_stops_within_1p5s_rate": 1.0
+    },
+    "yaw": {
+      "survival_rate": 1.0,
+      "right_actual_rad_s": -0.19442428648471832,
+      "left_actual_rad_s": 0.20300717651844025,
+      "magnitude_gap_rad_s": 0.008582890033721924
+    },
+    "style": {
+      "survival_rate": 1.0,
+      "root_vx_m_s": 0.2725479304790497,
+      "cadence_steps_min": 134.3739366531372,
+      "alternation_fraction": 1.0,
+      "contact_duty_gap": 0.0033220648765563965,
+      "swing_height_gap_m": 7.903203368186951e-05,
+      "joint_tracking_rmse_rad": 0.040419913828372955,
+      "left_contact_slip_mean_m_s": 0.02351943776011467,
+      "right_contact_slip_mean_m_s": 0.023052241653203964,
+      "left_contact_tilt_mean_rad": 0.015474893152713776,
+      "right_contact_tilt_mean_rad": 0.016937371343374252,
+      "left_contact_tilt_p99_rad": 0.20328348875045776,
+      "right_contact_tilt_p99_rad": 0.21037711203098297,
+      "left_swing_height_mean_m": 0.05496641993522644,
+      "right_swing_height_mean_m": 0.05488738790154457,
+      "j4340_envelope_exceedance_fraction_max": 0.0,
+      "j4310_envelope_exceedance_fraction_max": 0.0,
+      "contains_base_lin_vel": false
+    }
+  },
+  "gates": {
+    "three_gait_seeds_present": true,
+    "gait_survival_ge_0p95": true,
+    "gait_cadence_ge_120": true,
+    "gait_mean_abs_heading_drift_le_12deg": true,
+    "transition_survival_ge_0p95": true,
+    "transition_complete_ge_0p90": true,
+    "yaw_survival_ge_0p95": true,
+    "yaw_response_within_0p12": true,
+    "style_survival_ge_0p95": true,
+    "style_alternation_ge_0p95": true,
+    "joint_tracking_rmse_le_0p06rad": true,
+    "contact_slip_mean_le_0p05m_s": true,
+    "contact_tilt_mean_le_0p035rad": true,
+    "contact_tilt_p99_le_0p30rad": true,
+    "swing_height_gap_le_0p01m": true,
+    "j4340_exceedance_le_0p01": true,
+    "j4310_exceedance_le_0p001": true,
+    "actor_excludes_base_lin_vel": true
+  },
+  "qualified": true
+}

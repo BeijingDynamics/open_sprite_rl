@@ -1,0 +1,24 @@
+{
+  "schema": "sprite0825_g74_dualseed_package_validation_v1",
+  "qualified": true,
+  "iteration": 5999,
+  "checkpoint_sha256": "bc8e84802703926366f6d7348c1da7365d4fbbe678297888443ed8949c3b7825",
+  "evaluation_seeds": [
+    303,
+    404
+  ],
+  "j4340_joint_count": 12,
+  "external_pd_mapping_verified": true,
+  "evidence": {
+    "303": [
+      "evaluation/isaac_bridge_seed303/model5999/transitions20_seed303.json",
+      "evaluation/isaac_bridge_seed303/model5999/yaw_transitions120_seed303.json",
+      "evaluation/isaac_bridge_seed303/model5999/style4800_seed303.json"
+    ],
+    "404": [
+      "evaluation/isaac_confirmation_seed404/model5999/transitions20_seed404.json",
+      "evaluation/isaac_confirmation_seed404/model5999/yaw_transitions120_seed404.json",
+      "evaluation/isaac_confirmation_seed404/model5999/style4800_seed404.json"
+    ]
+  }
+}

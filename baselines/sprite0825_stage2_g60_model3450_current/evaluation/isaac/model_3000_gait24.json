@@ -1,0 +1,49 @@
+{
+  "checkpoint": "/root/sprite/sprite_isaaclab/IsaacLab/logs/rsl_rl/sprite0825_stage2_g60_time_normalized_waist_50hz/2026-09-03_12-13-50_stage2_G60_time_normalized_waist_from_G59m2999_env8192/model_3000.pt",
+  "command_ramp_rate_mps2": 0.0,
+  "gait": {
+    "analyzed_duration_s": 19.98,
+    "command_vx_mps": 0.3,
+    "joints": {
+      "left_ankle_pitch_joint": {
+        "mean_cycle_hz": 1.096093773841858,
+        "mean_range_rad": 0.2696020007133484
+      },
+      "left_hip_pitch_joint": {
+        "mean_cycle_hz": 1.0968749523162842,
+        "mean_range_rad": 0.4477401673793793
+      },
+      "left_knee_joint": {
+        "mean_cycle_hz": 1.0968749523162842,
+        "mean_range_rad": 0.5854613780975342
+      },
+      "right_ankle_pitch_joint": {
+        "mean_cycle_hz": 1.096093773841858,
+        "mean_range_rad": 0.2698054313659668
+      },
+      "right_hip_pitch_joint": {
+        "mean_cycle_hz": 1.0968749523162842,
+        "mean_range_rad": 0.44377532601356506
+      },
+      "right_knee_joint": {
+        "mean_cycle_hz": 1.0968749523162842,
+        "mean_range_rad": 0.576248049736023
+      }
+    },
+    "mean_abs_heading_drift_deg": 2.3150031566619873,
+    "mean_cadence_steps_per_min": 131.625,
+    "mean_estimated_step_length_m": 0.12405318766832352,
+    "mean_heading_drift_deg": 2.3150031566619873,
+    "mean_path_speed_mps": 0.2715464234352112,
+    "p10_cadence_steps_per_min": 121.80000305175781,
+    "p90_cadence_steps_per_min": 138.0
+  },
+  "heading_hold": false,
+  "num_envs": 64,
+  "policy_kind": "rsl_rl_checkpoint",
+  "protocol": "gait",
+  "seed": 42,
+  "step_dt": 0.02,
+  "survival_rate": 1.0,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G60TimeNormalizedWaist50Hz-v0"
+}

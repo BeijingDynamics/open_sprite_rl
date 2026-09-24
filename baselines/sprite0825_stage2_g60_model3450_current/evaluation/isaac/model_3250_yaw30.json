@@ -1,0 +1,40 @@
+{
+  "checkpoint": "/root/sprite/sprite_isaaclab/IsaacLab/logs/rsl_rl/sprite0825_stage2_g60_time_normalized_waist_50hz/2026-09-03_12-13-50_stage2_G60_time_normalized_waist_from_G59m2999_env8192/model_3250.pt",
+  "command_ramp_rate_mps2": 0.0,
+  "heading_hold": false,
+  "num_envs": 96,
+  "policy_kind": "rsl_rl_checkpoint",
+  "protocol": "yaw",
+  "seed": 42,
+  "step_dt": 0.02,
+  "survival_rate": 1.0,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G60TimeNormalizedWaist50Hz-v0",
+  "yaw_grid": {
+    "+0.00": {
+      "mae_wz_rad_s": 0.007242448162287474,
+      "mean_vx_m_s": 0.2632194757461548,
+      "mean_wz_rad_s": 0.007242448162287474,
+      "p10_wz_rad_s": 0.006370770279318094,
+      "p90_wz_rad_s": 0.008128358982503414
+    },
+    "+0.20": {
+      "mae_wz_rad_s": 0.004219453316181898,
+      "mean_vx_m_s": 0.26525190472602844,
+      "mean_wz_rad_s": 0.20370924472808838,
+      "p10_wz_rad_s": 0.20090852677822113,
+      "p90_wz_rad_s": 0.205625981092453
+    },
+    "-0.20": {
+      "mae_wz_rad_s": 0.012593792751431465,
+      "mean_vx_m_s": 0.2625797390937805,
+      "mean_wz_rad_s": -0.18740621209144592,
+      "p10_wz_rad_s": -0.19010916352272034,
+      "p90_wz_rad_s": -0.1822955161333084
+    }
+  },
+  "yaw_symmetry": {
+    "magnitude_gap_rad_s": 0.016303032636642456,
+    "magnitude_ratio_min_over_max": 0.9199690818786621,
+    "zero_command_abs_wz_rad_s": 0.007242448162287474
+  }
+}

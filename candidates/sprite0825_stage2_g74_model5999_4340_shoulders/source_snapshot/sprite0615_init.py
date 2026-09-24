@@ -1,0 +1,739 @@
+import gymnasium as gym
+
+from . import agents
+
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-Forward-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPForwardEnvCfg",
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2AMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-Forward-Play-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPForwardPlayEnvCfg",
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2AMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-Forward-StandWalkExpert-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPForwardEnvCfg",
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2StandWalkAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-Forward-TimeNormalized-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPForwardTimeNormalizedEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2AMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-Forward-StandWalk-TimeNormalized-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPForwardTimeNormalizedEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2StandWalkAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-Forward-PM01Curriculum-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPForwardPM01CurriculumEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2AMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-Forward-PM01TimeHorizon-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPForwardPM01TimeHorizonEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2TimeHorizonAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-Forward-PM01Mapped-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPForwardPM01CurriculumEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2PM01MappedAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-Forward-PM01Mapped-TimeHorizon-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPForwardPM01TimeHorizonEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2PM01MappedTimeHorizonAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01MatchedCommands-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPPM01MatchedCommandsEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2PM01MatchedCommandsAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01MatchedCommands-TimeHorizon-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPPM01MatchedCommandsTimeHorizonEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2PM01MatchedCommandsTimeHorizonAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01MatchedCommands-TimeHorizon-Robust-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPPM01MatchedCommandsTimeHorizonRobustEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2PM01MatchedCommandsTimeHorizonRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01MatchedCommands-TimeHorizon-StaticRobust-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPPM01MatchedCommandsTimeHorizonStaticRobustEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2PM01MatchedCommandsTimeHorizonStaticRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01Exact100Hz-Robust-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPPM01Exact100HzRobustEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2PM01Exact100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01Exact100Hz-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPPM01Exact100HzEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2PM01Exact100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01ExplicitAction100Hz-Robust-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPPM01ExplicitAction100HzRobustEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2PM01ExplicitAction100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01ExplicitAction100Hz-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:Sprite0615Stage2AMPPM01ExplicitAction100HzEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:Sprite0615Stage2PM01ExplicitAction100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01ExplicitActionCoupledAnkle100Hz-Robust-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01ExplicitActionCoupledAnkle100HzRobustEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01ExplicitActionCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01ExplicitActionCoupledAnkle100Hz-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01ExplicitActionCoupledAnkle100HzEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01ExplicitActionCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01MultispeedCoupledAnkle100Hz-Robust-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01ExplicitActionCoupledAnkle100HzRobustEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01MultispeedCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01MultispeedCoupledAnkle100Hz-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01ExplicitActionCoupledAnkle100HzEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01MultispeedCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01ForwardCurriculumCoupledAnkle100Hz-Robust-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzRobustEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01ForwardCurriculumCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01ForwardCurriculumCoupledAnkle100Hz-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01ForwardCurriculumCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01ForwardCurriculumLongAMPHistoryCoupledAnkle100Hz-Robust-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01ForwardCurriculumLongAMPHistoryCoupledAnkle100HzRobustEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01ForwardCurriculumLongAMPHistoryCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01ForwardCurriculumLongAMPHistoryCoupledAnkle100Hz-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01ForwardCurriculumLongAMPHistoryCoupledAnkle100HzEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01ForwardCurriculumLongAMPHistoryCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01ForwardCurriculumHomologousAMPCoupledAnkle100Hz-Robust-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01ForwardCurriculumHomologousAMPCoupledAnkle100HzRobustEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01ForwardCurriculumHomologousAMPCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01ForwardCurriculumHomologousAMPCoupledAnkle100Hz-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01ForwardCurriculumHomologousAMPCoupledAnkle100HzEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01ForwardCurriculumHomologousAMPCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01MatchedCommandsHomologousAMPCoupledAnkle100Hz-Robust-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01MatchedCommandsHomologousAMPCoupledAnkle100HzRobustEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01MatchedCommandsHomologousAMPCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+gym.register(
+    id="Isaac-Sprite0615-Stage2-AMP-PM01MatchedCommandsHomologousAMPCoupledAnkle100Hz-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": (
+            f"{__name__}.flat_env_cfg:"
+            "Sprite0615Stage2AMPPM01MatchedCommandsHomologousAMPCoupledAnkle100HzEnvCfg"
+        ),
+        "rsl_rl_cfg_entry_point": (
+            f"{agents.__name__}.amp_ppo_cfg:"
+            "Sprite0615Stage2PM01MatchedCommandsHomologousAMPCoupledAnkle100HzRobustAMPPPORunnerCfg"
+        ),
+    },
+)
+
+
+def _register_velocity_conditioned_task(task_id: str, env_cfg: str, runner_cfg: str) -> None:
+    gym.register(
+        id=task_id,
+        entry_point="isaaclab.envs:ManagerBasedRLEnv",
+        disable_env_checker=True,
+        kwargs={
+            "env_cfg_entry_point": f"{__name__}.flat_env_cfg:{env_cfg}",
+            "rsl_rl_cfg_entry_point": f"{agents.__name__}.amp_ppo_cfg:{runner_cfg}",
+        },
+    )
+
+
+for expert_name, runner_name in (
+    ("PM01", "Sprite0615Stage2VelocityConditionedPM01AMPPPORunnerCfg"),
+    ("V38", "Sprite0615Stage2VelocityConditionedV38AMPPPORunnerCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G16{expert_name}-VelocityConditioned100Hz-Robust-v0",
+        "Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzRobustEnvCfg",
+        runner_name,
+    )
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G16{expert_name}-VelocityConditioned100Hz-v0",
+        "Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzEnvCfg",
+        runner_name,
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G17V38-Symmetric100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2VelocityConditionedV38SymmetricAMPPPORunnerCfg",
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G18Hybrid-Symmetric100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2VelocityConditionedHybridSymmetricAMPPPORunnerCfg",
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPVelocityConditionedCoupledAnkle100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G19HybridClipLabel-Symmetric100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2VelocityConditionedHybridClipLabelSymmetricAMPPPORunnerCfg",
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPFullVelocityConditionedCoupledAnkle100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPFullVelocityConditionedCoupledAnkle100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G20Full31-Symmetric100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2VelocityConditionedFull31SymmetricAMPPPORunnerCfg",
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPPM01ForwardCurriculumCoupledAnkle100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G22PM01UnconditionedFull31-Symmetric100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2PM01UnconditionedFull31SymmetricAMPPPORunnerCfg",
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPG23GentleYaw100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPG23GentleYaw100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G23GentleYaw-PM01Unconditioned100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2G23GentleYawPM01UnconditionedAMPPPORunnerCfg",
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPG24PM01HeadingGentle100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPG24PM01HeadingGentle100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G24PM01HeadingGentle-Unconditioned100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2G24PM01HeadingGentleUnconditionedAMPPPORunnerCfg",
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPG25PM01HeadingRegularized100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPG25PM01HeadingRegularized100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G25PM01HeadingRegularized-Unconditioned100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2G25PM01HeadingRegularizedUnconditionedAMPPPORunnerCfg",
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPG25PM01HeadingRegularized100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPG25PM01HeadingRegularized100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G26TeacherAnchor-PM01Heading100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2G26TeacherAnchoredPM01HeadingAMPPPORunnerCfg",
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPG25PM01HeadingRegularized100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPG25PM01HeadingRegularized100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G27CleanReplay-PM01Heading100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2G27CleanReplayPM01HeadingAMPPPORunnerCfg",
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPG25PM01HeadingRegularized100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPG25PM01HeadingRegularized100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G28TemporalReplay-PM01Heading100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2G28TemporalReplayPM01HeadingAMPPPORunnerCfg",
+    )
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPG25PM01HeadingRegularized100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPG25PM01HeadingRegularized100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G29IntegratedTemporal-PM01Heading100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2G29IntegratedTemporalReplayPM01HeadingAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0615Stage2AMPG21ArmStyleFree100HzRobustEnvCfg"),
+    ("", "Sprite0615Stage2AMPG21ArmStyleFree100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0615-Stage2-AMP-G21ArmStyleFree-Symmetric100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0615Stage2VelocityConditionedFull31SymmetricAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0825Stage2AMPG57NativePM01Forward100HzRobustEnvCfg"),
+    ("", "Sprite0825Stage2AMPG57NativePM01Forward100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G57NativePM01Forward100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G57NativePM01UnconditionedAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0825Stage2AMPG58FullMotorEnvelope100HzRobustEnvCfg"),
+    ("", "Sprite0825Stage2AMPG58FullMotorEnvelope100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G58FullMotorEnvelope100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G58FullMotorEnvelopeAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0825Stage2AMPG58HighSpeedRecovery100HzRobustEnvCfg"),
+    ("", "Sprite0825Stage2AMPG58HighSpeedRecovery100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G58HighSpeedRecovery100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G58HighSpeedRecoveryAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0825Stage2AMPG58GentleYaw100HzRobustEnvCfg"),
+    ("", "Sprite0825Stage2AMPG58GentleYaw100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G58GentleYaw100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G58GentleYawAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0825Stage2AMPG58LongTurn100HzRobustEnvCfg"),
+    ("", "Sprite0825Stage2AMPG58LongTurn100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G58LongTurn100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G58LongTurnAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0825Stage2AMPG58Preserve925GentleYaw100HzRobustEnvCfg"),
+    ("", "Sprite0825Stage2AMPG58Preserve925GentleYaw100HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G58Preserve925GentleYaw100Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G58Preserve925GentleYawAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0825Stage2AMPG59Native50HzRobustEnvCfg"),
+    ("", "Sprite0825Stage2AMPG59Native50HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G59Native50Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G59Native50HzAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0825Stage2AMPG60TimeNormalizedWaist50HzRobustEnvCfg"),
+    ("", "Sprite0825Stage2AMPG60TimeNormalizedWaist50HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G60TimeNormalizedWaist50Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G60TimeNormalizedWaist50HzAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0825Stage2AMPG61StartExposure50HzRobustEnvCfg"),
+    ("", "Sprite0825Stage2AMPG61StartExposure50HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G61StartExposure50Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G61StartExposure50HzAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0825Stage2AMPG62TransitionExposure50HzRobustEnvCfg"),
+    ("", "Sprite0825Stage2AMPG62TransitionExposure50HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G62TransitionExposure50Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G62TransitionExposure50HzAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    (
+        "-Robust",
+        "Sprite0825Stage2AMPG72G71Expert4340Shoulders50HzRobustEnvCfg",
+    ),
+    ("", "Sprite0825Stage2AMPG72G71Expert4340Shoulders50HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G72G71Expert4340Shoulders50Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G72G71Expert4340Shoulders50HzAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    (
+        "-Robust",
+        "Sprite0825Stage2AMPG73ShoulderScaleFlatFeet50HzRobustEnvCfg",
+    ),
+    ("", "Sprite0825Stage2AMPG73ShoulderScaleFlatFeet50HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G73ShoulderScaleFlatFeet50Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G73ShoulderScaleFlatFeet50HzAMPPPORunnerCfg",
+    )
+
+
+for suffix, env_cfg in (
+    (
+        "-Robust",
+        "Sprite0825Stage2AMPG74ShoulderRollCenter50HzRobustEnvCfg",
+    ),
+    ("", "Sprite0825Stage2AMPG74ShoulderRollCenter50HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G74ShoulderRollCenter50Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G74ShoulderRollCenter50HzAMPPPORunnerCfg",
+    )

@@ -1,0 +1,28 @@
+{
+  "schema": "sprite0825_g74_candidate_v1",
+  "iteration": 5999,
+  "checkpoint": "model_5999.pt",
+  "checkpoint_sha256": "bc8e84802703926366f6d7348c1da7365d4fbbe678297888443ed8949c3b7825",
+  "training_task": "Isaac-Sprite0825-Stage2-AMP-G74ShoulderRollCenter50Hz-Robust-v0",
+  "export_task": "Isaac-Sprite0825-Stage2-AMP-G74ShoulderRollCenter50Hz-v0",
+  "isaac_evaluation_seeds": [
+    303,
+    404
+  ],
+  "asset_revision": "sprite0825_sanitized_v5_4340_shoulders",
+  "j4340p_joints": 12,
+  "runtime_commit": "ed2297019f72b8504a5639a4589085f75f5d3868a",
+  "g74_changes": {
+    "proximal_shoulder_action_scale": 0.07915717472057639,
+    "shoulder_yaw_action_scale": 0.2,
+    "feet_orientation_reward_weight": 0.5,
+    "left_shoulder_roll_center_rad": 0.08281613,
+    "right_shoulder_roll_center_rad": -0.076321766
+  },
+  "assets": {
+    "isaac_urdf_sha256": "6c753d563b54103e4278c27a11a22e0f4f1076e4156f0873cb2325f1701a921b",
+    "isaac_usd_sha256": "d21e1ceed89cabcf65ff3d73b7fee9da3640c2b97e0ac704261e52401b97af27",
+    "isaac_mesh_set_sha256": "bc2402a17b85e35592c43d8e88b5353455d307021312ac5d31987a8f95c90de7",
+    "mujoco_asset_archive_sha256": "144905fa52be096b3054cb5ab01ad9fa707d98d5f02cd439fc9ccdeab338dc51"
+  }
+}

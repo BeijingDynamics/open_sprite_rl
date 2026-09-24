@@ -1,0 +1,38 @@
+{
+  "checkpoint": "/root/sprite/sprite_isaaclab/IsaacLab/logs/rsl_rl/sprite0825_stage2_g60_time_normalized_waist_50hz/2026-09-03_12-13-50_stage2_G60_time_normalized_waist_from_G59m2999_env8192/model_3400.pt",
+  "command_ramp_rate_mps2": 0.0,
+  "grid": {
+    "0.00": {
+      "mae_vx": 0.0008355053141713142,
+      "mean_vx": -0.0008355053141713142,
+      "p10_vx": -0.0008997268159873784,
+      "p90_vx": -0.0007677171379327774
+    },
+    "0.15": {
+      "mae_vx": 0.005175819154828787,
+      "mean_vx": 0.1515362411737442,
+      "p10_vx": 0.14392703771591187,
+      "p90_vx": 0.16042254865169525
+    },
+    "0.30": {
+      "mae_vx": 0.03581371158361435,
+      "mean_vx": 0.2641863226890564,
+      "p10_vx": 0.2572062611579895,
+      "p90_vx": 0.2706049382686615
+    },
+    "0.45": {
+      "mae_vx": 0.06858347356319427,
+      "mean_vx": 0.38141652941703796,
+      "p10_vx": 0.37482038140296936,
+      "p90_vx": 0.3891562819480896
+    }
+  },
+  "heading_hold": false,
+  "num_envs": 96,
+  "policy_kind": "rsl_rl_checkpoint",
+  "protocol": "grid",
+  "seed": 42,
+  "step_dt": 0.02,
+  "survival_rate": 1.0,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G60TimeNormalizedWaist50Hz-v0"
+}

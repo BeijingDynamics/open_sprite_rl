@@ -1,0 +1,14 @@
+{
+  "mode": "shadow_replay_no_hardware_tx",
+  "trace_rows": 3000,
+  "sample_stride": 10,
+  "sampled_policy_ticks": 299,
+  "handoff_seconds": 0.04,
+  "skipped_handoff_samples": 1,
+  "actor_observation_dim": 795,
+  "action_dim": 31,
+  "horizontal_base_velocity_present": false,
+  "onnx_action_max_abs_error": 0.0,
+  "onnx_action_rms_error": 0.0,
+  "passed": true
+}

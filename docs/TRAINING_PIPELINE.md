@@ -2,15 +2,16 @@
 
 ## Why this pipeline
 
-The final Sprite0825 policy follows the architecture that produced the cleanest
+The current Sprite0825 policy follows the architecture that produced the cleanest
 PM01 behavior in EngineAI's open-source stack: a velocity-command task policy
 regularized by an AMP discriminator trained on a selected locomotion expert.
 The reference supplies movement style; the command reward supplies speed,
 turning, standing, and recovery semantics.
 
 The pipeline intentionally does not combine the historical V38 tracking policy
-with the final G57 expert. G57 was trained from scratch using only accepted
-native PM01 stand/walk clips.
+with the command-policy lineage. G57 and G59 are separate scratch runs using the
+same accepted native PM01 stand/walk expert. G60 continues G59; it does not
+continue G58F.
 
 ## Stage table
 
@@ -20,6 +21,8 @@ native PM01 stand/walk clips.
 | G58A | G57 model 500 | 300 | model 799 | physical motor torque-speed envelopes | 1019 s |
 | G58B | G58A model 799 | 150 | model 925 | recover 0.45 m/s speed band | 519 s |
 | G58F | G58B model 925 | 400 | model 1050 | gentle yaw without gait regression | 1371 s |
+| G59 | scratch | 3000 | model 2999 | native 50 Hz deployment actor | not recorded |
+| G60 | G59 model 2999 | 600 | model 3450 | physical-time regularization and waist control | not recorded |
 
 Iteration numbers continue across resumed stages. For example, G58A's 300
 updates starting at model 500 end near model 799.
@@ -27,6 +30,37 @@ updates starting at model 500 end near model 799.
 All reported runs used 8192 environments on a 24 GB RTX 4090. Reduce
 `NUM_ENVS` if memory is insufficient, but expect different optimization noise
 and retune the evaluation budget rather than assuming equal wall-clock time.
+
+## G59: native 50 Hz scratch policy
+
+```bash
+NUM_ENVS=8192 MAX_ITERATIONS=3000 ./scripts/05_train_g59.sh
+```
+
+Task:
+`Isaac-Sprite0825-Stage2-AMP-G59Native50Hz-Robust-v0`
+
+G59 starts from scratch at the same 50 Hz rate used by the embedded runtime.
+Its actor has 795 observations: eight history frames plus the current velocity
+command. Model 2999 is retained as the exact parent of G60.
+
+## G60: current 50 Hz baseline
+
+```bash
+SOURCE_CHECKPOINT=/path/to/model_2999.pt ./scripts/06_train_g60.sh
+```
+
+Task:
+`Isaac-Sprite0825-Stage2-AMP-G60TimeNormalizedWaist50Hz-Robust-v0`
+
+G60 rescales action-rate and action-smoothness penalties for physical time and
+adds a soft waist-roll objective without locking the waist. Model 3450 passed
+the Isaac deterministic and robust screens plus the MuJoCo straight, turning,
+and repeated start/stop matrix. See its `SELECTION.md` for the measured gates.
+
+The current public default ends here. G74 under `candidates/` preserves the
+later four-J4340P-shoulder experiment and its v5 asset, but is not silently
+promoted over G60.
 
 ## G57: scratch locomotion
 

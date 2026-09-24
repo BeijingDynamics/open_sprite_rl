@@ -1,0 +1,117 @@
+{
+  "mode": "deterministic_safety_self_test_no_hardware_tx",
+  "healthy_shadow": {
+    "hardware_tx_permitted": false,
+    "safe_hold_required": true,
+    "blockers": [
+      "allow_hardware_tx",
+      "hardware_configured",
+      "left_ankle_calibrated",
+      "mode_shadow_no_tx",
+      "right_ankle_calibrated"
+    ],
+    "latched_faults": []
+  },
+  "stale_state": {
+    "hardware_tx_permitted": false,
+    "safe_hold_required": true,
+    "blockers": [
+      "allow_hardware_tx",
+      "hardware_configured",
+      "left_ankle_calibrated",
+      "mode_shadow_no_tx",
+      "right_ankle_calibrated",
+      "state_stale"
+    ],
+    "latched_faults": [
+      "state_stale"
+    ]
+  },
+  "stale_command": {
+    "hardware_tx_permitted": false,
+    "safe_hold_required": true,
+    "blockers": [
+      "allow_hardware_tx",
+      "command_stale",
+      "hardware_configured",
+      "left_ankle_calibrated",
+      "mode_shadow_no_tx",
+      "right_ankle_calibrated"
+    ],
+    "latched_faults": []
+  },
+  "estop_open": {
+    "hardware_tx_permitted": false,
+    "safe_hold_required": true,
+    "blockers": [
+      "allow_hardware_tx",
+      "estop_unhealthy",
+      "hardware_configured",
+      "left_ankle_calibrated",
+      "mode_shadow_no_tx",
+      "right_ankle_calibrated"
+    ],
+    "latched_faults": [
+      "estop_unhealthy"
+    ]
+  },
+  "policy_overrun": {
+    "hardware_tx_permitted": false,
+    "safe_hold_required": true,
+    "blockers": [
+      "allow_hardware_tx",
+      "hardware_configured",
+      "left_ankle_calibrated",
+      "mode_shadow_no_tx",
+      "policy_overrun",
+      "right_ankle_calibrated"
+    ],
+    "latched_faults": [
+      "policy_overrun"
+    ]
+  },
+  "latch_sequence": {
+    "stale": {
+      "hardware_tx_permitted": false,
+      "safe_hold_required": true,
+      "blockers": [
+        "allow_hardware_tx",
+        "hardware_configured",
+        "left_ankle_calibrated",
+        "mode_shadow_no_tx",
+        "right_ankle_calibrated",
+        "state_stale"
+      ],
+      "latched_faults": [
+        "state_stale"
+      ]
+    },
+    "healthy_input_still_latched": {
+      "hardware_tx_permitted": false,
+      "safe_hold_required": true,
+      "blockers": [
+        "allow_hardware_tx",
+        "hardware_configured",
+        "left_ankle_calibrated",
+        "mode_shadow_no_tx",
+        "right_ankle_calibrated",
+        "state_stale"
+      ],
+      "latched_faults": [
+        "state_stale"
+      ]
+    },
+    "after_explicit_clear": {
+      "hardware_tx_permitted": false,
+      "safe_hold_required": true,
+      "blockers": [
+        "allow_hardware_tx",
+        "hardware_configured",
+        "left_ankle_calibrated",
+        "mode_shadow_no_tx",
+        "right_ankle_calibrated"
+      ],
+      "latched_faults": []
+    }
+  }
+}

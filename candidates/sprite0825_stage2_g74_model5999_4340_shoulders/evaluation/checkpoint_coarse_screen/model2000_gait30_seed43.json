@@ -1,0 +1,74 @@
+{
+  "checkpoint": "/root/gpufree-data/logs/rsl_rl/sprite0825_stage2_g74_shoulder_roll_center_50hz/2026-09-12_12-04-43_g74_shoulder_roll_center_scratch_6000_env4096/model_2000.pt",
+  "command_ramp_rate_mps2": 0.0,
+  "gait": {
+    "analyzed_duration_s": 25.98,
+    "command_vx_mps": 0.3,
+    "contact_foot_roll": {
+      "left": {
+        "contact_duty": 0.5015835165977478,
+        "max_abs_rad": 0.017792508006095886,
+        "mean_abs_rad": 0.0002314030280103907,
+        "over_0p06_fraction": 0.0,
+        "p90_abs_rad": 0.00017237865540664643,
+        "p99_abs_rad": 0.008008944801986217,
+        "sample_count": 166927,
+        "signed_mean_rad": -0.00015931799134705216
+      },
+      "right": {
+        "contact_duty": 0.49642127752304077,
+        "max_abs_rad": 0.021040748804807663,
+        "mean_abs_rad": 0.0002331605355720967,
+        "over_0p06_fraction": 0.0,
+        "p90_abs_rad": 2.4514451069990173e-05,
+        "p99_abs_rad": 0.01003508921712637,
+        "sample_count": 165209,
+        "signed_mean_rad": 0.0002150477812392637
+      }
+    },
+    "joints": {
+      "left_ankle_pitch_joint": {
+        "mean_cycle_hz": 1.3359375,
+        "mean_range_rad": 0.30877113342285156
+      },
+      "left_hip_pitch_joint": {
+        "mean_cycle_hz": 1.3360878229141235,
+        "mean_range_rad": 0.2907510995864868
+      },
+      "left_knee_joint": {
+        "mean_cycle_hz": 1.3359375,
+        "mean_range_rad": 0.45779919624328613
+      },
+      "right_ankle_pitch_joint": {
+        "mean_cycle_hz": 1.3360878229141235,
+        "mean_range_rad": 0.31345334649086
+      },
+      "right_hip_pitch_joint": {
+        "mean_cycle_hz": 1.3362380266189575,
+        "mean_range_rad": 0.2916754186153412
+      },
+      "right_knee_joint": {
+        "mean_cycle_hz": 1.3359375,
+        "mean_range_rad": 0.46628648042678833
+      }
+    },
+    "mean_abs_heading_drift_deg": 9.44002628326416,
+    "mean_cadence_steps_per_min": 160.3395538330078,
+    "mean_estimated_step_length_m": 0.1014740914106369,
+    "mean_heading_drift_deg": 9.44002628326416,
+    "mean_path_speed_mps": 0.2709559202194214,
+    "p10_cadence_steps_per_min": 156.923095703125,
+    "p90_cadence_steps_per_min": 166.1538543701172
+  },
+  "heading_control_stiffness": null,
+  "heading_hold": false,
+  "heading_stand_reset_semantics": null,
+  "heading_yaw_rate_limit_rad_s": null,
+  "num_envs": 256,
+  "policy_kind": "rsl_rl_checkpoint",
+  "protocol": "gait",
+  "seed": 43,
+  "step_dt": 0.02,
+  "survival_rate": 1.0,
+  "task": "Isaac-Sprite0825-Stage2-AMP-G74ShoulderRollCenter50Hz-v0"
+}
