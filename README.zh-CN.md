@@ -3,27 +3,35 @@
 这是 Sprite0825（0.95 m、31 自由度）人形机器人的可复现强化学习项目，目标是在
 RTX 4090 级别的机器上复现当前已经通过 Isaac Lab 与 MuJoCo sim2sim 验证的结果。
 
+[English README](README.md) · 稳定行走工程笔记：
+[中文](docs/SPRITE0825_STABLE_WALK_HANDOFF.md) /
+[English](docs/SPRITE0825_STABLE_WALK_HANDOFF.en.md)
+
 ## 当前结果
 
-当前默认策略为 G60 model3450，支持站立、起步、停止、再次起步、
-0.15/0.30/0.45 m/s 直行以及双向转弯。Policy 频率 50 Hz，物理仿真和外部
-PD 为 500 Hz，输出 31 个关节位置目标。
+当前默认策略为 [G74 model3000](baselines/sprite0825_stage2_g74_model3000/README.md)，
+即开始研究后退之前，四肩 J4340P 的 Sprite0825 在真机上稳定行走使用的版本。
+通过 Isaac Lab 与 MuJoCo 的站立、前进、转弯和重复启停验收；真机有监督地验证了
+`0.10 m/s` 指令前进、启停和低速手柄转向。没有宣称后退或侧移已经通过。
+Policy 为 50 Hz，仿真物理及 PD 为 500 Hz，输出 31 个关节位置目标。
 
 Actor observation 为 795 维：8 帧关节位置、关节速度、上一时刻 action、
 base angular velocity、projected gravity，再加当前 `vx/vy/yaw_rate` 命令。
-其中明确没有水平本体速度、全局 root 位置和全局 yaw，便于后续 sim2real。
+其中没有水平本体速度、全局 root 位置和全局 yaw。实际部署的 800 Hz ICM45686
+及硬件控制见 [open_sprite_runtime](https://github.com/BeijingDynamics/open_sprite_runtime)。
 
 最终 checkpoint：
 
 ```text
-baselines/sprite0825_stage2_g60_model3450_current/model_3450.pt
-SHA256 6a1a80a2a2f7073698c0886133c325a46462ace6bbd3cf7de70246beafb85f15
+baselines/sprite0825_stage2_g74_model3000/model_3000.pt
+SHA256 1b186bb10ee3cfa011d464e7c86b4f72b4c90a466c1576e3885cea5cd223f4f5
 ```
 
 ## 真正的训练主线
 
-当前结果采用 EngineAI PM01 风格的 command policy + AMP 路线。当前 50 Hz
-主线与历史 100 Hz 主线都被保留：
+G74 使用 PM01 风格的速度指令 PPO + 无条件 AMP，从零训练，不从 G60 续训，也不是
+SuperMimic。使用 G71 清理过接触的行走参考、站立专家、匹配的 v5 资产和修正后的
+肩 roll 中心。历史 50 Hz 与 100 Hz 主线都被保留：
 
 1. **G59**：以最终部署频率 50 Hz 从零训练。
 2. **G60**：从 G59 model2999 继续，按物理时间修正 action 正则项，并用软约束
@@ -84,24 +92,26 @@ export OMNI_KIT_ACCEPT_EULA=yes
 export ISAACLAB_ROOT="$HOME/IsaacLab"
 export SPRITE_RL_ROOT="$PWD"
 
-./scripts/05_train_g59.sh
-./scripts/06_train_g60.sh
+./scripts/07_train_g74.sh
 ```
 
-仓库自带的 G59 model2999 是 G60 的准确 handoff。历史 100 Hz 主线仍可按
+G74 默认 4096 个环境、6000 次更新。早期 50 Hz 主线仍可运行
+`05_train_g59.sh` 和 `06_train_g60.sh`；仓库自带的 G59 model2999 是 G60 的准确
+handoff。历史 100 Hz 主线仍可按
 `01_train_g57.sh` 到 `04_train_g58f.sh` 运行。强化学习本身有随机性，复现目标是
 进入相同验收区间并得到相同风格，不是要求 checkpoint 每个字节相同。
 
 严格从零训练时，每一段完成后应先跑资格测试，再把合格 checkpoint 的路径通过
 `SOURCE_CHECKPOINT` 传给下一段；不要盲目选择训练时间最长的模型。
 
-在 Isaac Lab 中播放当前默认的 `model3450`：
+在 Isaac Lab 中播放当前默认的 `model3000`：
 
 ```bash
 ./scripts/play_isaac.sh
 ```
 
-检查自己训练出的 G60 checkpoint 时可设置 `CHECKPOINT=/path/to/model_N.pt`。
+检查自己训练出的 G74 checkpoint 时可设置 `CHECKPOINT=/path/to/model_N.pt`。
+两个播放脚本均可用 `BASELINE=g60` 切回早期 G60 仿真版本。
 
 ## MuJoCo 播放
 

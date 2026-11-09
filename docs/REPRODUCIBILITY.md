@@ -20,6 +20,11 @@ The tested cloud host used Ubuntu 24.04, driver 580.126.09, a 24 GB RTX 4090,
 
 ## Artifact hashes
 
+For the current G74 model3000, see the
+[baseline package](../baselines/sprite0825_stage2_g74_model3000/README.md)
+and [release checksums](../ARTIFACT_SHA256SUMS). The earlier 100 Hz lineage
+hashes are retained below.
+
 ```text
 G57 model500  c4bb13b271e840f6f9c182e5681c5ab7ebc1f48055406fb49bb1d6afda8e419d
 G58A model799 47202164047b044e3e524cb65134b583725204057cae91fe41047583ba08a66b
@@ -33,6 +38,14 @@ Run `./scripts/verify_release.py` before training or playback.
 
 ## Deployment contract
 
+G74 uses 795 observations, eight history frames grouped by field, 31
+joint-target actions, a 50 Hz policy and 500 Hz physics/PD. Refer to its
+[contract](../baselines/sprite0825_stage2_g74_model3000/deploy/contract.json)
+for exact names, ordering, rates and gains. This is the simulation contract,
+not the field deployment configuration.
+
+The earlier G58F contract is:
+
 - Actor observations: 1488
 - Actions: 31 position targets
 - Policy rate: 100 Hz
@@ -45,7 +58,7 @@ Run `./scripts/verify_release.py` before training or playback.
 - Global root position: absent
 - Global yaw: absent
 
-The contract is in the final baseline's `deploy/contract.json`.
+The historical contract is in the G58F baseline's `deploy/contract.json`.
 
 ## Expected variation
 

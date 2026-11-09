@@ -44,7 +44,7 @@ def mirror_full_joints(values: torch.Tensor) -> torch.Tensor:
 
 def mirror_amp_history(values: torch.Tensor) -> torch.Tensor:
     """Mirror AMP history for either the PM01-23 or Sprite-31 contract."""
-    supported_history_lengths = (5, 15, 65)
+    supported_history_lengths = (3, 5, 15, 65)
     if values.shape[-1] % 35 == 0 and values.shape[-1] // 35 in supported_history_lengths:
         frame_dim = 35
         joint_count = 31
@@ -70,23 +70,44 @@ def mirror_amp_history(values: torch.Tensor) -> torch.Tensor:
 
 def mirror_policy_history(values: torch.Tensor) -> torch.Tensor:
     """Mirror G16/G17 actor history without introducing undeployable state."""
-    if values.shape[-1] != 1488:
-        raise ValueError(f"expected 1488-D G16 policy observation, got {values.shape}")
+    command_dim = 3
+    per_history_frame_dim = 3 * 31 + 2 * 3
+    history_payload = values.shape[-1] - command_dim
+    if history_payload <= 0 or history_payload % per_history_frame_dim:
+        raise ValueError(f"unsupported policy observation shape {values.shape}")
+    history_length = history_payload // per_history_frame_dim
+    joint_history_dim = history_length * 31
+    vector_history_dim = history_length * 3
+
     mirrored = values.clone()
-    for start in (0, 465, 930):
-        block = values[..., start : start + 465].reshape(*values.shape[:-1], 15, 31)
-        mirrored[..., start : start + 465] = mirror_full_joints(block).reshape(
-            *values.shape[:-1], 465
+    for block_index in range(3):
+        start = block_index * joint_history_dim
+        stop = start + joint_history_dim
+        block = values[..., start:stop].reshape(
+            *values.shape[:-1], history_length, 31
         )
-    angular = values[..., 1395:1440].reshape(*values.shape[:-1], 15, 3)
-    mirrored[..., 1395:1440] = (angular * angular.new_tensor([-1.0, 1.0, -1.0])).reshape(
-        *values.shape[:-1], 45
+        mirrored[..., start:stop] = mirror_full_joints(block).reshape(
+            *values.shape[:-1], joint_history_dim
+        )
+
+    angular_start = 3 * joint_history_dim
+    angular_stop = angular_start + vector_history_dim
+    angular = values[..., angular_start:angular_stop].reshape(
+        *values.shape[:-1], history_length, 3
     )
-    gravity = values[..., 1440:1485].reshape(*values.shape[:-1], 15, 3)
-    mirrored[..., 1440:1485] = (gravity * gravity.new_tensor([1.0, -1.0, 1.0])).reshape(
-        *values.shape[:-1], 45
+    mirrored[..., angular_start:angular_stop] = (
+        angular * angular.new_tensor([-1.0, 1.0, -1.0])
+    ).reshape(*values.shape[:-1], vector_history_dim)
+
+    gravity_start = angular_stop
+    gravity_stop = gravity_start + vector_history_dim
+    gravity = values[..., gravity_start:gravity_stop].reshape(
+        *values.shape[:-1], history_length, 3
     )
-    mirrored[..., 1485:1488] = values[..., 1485:1488] * values.new_tensor([1.0, -1.0, -1.0])
+    mirrored[..., gravity_start:gravity_stop] = (
+        gravity * gravity.new_tensor([1.0, -1.0, 1.0])
+    ).reshape(*values.shape[:-1], vector_history_dim)
+    mirrored[..., -3:] = values[..., -3:] * values.new_tensor([1.0, -1.0, -1.0])
     return mirrored
 
 

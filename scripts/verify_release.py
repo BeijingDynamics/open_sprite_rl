@@ -9,7 +9,18 @@ import xml.etree.ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parents[1]
+G74 = "baselines/sprite0825_stage2_g74_model3000"
+G74_EXPERT = "assets/references/stage2_amp/g72_g71_4340_shoulders_100hz_v1"
 EXPECTED = {
+    f"{G74}/model_3000.pt": "1b186bb10ee3cfa011d464e7c86b4f72b4c90a466c1576e3885cea5cd223f4f5",
+    f"{G74}/deploy/policy.onnx": "05f7ea02b6020ec44f4d5fa71e579294a73dc8c87d4b54f11198a7e83cb96d5d",
+    f"{G74}/deploy/policy.pt": "aa18600cd256c2bba94ce7fc7b356c5fa15033fd3bc8801d8fd4091e3591dfb3",
+    "assets/references/g71/sprite0825_pm01_g55_ik_contactclean_wbt_v1.npz": "97ec26f45460316e55845137b2adeb83958bd2676967af166085df085b509256",
+    f"{G74_EXPERT}/00_stand.npz": "98ba08bc07d00ba367540b88df304adf03edb41e99146412c0bf5836499db3d7",
+    **{
+        f"{G74_EXPERT}/0{i}_g71_walk.npz": "054482c74f488ddb97edf80b460670ec159d6144c5a016e14ac513127af2f3d1"
+        for i in (1, 2, 3)
+    },
     "baselines/sprite0615_wbt_v36_model100_warmstart/model_100.pt": "e78e32edbb8c1bfdb5188ae2943b507a1b7bb67d5d53c55bedb8bf26d4113c1c",
     "baselines/sprite0615_wbt_v38_model2_stage1_qualified/checkpoints/model_2.pt": "b8d1851de07e654c367d0ad9d6d2e32a9fbc9588e4f26aabd7e5e4d0d71166ff",
     "baselines/sprite0825_stage2_g57_model500_forward_candidate/model_500.pt": "c4bb13b271e840f6f9c182e5681c5ab7ebc1f48055406fb49bb1d6afda8e419d",
@@ -35,6 +46,7 @@ RELEASE_ASSET_ROOTS = (
     ROOT / "assets",
     ROOT / "deploy",
     ROOT / "candidates/sprite0825_stage2_g74_model5999_4340_shoulders/assets",
+    ROOT / G74,
 )
 CAD_MARKERS = (
     b"solidworks",
@@ -126,6 +138,9 @@ def resolve_relative(base: Path, value: str, label: str, errors: list[str]) -> P
         errors.append(f"non-portable {label}: {value}")
         return None
     resolved = (base / value).resolve()
+    if not resolved.is_relative_to(ROOT):
+        errors.append(f"{label} escapes repository: {value}")
+        return None
     if not resolved.exists():
         errors.append(f"unresolved {label}: {value}")
         return None
@@ -204,20 +219,38 @@ def main() -> None:
         }
         errors.extend(f"contract check failed: {name}" for name, ok in checks.items() if not ok)
 
-    current_contract_path = (
-        ROOT
-        / "baselines/sprite0825_stage2_g60_model3450_current/deploy/contract.json"
-    )
-    if current_contract_path.is_file():
+    current_contract_path = ROOT / G74 / "deploy/contract.json"
+    if not current_contract_path.is_file():
+        errors.append("missing G74 deployment contract")
+    else:
         current = json.loads(current_contract_path.read_text(encoding="utf-8"))
         checks = {
             "current_actor_observation_dim": current.get("actor_observation_dim") == 795,
-            "current_action_dim": len(current.get("joint_names", [])) == 31,
+            "current_action_dim": current.get("action_dim") == len(set(current.get("joint_names", []))) == 31,
             "current_no_horizontal_velocity": current.get("observation_has_horizontal_base_velocity") is False,
+            "current_no_global_position": current.get("observation_has_global_position") is False,
+            "current_no_global_yaw": current.get("observation_has_global_yaw") is False,
             "current_policy_dt": current.get("policy_dt") == 0.02,
             "current_physics_dt": current.get("physics_dt") == 0.002,
+            "current_decimation": current.get("decimation") == 10,
         }
         errors.extend(f"contract check failed: {name}" for name, ok in checks.items() if not ok)
+        for key in ("checkpoint", "policy_onnx", "policy_jit", "asset_usd", "asset_urdf"):
+            path = resolve_relative(current_contract_path.parent, current[key], key, errors)
+            if path is not None and EXPECTED.get(path.relative_to(ROOT).as_posix()) != current[f"{key}_sha256"]:
+                errors.append(f"contract does not pin a released artifact: {key}")
+
+    manifest_path = ROOT / G74_EXPERT / "manifest.json"
+    if not manifest_path.is_file():
+        errors.append("missing G74 expert manifest")
+    else:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        files = [(manifest["reference"], manifest["reference_sha256"])]
+        files += [(row["path"], row["sha256"]) for row in manifest["outputs"]]
+        for value, expected in files:
+            path = resolve_relative(manifest_path.parent, value, "G74 expert", errors)
+            if path is not None and EXPECTED.get(path.relative_to(ROOT).as_posix()) != expected:
+                errors.append(f"G74 expert manifest hash mismatch: {value}")
 
     overlay = ROOT / "isaaclab_overlay"
     for path in overlay.rglob("*.py"):
@@ -241,7 +274,7 @@ def main() -> None:
         raise SystemExit(1)
 
     print(f"RELEASE VERIFICATION PASSED ({len(EXPECTED)} artifact hashes)")
-    print("current contract: 795 observations, 31 actions, no horizontal base velocity")
+    print("G74 model3000: 795 observations, 31 actions, no horizontal base velocity")
 
 
 if __name__ == "__main__":

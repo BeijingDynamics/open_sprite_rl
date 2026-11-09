@@ -1,0 +1,78 @@
+seed: 42
+device: cuda:0
+num_steps_per_env: 24
+max_iterations: 6000
+empirical_normalization: {}
+obs_groups:
+  actor:
+  - policy
+  critic:
+  - critic
+clip_actions: null
+check_for_nan: true
+save_interval: 250
+experiment_name: sprite0825_stage2_g74_shoulder_roll_center_50hz
+run_name: g74_shoulder_roll_center_scratch_6000_env4096
+logger: tensorboard
+neptune_project: isaaclab
+wandb_project: isaaclab
+resume: false
+load_run: .*
+load_checkpoint: model_.*.pt
+class_name: OnPolicyRunner
+actor:
+  class_name: MLPModel
+  hidden_dims:
+  - 512
+  - 256
+  - 128
+  activation: elu
+  obs_normalization: true
+  distribution_cfg:
+    class_name: GaussianDistribution
+    init_std: 1.0
+    std_type: scalar
+critic:
+  class_name: MLPModel
+  hidden_dims:
+  - 512
+  - 256
+  - 128
+  activation: elu
+  obs_normalization: true
+  distribution_cfg: null
+algorithm:
+  class_name: isaaclab_tasks.manager_based.locomotion.sprite0615_amp_locomotion.unconditioned_amp:UnconditionedAMPPPO
+  num_learning_epochs: 5
+  num_mini_batches: 4
+  learning_rate: 0.001
+  schedule: adaptive
+  gamma: 0.99
+  lam: 0.95
+  entropy_coef: 0.008
+  desired_kl: 0.01
+  max_grad_norm: 1.0
+  optimizer: adam
+  value_loss_coef: 1.0
+  use_clipped_value_loss: true
+  clip_param: 0.2
+  normalize_advantage_per_mini_batch: false
+  share_cnn_encoders: false
+  rnd_cfg: null
+  symmetry_cfg:
+    use_data_augmentation: true
+    use_mirror_loss: true
+    data_augmentation_func: isaaclab_tasks.manager_based.locomotion.sprite0615_amp_locomotion.g16_symmetry:compute_symmetric_states
+    mirror_loss_coeff: 0.02
+policy: {}
+style_reward_weight: 2.0
+frame_length: 3
+frame_dim: 34
+frame_normalization: true
+discriminator_hidden_dims:
+- 512
+- 256
+- 128
+dataset_path: assets/references/stage2_amp/g72_g71_4340_shoulders_100hz_v1
+expert_mirror_probability: 0.5
+expert_frame_stride: 2

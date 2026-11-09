@@ -1,0 +1,524 @@
+{
+  "schema": "sprite0825_g74_candidate_mujoco_matrix_v1",
+  "checkpoint_sha256": "1b186bb10ee3cfa011d464e7c86b4f72b4c90a466c1576e3885cea5cd223f4f5",
+  "fallback": "G59 model2999",
+  "rows": [
+    {
+      "case": "left_p020_40s",
+      "survived": true,
+      "sim_time_s": 40.00000000000292,
+      "command_mean": [
+        0.30000000000000726,
+        0.0,
+        0.19999999999999477
+      ],
+      "actual_mean": [
+        0.27153785513570755,
+        -0.01398109147520603,
+        0.19259457385504622
+      ],
+      "mean_abs_error": [
+        0.028479977716230443,
+        0.041390005148527885,
+        0.03345441273575062
+      ],
+      "completed_cycles": 0,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.39946919621630667,
+          "peak_torque_ratio_max": 0.5510634107213597,
+          "max_speed_ratio_max": 0.5103752487211844,
+          "torque_speed_envelope_max": 0.7841183559470326
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.5753342100377432,
+          "peak_torque_ratio_max": 0.42948018850337993,
+          "max_speed_ratio_max": 0.191778424172216,
+          "torque_speed_envelope_max": 0.42948018850337993
+        }
+      }
+    },
+    {
+      "case": "left_p040_40s",
+      "survived": true,
+      "sim_time_s": 40.00000000000292,
+      "command_mean": [
+        0.30000000000000726,
+        0.0,
+        0.39999999999998953
+      ],
+      "actual_mean": [
+        0.25806735840212747,
+        -0.02603899279868288,
+        0.3861079923854137
+      ],
+      "mean_abs_error": [
+        0.04193264159787276,
+        0.04016148846563553,
+        0.034941913475822296
+      ],
+      "completed_cycles": 0,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.39536038517982164,
+          "peak_torque_ratio_max": 0.5788788447024882,
+          "max_speed_ratio_max": 0.50724189737485,
+          "torque_speed_envelope_max": 0.7841183559470326
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.5703461882999814,
+          "peak_torque_ratio_max": 0.42711328563704404,
+          "max_speed_ratio_max": 0.191778424172216,
+          "torque_speed_envelope_max": 0.42711328563704404
+        }
+      }
+    },
+    {
+      "case": "right_m020_40s",
+      "survived": true,
+      "sim_time_s": 40.00000000000292,
+      "command_mean": [
+        0.30000000000000726,
+        0.0,
+        -0.19999999999999477
+      ],
+      "actual_mean": [
+        0.2702768143412022,
+        0.014612256029718561,
+        -0.19986071981266015
+      ],
+      "mean_abs_error": [
+        0.029908304502558655,
+        0.04089457802425676,
+        0.03424593371049628
+      ],
+      "completed_cycles": 0,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.4002549258781319,
+          "peak_torque_ratio_max": 0.5732265195227944,
+          "max_speed_ratio_max": 0.50724189737485,
+          "torque_speed_envelope_max": 0.7992942052182681
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.5504897679953199,
+          "peak_torque_ratio_max": 0.42711328563704404,
+          "max_speed_ratio_max": 0.191778424172216,
+          "torque_speed_envelope_max": 0.42711328563704404
+        }
+      }
+    },
+    {
+      "case": "right_m040_40s",
+      "survived": true,
+      "sim_time_s": 40.00000000000292,
+      "command_mean": [
+        0.30000000000000726,
+        0.0,
+        -0.39999999999998953
+      ],
+      "actual_mean": [
+        0.256174915045761,
+        0.025861196479921102,
+        -0.39239767573023027
+      ],
+      "mean_abs_error": [
+        0.04382508495423859,
+        0.04001023699980023,
+        0.03750118168107242
+      ],
+      "completed_cycles": 0,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.397496864166706,
+          "peak_torque_ratio_max": 0.5740682321413625,
+          "max_speed_ratio_max": 0.50724189737485,
+          "torque_speed_envelope_max": 0.7841183559470326
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.5489429697832902,
+          "peak_torque_ratio_max": 0.42711328563704404,
+          "max_speed_ratio_max": 0.191778424172216,
+          "torque_speed_envelope_max": 0.42711328563704404
+        }
+      }
+    },
+    {
+      "case": "stand_30s",
+      "survived": true,
+      "sim_time_s": 29.99999999999425,
+      "command_mean": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "actual_mean": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_abs_error": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "completed_cycles": 0,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.08179704393062272,
+          "peak_torque_ratio_max": 0.1997109352395775,
+          "max_speed_ratio_max": 0.07062177493185481,
+          "torque_speed_envelope_max": 0.1997109352395775
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.2908872577182234,
+          "peak_torque_ratio_max": 0.2692050537951095,
+          "max_speed_ratio_max": 0.191778424172216,
+          "torque_speed_envelope_max": 0.2692050537951095
+        }
+      }
+    },
+    {
+      "case": "start_stop_20",
+      "survived": true,
+      "sim_time_s": 63.00000000003103,
+      "command_mean": [
+        0.14909694915254537,
+        0.0,
+        0.0
+      ],
+      "actual_mean": [
+        0.13787675250393439,
+        -0.0007710309709495765,
+        -0.007954690041658309
+      ],
+      "mean_abs_error": [
+        0.07281602008154656,
+        0.0277053948963915,
+        0.02939712925777535
+      ],
+      "completed_cycles": 20,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.3649174419465896,
+          "peak_torque_ratio_max": 0.4984462254631232,
+          "max_speed_ratio_max": 0.50724189737485,
+          "torque_speed_envelope_max": 0.786195424506505
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.4477134850447412,
+          "peak_torque_ratio_max": 0.43053234822090575,
+          "max_speed_ratio_max": 0.191778424172216,
+          "torque_speed_envelope_max": 0.43053234822090575
+        }
+      }
+    },
+    {
+      "case": "straight_60s",
+      "survived": true,
+      "sim_time_s": 60.00000000002736,
+      "command_mean": [
+        0.2999999999999871,
+        0.0,
+        0.0
+      ],
+      "actual_mean": [
+        0.279664786281725,
+        0.00024241110429281605,
+        -0.004395020512961223
+      ],
+      "mean_abs_error": [
+        0.02103465937952933,
+        0.04205349671829753,
+        0.03632840735517199
+      ],
+      "completed_cycles": 0,
+      "actor_uses_horizontal_base_velocity": false,
+      "robot_self_contact_samples": 0,
+      "motor_gates": {
+        "j4340p": {
+          "rated_rms_ratio_max": 0.40784412523597363,
+          "peak_torque_ratio_max": 0.49120047655711757,
+          "max_speed_ratio_max": 0.50724189737485,
+          "torque_speed_envelope_max": 0.7841183559470326
+        },
+        "j4310p": {
+          "rated_rms_ratio_max": 0.5699438416112007,
+          "peak_torque_ratio_max": 0.42711328563704404,
+          "max_speed_ratio_max": 0.191778424172216,
+          "torque_speed_envelope_max": 0.42711328563704404
+        }
+      }
+    }
+  ],
+  "gait": {
+    "schema": "sprite0825_mujoco_gait_trace_summary_v3",
+    "steady_after_s": 8.0,
+    "steady_duration_s": 51.980000000000004,
+    "forward_speed_m_s": 0.2753197868139112,
+    "gait_cycle_hz": 1.1346153846154088,
+    "step_cadence_steps_min": 136.15384615384906,
+    "estimated_step_length_m": 0.12132736368070406,
+    "cadence_spectral_peak_fraction": 0.9728795384569959,
+    "touchdown_gait": {
+      "event_count": 117,
+      "left_event_count": 58,
+      "right_event_count": 59,
+      "alternating_fraction": 1.0,
+      "cadence_steps_min": 136.36363636363637,
+      "interval_s": {
+        "median": 0.4399999999999995,
+        "p10": 0.4399999999999977,
+        "p90": 0.44000000000000483
+      },
+      "forward_step_length_m": {
+        "mean": 0.12099281195000652,
+        "median": 0.1225936358510985,
+        "p10": 0.0902367411110534,
+        "p90": 0.14909224944603316
+      }
+    },
+    "pelvis_roll_deg": {
+      "mean": -0.7131654517303454,
+      "rms": 1.0262748974520435,
+      "p95_abs": 1.6944352087864596,
+      "peak_abs": 1.754774774350029
+    },
+    "pelvis_pitch_deg": {
+      "mean": 0.3562631387601924,
+      "rms": 1.4017221078834834,
+      "p95_abs": 3.7433492569210487
+    },
+    "torso_roll_deg": {
+      "mean": -0.10931467080759809,
+      "rms": 5.158455999708419,
+      "p95_abs": 6.884948063705832,
+      "peak_abs": 6.96872749864723
+    },
+    "torso_pitch_deg": {
+      "mean": -0.24985870475458677,
+      "rms": 0.3003089225782779,
+      "p95_abs": 0.5146820440518513
+    },
+    "ankle_lateral_separation_m": {
+      "mean": 0.13659969292164628,
+      "p10": 0.1330364256413316,
+      "p90": 0.1422183770221275
+    },
+    "ankle_forward_separation_m": {
+      "mean": 0.05924690023104992,
+      "p90": 0.10971500096528886,
+      "peak": 0.11848447197478527
+    },
+    "sole_contact_reconstruction": {
+      "ground_height_m": 0.0,
+      "contact_height_threshold_m": 0.003,
+      "sole_center_local_m": [
+        -0.005,
+        0.0,
+        -0.034
+      ],
+      "sole_half_size_m": [
+        0.052,
+        0.022,
+        0.005
+      ],
+      "left": {
+        "contact_duty": 0.5446153846153846,
+        "sample_count": 1416,
+        "tilt_rad": {
+          "mean": 0.025201058132974567,
+          "p90": 0.05418753784134549,
+          "p99": 0.08772302560438476,
+          "max": 0.08839191824446373
+        },
+        "lateral_roll_rad": {
+          "signed_mean": 0.011807035487045998,
+          "mean_abs": 0.015434809399170892,
+          "p90_abs": 0.028104890373287394,
+          "p99_abs": 0.030263620278019918,
+          "max_abs": 0.030304939353799385,
+          "over_0p06_fraction": 0.0
+        },
+        "fore_aft_pitch_rad": {
+          "signed_mean": 0.007674940434435002,
+          "mean_abs": 0.015522545322828782,
+          "p90_abs": 0.05166397270319053,
+          "p99_abs": 0.08703099727851438,
+          "max_abs": 0.08771733044654235,
+          "over_0p06_fraction": 0.08333333333333333
+        },
+        "slip_speed_m_s": {
+          "mean": 0.021176088422483905,
+          "p90": 0.019085354589851056,
+          "p99": 0.263402777168458,
+          "max": 0.2743977729755118
+        },
+        "yaw_abs_rad": {
+          "mean": 0.05360287751588267,
+          "p90": 0.06311075384680767,
+          "p99": 0.06789994479195169,
+          "max": 0.06801848522046433
+        },
+        "touchdown_count": 58
+      },
+      "right": {
+        "contact_duty": 0.5461538461538461,
+        "sample_count": 1420,
+        "tilt_rad": {
+          "mean": 0.02472772372478889,
+          "p90": 0.05553193036253559,
+          "p99": 0.07287685250618632,
+          "max": 0.0750412683364279
+        },
+        "lateral_roll_rad": {
+          "signed_mean": -0.012447085244167218,
+          "mean_abs": 0.016033212149060214,
+          "p90_abs": 0.028409486556104514,
+          "p99_abs": 0.03059901192002243,
+          "max_abs": 0.030626597443348544,
+          "over_0p06_fraction": 0.0
+        },
+        "fore_aft_pitch_rad": {
+          "signed_mean": 0.006217964774854786,
+          "mean_abs": 0.014374330806274305,
+          "p90_abs": 0.05279390489874137,
+          "p99_abs": 0.07191991099917525,
+          "max_abs": 0.07417296083163402,
+          "over_0p06_fraction": 0.059154929577464786
+        },
+        "slip_speed_m_s": {
+          "mean": 0.0196554275814987,
+          "p90": 0.01905894550478086,
+          "p99": 0.21769824181704145,
+          "max": 0.22442372435419722
+        },
+        "yaw_abs_rad": {
+          "mean": 0.05187768230317327,
+          "p90": 0.059882201058521496,
+          "p99": 0.06517625182903904,
+          "max": 0.06525069683383973
+        },
+        "touchdown_count": 59
+      },
+      "contact_duty_gap": 0.0015384615384614886,
+      "tilt_mean_gap_rad": 0.00047333440818567857,
+      "slip_mean_gap_m_s": 0.0015206608409852052
+    },
+    "sole_contact_load": {
+      "definition": "MuJoCo normal-force-weighted contact center in each sole frame",
+      "sole_half_width_m": 0.022,
+      "left": {
+        "minimum_normal_force_n": 5.0,
+        "loaded_sample_count": 1357,
+        "loaded_duty": 0.5219230769230769,
+        "normal_force_mean_n": 140.2833763369838,
+        "cop_lateral_m": {
+          "signed_mean": -0.00984824846881087,
+          "mean_abs": 0.011602044081668263,
+          "force_weighted_signed_mean": -0.010023152742465092,
+          "force_weighted_mean_abs": 0.011313698907261334,
+          "p90_abs": 0.018314900147566964,
+          "max_abs": 0.021996464333966723
+        },
+        "edge_threshold_m": 0.0165,
+        "edge_sample_fraction": 0.2697126013264554,
+        "edge_force_fraction": 0.2520452418671747,
+        "longest_edge_run_s": 0.11999999999999744
+      },
+      "right": {
+        "minimum_normal_force_n": 5.0,
+        "loaded_sample_count": 1361,
+        "loaded_duty": 0.5234615384615384,
+        "normal_force_mean_n": 140.6000728782076,
+        "cop_lateral_m": {
+          "signed_mean": 0.010033186888737344,
+          "mean_abs": 0.012399430388244138,
+          "force_weighted_signed_mean": 0.010432614505261397,
+          "force_weighted_mean_abs": 0.011776978213681255,
+          "p90_abs": 0.018888339647297577,
+          "max_abs": 0.021999585109836812
+        },
+        "edge_threshold_m": 0.0165,
+        "edge_sample_fraction": 0.3041880969875092,
+        "edge_force_fraction": 0.2679125533210565,
+        "longest_edge_run_s": 0.11999999999999744
+      }
+    },
+    "joint_p05_p95_range_rad": {
+      "waist_roll_joint": 0.21096781480683746,
+      "waist_yaw_joint": 0.01175726515761571,
+      "left_hip_roll_joint": 0.0829146470012098,
+      "right_hip_roll_joint": 0.08227481241708329,
+      "left_hip_pitch_joint": 0.3709037278253118,
+      "right_hip_pitch_joint": 0.371049705327818,
+      "left_knee_joint": 0.4988954508816554,
+      "right_knee_joint": 0.5063190518391353,
+      "left_shoulder_pitch_joint": 0.11051463676521664,
+      "right_shoulder_pitch_joint": 0.10719374140796573
+    }
+  },
+  "gates": {
+    "seven_cases_present": true,
+    "all_survive": true,
+    "stand_survives_30s": true,
+    "actor_has_no_horizontal_base_velocity": true,
+    "no_robot_self_contacts": true,
+    "twenty_start_stop_cycles": true,
+    "stand_mean_motion_le_0p05": true,
+    "straight_vx_mae_le_0p08": true,
+    "straight_lateral_and_yaw_mae_le_0p08": true,
+    "yaw_mae_le_0p12": true,
+    "turn_direction_correct": true,
+    "turn_magnitude_symmetry": true,
+    "gait_forward_speed_0p24_to_0p33m_s": true,
+    "gait_cadence_120_to_150": true,
+    "gait_step_length_0p10_to_0p16m": true,
+    "touchdown_cadence_120_to_150": true,
+    "touchdown_cadence_agrees_with_spectrum_le_10": true,
+    "touchdown_step_length_median_0p08_to_0p18m": true,
+    "touchdown_step_length_p10_ge_0p03m": true,
+    "touchdown_alternating_fraction_ge_0p95": true,
+    "touchdown_side_count_gap_le_1": true,
+    "torso_roll_p95_le_11p5deg": true,
+    "torso_pitch_p95_le_7deg": true,
+    "foot_spacing_0p09_to_0p18m": true,
+    "sole_contact_duty_gap_le_0p05": true,
+    "sole_lateral_roll_mean_abs_le_0p02rad": true,
+    "sole_lateral_roll_p90_abs_le_0p05rad": true,
+    "sole_lateral_roll_over_0p06_fraction_le_0p01": true,
+    "sole_cop_force_weighted_mean_abs_le_0p012m": true,
+    "sole_edge_force_fraction_le_0p35": true,
+    "sole_longest_edge_run_le_0p20s": true,
+    "sole_slip_mean_le_0p05m_s": true,
+    "sole_slip_p90_le_0p08m_s": true,
+    "sole_yaw_abs_mean_le_0p20rad": true,
+    "sole_tilt_and_slip_symmetry": true,
+    "hip_pitch_range_symmetry_le_0p08rad": true,
+    "knee_range_symmetry_le_0p08rad": true,
+    "shoulder_range_symmetry_le_0p08rad": true,
+    "waist_roll_participates": true,
+    "both_shoulders_participate": true,
+    "j4340p_rated_rms_le_1": true,
+    "j4340p_peak_torque_le_1": true,
+    "j4340p_max_speed_le_1": true,
+    "j4340p_torque_speed_le_1": true,
+    "j4310p_rated_rms_le_1": true,
+    "j4310p_peak_torque_le_1": true,
+    "j4310p_max_speed_le_1": true,
+    "j4310p_torque_speed_le_1": true
+  },
+  "qualified": true
+}

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import os
 from pathlib import Path
 
@@ -27,6 +28,8 @@ from isaaclab_tasks.manager_based.locomotion.sprite0615_tracking.coupled_ankle_a
     DelayedDCMotorCfg,
 )
 from isaaclab_tasks.manager_based.locomotion.sprite0615_tracking.config.sprite0615.flat_env_cfg import (
+    SPRITE0825_G74_SHOULDER_ACTION_SCALE,
+    SPRITE0825_WBT_PM01_4340_SHOULDERS_FULL_PEAK_CFG,
     SPRITE0615_PM01_RATED_ACTION_SCALE,
     SPRITE0615_WBT_PM01_FULL_PEAK_CFG,
 )
@@ -122,10 +125,12 @@ def _build_pm01_delayed_sprite_actuators(*, coupled_ankles: bool = False):
     return delayed_actuators
 
 
-def _build_pm01_full_motor_envelope_actuators():
+def _build_pm01_full_motor_envelope_actuators(
+    source_cfg: ArticulationCfg = SPRITE0615_WBT_PM01_FULL_PEAK_CFG,
+):
     """Keep PM01 delay while enforcing each physical motor's torque-speed line."""
     actuators = {}
-    for name, cfg in SPRITE0615_WBT_PM01_FULL_PEAK_CFG.actuators.items():
+    for name, cfg in source_cfg.actuators.items():
         if name == "feet_j4310_pair":
             actuators[name] = DelayedCoupledAnkleDCMotorCfg(
                 joint_names_expr=cfg.joint_names_expr,
@@ -1417,4 +1422,58 @@ class Sprite0825Stage2AMPG60TimeNormalizedWaist50HzEnvCfg(
 ):
     """Deterministic G60 evaluation task without training perturbations."""
 
+    events: EventsCfg = EventsCfg()
+
+
+@configclass
+class Sprite0825Stage2G74SceneCfg(Sprite0615Stage2PM01FullMotorEnvelopeSceneCfg):
+    robot: ArticulationCfg = SPRITE0825_WBT_PM01_4340_SHOULDERS_FULL_PEAK_CFG.replace(
+        prim_path="{ENV_REGEX_NS}/Robot",
+        actuators=_build_pm01_full_motor_envelope_actuators(
+            SPRITE0825_WBT_PM01_4340_SHOULDERS_FULL_PEAK_CFG
+        ),
+    )
+
+
+@configclass
+class Sprite0825Stage2AMPG74ShoulderRollCenter50HzRobustEnvCfg(
+    Sprite0825Stage2AMPG60TimeNormalizedWaist50HzRobustEnvCfg
+):
+    scene: Sprite0825Stage2G74SceneCfg = Sprite0825Stage2G74SceneCfg(
+        num_envs=4096, env_spacing=2.5
+    )
+
+    def __post_init__(self):
+        super().__post_init__()
+        # The G57 parent selects v4. Restore the frozen G74 v5 asset.
+        usd_path = (
+            Path(os.environ["SPRITE_RL_ROOT"])
+            / "candidates/sprite0825_stage2_g74_model5999_4340_shoulders"
+            / "assets/isaac/sprite0825_sanitized_v5_4340_shoulders/sprite0825.usd"
+        ).resolve()
+        if not usd_path.is_file():
+            raise FileNotFoundError(usd_path)
+        self.scene.robot.spawn.usd_path = str(usd_path)
+        scale = copy.deepcopy(SPRITE0615_PM01_EXPLICIT_ACTION_SCALE)
+        del scale[".*_shoulder_.*"]
+        scale.update(
+            {
+                ".*_shoulder_(pitch|roll)_joint": SPRITE0825_G74_SHOULDER_ACTION_SCALE,
+                ".*_shoulder_yaw_joint": 0.2,
+            }
+        )
+        self.actions.joint_pos.scale = scale
+        self.rewards.feet_orientation.weight = 0.5
+        self.scene.robot.init_state.joint_pos.update(
+            {
+                "left_shoulder_roll_joint": 0.082816130,
+                "right_shoulder_roll_joint": -0.076321766,
+            }
+        )
+
+
+@configclass
+class Sprite0825Stage2AMPG74ShoulderRollCenter50HzEnvCfg(
+    Sprite0825Stage2AMPG74ShoulderRollCenter50HzRobustEnvCfg
+):
     events: EventsCfg = EventsCfg()

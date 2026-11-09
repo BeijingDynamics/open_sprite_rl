@@ -805,3 +805,22 @@ class Sprite0825Stage2G60TimeNormalizedWaist50HzAMPPPORunnerCfg(
     def __post_init__(self):
         super().__post_init__()
         self.algorithm.learning_rate = 5.0e-7
+
+
+@configclass
+class Sprite0825Stage2G74ShoulderRollCenter50HzAMPPPORunnerCfg(
+    Sprite0825Stage2G59Native50HzAMPPPORunnerCfg
+):
+    """Scratch run, with the G59 optimizer rather than G60's resume learning rate."""
+
+    experiment_name = "sprite0825_stage2_g74_shoulder_roll_center_50hz"
+    run_name = "g74_shoulder_roll_center_scratch_6000_env4096"
+    max_iterations = 6_000
+    save_interval = 250
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.dataset_path = str(
+            Path(os.environ["SPRITE_RL_ROOT"]).resolve()
+            / "assets/references/stage2_amp/g72_g71_4340_shoulders_100hz_v1"
+        )

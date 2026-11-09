@@ -23,6 +23,7 @@ continue G58F.
 | G58F | G58B model 925 | 400 | model 1050 | gentle yaw without gait regression | 1371 s |
 | G59 | scratch | 3000 | model 2999 | native 50 Hz deployment actor | not recorded |
 | G60 | G59 model 2999 | 600 | model 3450 | physical-time regularization and waist control | not recorded |
+| G74 | scratch | 6000 | model 3000 | G71 expert, v5 shoulders and corrected roll centers | not recorded |
 
 Iteration numbers continue across resumed stages. For example, G58A's 300
 updates starting at model 500 end near model 799.
@@ -44,7 +45,7 @@ G59 starts from scratch at the same 50 Hz rate used by the embedded runtime.
 Its actor has 795 observations: eight history frames plus the current velocity
 command. Model 2999 is retained as the exact parent of G60.
 
-## G60: current 50 Hz baseline
+## G60: earlier 50 Hz baseline
 
 ```bash
 SOURCE_CHECKPOINT=/path/to/model_2999.pt ./scripts/06_train_g60.sh
@@ -58,9 +59,19 @@ adds a soft waist-roll objective without locking the waist. Model 3450 passed
 the Isaac deterministic and robust screens plus the MuJoCo straight, turning,
 and repeated start/stop matrix. See its `SELECTION.md` for the measured gates.
 
-The current public default ends here. G74 under `candidates/` preserves the
-later four-J4340P-shoulder experiment and its v5 asset, but is not silently
-promoted over G60.
+## G74: stable pre-reverse 50 Hz baseline
+
+```bash
+./scripts/07_train_g74.sh
+```
+
+The G74 task (`Isaac-Sprite0825-Stage2-AMP-G74ShoulderRollCenter50Hz-Robust-v0`)
+inherits G60's environment recipe but trains from scratch with the G59 PPO
+optimizer settings, not G60's continuation learning rate. It uses the v5
+four-J4340P-shoulder asset, G71 V20-derived AMP data, and G74 shoulder-roll
+centers. Default seed 42, 4096 environments, 6000 updates. See the
+[frozen parameters and selected model3000](../baselines/sprite0825_stage2_g74_model3000/README.md).
+G74 model5999 remains available as a separate candidate, not the default.
 
 ## G57: scratch locomotion
 

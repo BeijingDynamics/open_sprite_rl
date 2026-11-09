@@ -21,6 +21,7 @@ class UnconditionedAMPDataLoader:
         motion_directory: str,
         device: str = "cpu",
         history_length: int = 5,
+        frame_stride: int = 1,
         mirror_probability: float = 0.0,
     ) -> None:
         root = Path(motion_directory).expanduser().resolve()
@@ -29,11 +30,14 @@ class UnconditionedAMPDataLoader:
             raise AssertionError(f"No expert clips in {root}")
         if history_length < 1:
             raise ValueError("history_length must be positive")
+        if frame_stride < 1:
+            raise ValueError("frame_stride must be positive")
         if not 0.0 <= mirror_probability <= 1.0:
             raise ValueError("mirror_probability must be in [0, 1]")
 
         self.device = device
         self.history_length = history_length
+        self.frame_stride = frame_stride
         self.mirror_probability = mirror_probability
         self.clips: list[dict[str, torch.Tensor]] = []
         expected_names: tuple[str, ...] | None = None
@@ -61,7 +65,8 @@ class UnconditionedAMPDataLoader:
                 raise ValueError(f"{path} joint_pos/name mismatch: {joint_pos.shape} vs {len(names)}")
             if base_lin_vel_b.shape != (joint_pos.shape[0], 3):
                 raise ValueError(f"{path} base_lin_vel_b shape mismatch")
-            if joint_pos.shape[0] < history_length:
+            required_frames = (history_length - 1) * frame_stride + 1
+            if joint_pos.shape[0] < required_frames:
                 raise ValueError(f"{path} is shorter than AMP history")
             if not np.isfinite(joint_pos).all() or not np.isfinite(base_lin_vel_b).all():
                 raise ValueError(f"non-finite expert values in {path}")
@@ -92,7 +97,7 @@ class UnconditionedAMPDataLoader:
         )
         offsets = torch.arange(
             -(self.history_length - 1), 1, dtype=torch.long, device=self.device
-        )
+        ) * self.frame_stride
 
         for clip_index, clip in enumerate(self.clips):
             rows = torch.nonzero(selected == clip_index, as_tuple=False).squeeze(-1)

@@ -1,5 +1,15 @@
 # Data Provenance
 
+## G74 stable walking expert
+
+G74 uses the [G71 V20-derived 100 Hz expert set](../assets/references/stage2_amp/g72_g71_4340_shoulders_100hz_v1/manifest.json).
+The three identical 1199-frame walk files and one 400-frame stand file are
+intentional: roughly 90% walk and 10% stand. The stride of two and three
+frames match the 50 Hz policy's 40 ms AMP history. The source is contact-cleaned
+PM01 G55 steady walk retargeted to Sprite0825, not raw GMR output or a reverse
+demonstration. See the [engineering handoff](SPRITE0825_STABLE_WALK_HANDOFF.en.md)
+for the retargeting and contact checks.
+
 ## Final G57 expert
 
 The final locomotion prior is not LAFAN1, the earlier treadmill-like V38 clip,

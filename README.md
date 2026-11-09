@@ -3,38 +3,46 @@
 Reproducible whole-body locomotion training and Isaac Lab to MuJoCo transfer
 for the 0.95 m, 31-DoF Beijing Dynamics Sprite0825 humanoid.
 
-[中文说明](README.zh-CN.md)
+[中文说明](README.zh-CN.md) · Stable walking handoff:
+[English](docs/SPRITE0825_STABLE_WALK_HANDOFF.en.md) /
+[中文](docs/SPRITE0825_STABLE_WALK_HANDOFF.md)
 
 ## Current result
 
-The current deployment baseline is G60 model 3450. It can stand, start, stop,
-restart, walk at 0.15/0.30/0.45 m/s, and turn in both directions. The same ONNX
-policy passed the Isaac Lab and MuJoCo gates. Its actor has 795 observations and
-31 joint-target actions at 50 Hz, with physics and external PD at 500 Hz.
+The current baseline is [G74 model3000](baselines/sprite0825_stage2_g74_model3000/README.md),
+the policy that walked stably on the four-J4340P-shoulder Sprite0825 before
+reverse-walking research. It passed the Isaac Lab and MuJoCo stand, forward,
+turn, and repeated start/stop gates. Supervised physical trials verified starts,
+forward walking at a 0.10 m/s command, stopping, and low-speed gamepad turns.
+Reverse and lateral walking are not qualified. The actor runs at 50 Hz with
+795 observations and 31 joint targets; simulated physics/PD runs at 500 Hz.
 
 The actor deliberately excludes horizontal base velocity, global root position,
 and global yaw. It uses eight frames of joint position, joint velocity, previous
 action, base angular velocity, and projected gravity, plus the current
-`vx/vy/yaw_rate` command. This is the policy currently used by the separate
-`open_sprite_runtime` hardware-admission work; physical locomotion qualification
-is still in progress and is not claimed by this repository.
+`vx/vy/yaw_rate` command. The separate
+[open_sprite_runtime](https://github.com/BeijingDynamics/open_sprite_runtime)
+repository holds the hardware implementation, including the 800 Hz raw ICM45686
+reader. A simulation checkout is not a ready-to-arm installation.
 
 Qualified checkpoint:
 
 ```text
-baselines/sprite0825_stage2_g60_model3450_current/model_3450.pt
-SHA256 6a1a80a2a2f7073698c0886133c325a46462ace6bbd3cf7de70246beafb85f15
+baselines/sprite0825_stage2_g74_model3000/model_3000.pt
+SHA256 1b186bb10ee3cfa011d464e7c86b4f72b4c90a466c1576e3885cea5cd223f4f5
 ```
 
 ## Method
 
-This is the EngineAI PM01-style command-policy plus AMP pipeline adapted to
-Sprite0825. Two reproducible lineages are retained:
+G74 is a fresh velocity-command PPO run with an unconditional AMP prior, not
+SuperMimic or a continuation of G60. It uses the G71 contact-cleaned walk and
+stand prior, the matching v5 asset, and corrected shoulder-roll centers.
+Earlier lineages are retained:
 
-1. **G59** trains the current actor from scratch at the deployable 50 Hz rate.
+1. **G59** trains an earlier actor from scratch at the deployable 50 Hz rate.
 2. **G60** continues G59 model 2999 with physical-time-normalized action
    regularization and a soft waist-roll objective. Model 3450 is the selected
-   current baseline.
+   historical v4 baseline.
 3. **G57** is the historical 100 Hz scratch run with a deployable command
    interface and an AMP
    prior made from 10% native stand and 90% accepted PM01 steady walk.
@@ -100,17 +108,16 @@ export OMNI_KIT_ACCEPT_EULA=yes
 
 ## Reproduce training
 
-The exact 4090 lineage is preserved. Each continuation defaults to the bundled,
-hash-checked handoff checkpoint so every stage can be reproduced independently:
+To reproduce the G74 scratch recipe (4096 environments, 6000 updates):
 
 ```bash
 export ISAACLAB_ROOT="$HOME/IsaacLab"
 export SPRITE_RL_ROOT="$PWD"
 
-./scripts/05_train_g59.sh
-./scripts/06_train_g60.sh
+./scripts/07_train_g74.sh
 ```
 
+For the earlier 50 Hz lineage, run `05_train_g59.sh` and `06_train_g60.sh`.
 The bundled G59 model 2999 is the exact G60 handoff. To reproduce the historical
 100 Hz lineage instead, run `01_train_g57.sh` through `04_train_g58f.sh`.
 Qualify the selected checkpoint after each stage and set `SOURCE_CHECKPOINT`
@@ -128,7 +135,8 @@ Review the included qualified checkpoint in Isaac Lab with:
 ./scripts/play_isaac.sh
 ```
 
-Set `CHECKPOINT=/path/to/model_N.pt` to review another G60 checkpoint.
+Set `CHECKPOINT=/path/to/model_N.pt` to review another G74 checkpoint. Set
+`BASELINE=g60` on either playback script to review the older G60 baseline.
 
 ## Play the qualified policy in MuJoCo
 

@@ -1,0 +1,80 @@
+{
+  "joint_names": [
+    "left_hip_pitch_joint",
+    "right_hip_pitch_joint",
+    "waist_roll_joint",
+    "left_hip_roll_joint",
+    "right_hip_roll_joint",
+    "waist_yaw_joint",
+    "left_hip_yaw_joint",
+    "right_hip_yaw_joint",
+    "head_pitch_joint",
+    "left_shoulder_pitch_joint",
+    "right_shoulder_pitch_joint",
+    "left_knee_joint",
+    "right_knee_joint",
+    "head_roll_joint",
+    "left_shoulder_roll_joint",
+    "right_shoulder_roll_joint",
+    "left_ankle_pitch_joint",
+    "right_ankle_pitch_joint",
+    "head_yaw_joint",
+    "left_shoulder_yaw_joint",
+    "right_shoulder_yaw_joint",
+    "left_ankle_roll_joint",
+    "right_ankle_roll_joint",
+    "left_elbow_joint",
+    "right_elbow_joint",
+    "left_wrist_yaw_joint",
+    "right_wrist_yaw_joint",
+    "left_wrist_pitch_joint",
+    "right_wrist_pitch_joint",
+    "left_wrist_roll_joint",
+    "right_wrist_roll_joint"
+  ],
+  "loop_joint_seam_rms_rad": 0.07489354723831061,
+  "method": "qualified G71 100 Hz whole-body walk as unconditioned PM01-style AMP prior; accepted G57 quiet stand retained for command-zero support",
+  "outputs": [
+    {
+      "frames": 400,
+      "path": "00_stand.npz",
+      "sha256": "98ba08bc07d00ba367540b88df304adf03edb41e99146412c0bf5836499db3d7"
+    },
+    {
+      "frames": 1199,
+      "path": "01_g71_walk.npz",
+      "sha256": "054482c74f488ddb97edf80b460670ec159d6144c5a016e14ac513127af2f3d1"
+    },
+    {
+      "frames": 1199,
+      "path": "02_g71_walk.npz",
+      "sha256": "054482c74f488ddb97edf80b460670ec159d6144c5a016e14ac513127af2f3d1"
+    },
+    {
+      "frames": 1199,
+      "path": "03_g71_walk.npz",
+      "sha256": "054482c74f488ddb97edf80b460670ec159d6144c5a016e14ac513127af2f3d1"
+    }
+  ],
+  "pelvis_displacement_w": [
+    2.351757257245481,
+    -0.05444494675612077,
+    0.004402250051498413
+  ],
+  "reference": "../../g71/sprite0825_pm01_g55_ik_contactclean_wbt_v1.npz",
+  "reference_sha256": "97ec26f45460316e55845137b2adeb83958bd2676967af166085df085b509256",
+  "schema": "sprite0825-g72-g71-pm01-amp-v1",
+  "stand_sampling_fraction": 0.10007505629221916,
+  "stand_source": "00_stand.npz",
+  "stand_source_sha256": "98ba08bc07d00ba367540b88df304adf03edb41e99146412c0bf5836499db3d7",
+  "walk_velocity_body_mean": [
+    0.19643382619018418,
+    0.01059022387003429,
+    4.0316474957009044e-05
+  ],
+  "walk_velocity_body_rms": [
+    0.19744869332438136,
+    0.06556503416436564,
+    0.03242181437493304
+  ]
+}

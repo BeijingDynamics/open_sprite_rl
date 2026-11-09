@@ -673,3 +673,14 @@ for suffix, env_cfg in (
         env_cfg,
         "Sprite0825Stage2G60TimeNormalizedWaist50HzAMPPPORunnerCfg",
     )
+
+
+for suffix, env_cfg in (
+    ("-Robust", "Sprite0825Stage2AMPG74ShoulderRollCenter50HzRobustEnvCfg"),
+    ("", "Sprite0825Stage2AMPG74ShoulderRollCenter50HzEnvCfg"),
+):
+    _register_velocity_conditioned_task(
+        f"Isaac-Sprite0825-Stage2-AMP-G74ShoulderRollCenter50Hz{suffix}-v0",
+        env_cfg,
+        "Sprite0825Stage2G74ShoulderRollCenter50HzAMPPPORunnerCfg",
+    )

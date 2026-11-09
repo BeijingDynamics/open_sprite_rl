@@ -26,6 +26,7 @@ class UnconditionedAMPPPO(AMPPPO):
         cfg["algorithm"]["data_loader"] = UnconditionedAMPDataLoader(
             cfg["dataset_path"],
             history_length=cfg["frame_length"],
+            frame_stride=cfg.get("expert_frame_stride", 1),
             mirror_probability=cfg.get("expert_mirror_probability", 0.0),
             device=device,
         )

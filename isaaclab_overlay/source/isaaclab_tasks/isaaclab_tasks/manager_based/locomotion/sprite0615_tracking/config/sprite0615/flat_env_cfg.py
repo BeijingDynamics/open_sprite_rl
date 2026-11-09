@@ -347,6 +347,32 @@ SPRITE0615_WBT_PM01_FULL_PEAK_CFG.actuators = {
     ),
 }
 
+SPRITE0825_WBT_PM01_4340_SHOULDERS_FULL_PEAK_CFG = copy.deepcopy(
+    SPRITE0615_WBT_PM01_FULL_PEAK_CFG
+)
+del SPRITE0825_WBT_PM01_4340_SHOULDERS_FULL_PEAK_CFG.actuators["arms_j4310"]
+SPRITE0825_WBT_PM01_4340_SHOULDERS_FULL_PEAK_CFG.actuators.update(
+    {
+        "shoulder_pitch_roll_j4340": ImplicitActuatorCfg(
+            joint_names_expr=[".*_shoulder_(pitch|roll)_joint"],
+            effort_limit_sim=40.0,
+            velocity_limit_sim=9.3,
+            stiffness=_J4340_STIFFNESS,
+            damping=_J4340_DAMPING,
+            armature=_J4340_REFLECTED_INERTIA,
+        ),
+        "arms_distal_j4310": ImplicitActuatorCfg(
+            joint_names_expr=[".*_shoulder_yaw_joint", ".*_elbow_joint", ".*_wrist_yaw_joint"],
+            effort_limit_sim=12.5,
+            velocity_limit_sim=36.2,
+            stiffness=_J4310_SINGLE_STIFFNESS,
+            damping=_J4310_SINGLE_DAMPING,
+            armature=_J4310_SINGLE_REFLECTED_INERTIA,
+        ),
+    }
+)
+SPRITE0825_G74_SHOULDER_ACTION_SCALE = 0.25 * 40.0 / _J4340_STIFFNESS
+
 SPRITE0615_PM01_FULL_PEAK_ACTION_SCALE = {
     ".*_hip_.*": 0.25 * 40.0 / _J4340_STIFFNESS,
     ".*_knee_joint": 0.25 * 40.0 / _J4340_STIFFNESS,

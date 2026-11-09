@@ -1,0 +1,37 @@
+{
+  "schema": "sprite0825_g72_dualseed_selection_v1",
+  "qualified": true,
+  "evaluation_seeds": [
+    303,
+    404
+  ],
+  "winner_iteration": 5999,
+  "passing_both": [
+    5999,
+    3000
+  ],
+  "candidates": {
+    "2500": {
+      "primary_pass": false,
+      "confirmation_pass": false,
+      "primary_failed_gates": [
+        "shoulder_pitch_motion_ratio_0p50_to_1p80"
+      ],
+      "confirmation_failed_gates": [
+        "shoulder_pitch_motion_ratio_0p50_to_1p80"
+      ]
+    },
+    "3000": {
+      "primary_pass": true,
+      "confirmation_pass": true,
+      "primary_failed_gates": [],
+      "confirmation_failed_gates": []
+    },
+    "5999": {
+      "primary_pass": true,
+      "confirmation_pass": true,
+      "primary_failed_gates": [],
+      "confirmation_failed_gates": []
+    }
+  }
+}
