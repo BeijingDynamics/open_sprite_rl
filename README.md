@@ -20,10 +20,8 @@ Reverse and lateral walking are not qualified. The actor runs at 50 Hz with
 The actor deliberately excludes horizontal base velocity, global root position,
 and global yaw. It uses eight frames of joint position, joint velocity, previous
 action, base angular velocity, and projected gravity, plus the current
-`vx/vy/yaw_rate` command. The separate
-[open_sprite_runtime](https://github.com/BeijingDynamics/open_sprite_runtime)
-repository holds the hardware implementation, including the 800 Hz raw ICM45686
-reader. A simulation checkout is not a ready-to-arm installation.
+`vx/vy/yaw_rate` command. See [Pinned hardware runtime](#pinned-hardware-runtime)
+for the matching Jetson deployment source.
 
 Qualified checkpoint:
 
@@ -164,13 +162,47 @@ For a CI or server smoke test without a display, run
 - `scripts/provenance/`: untouched historical launch scripts for audit only
 - `docs/`: architecture, data provenance, hardware limits, and acceptance gates
 
-## Safety and scope
+## Pinned hardware runtime
 
-This release contains training and sim2sim artifacts, not a ready-to-run
-physical robot controller. Hardware execution belongs in `open_sprite_runtime`.
-Verify motor directions, zero offsets, CAN IDs, joint limits, differential
-kinematics, estimator conventions, emergency stop, and current/temperature
-limits before hardware use.
+**G74 model3000 pairs with
+[`open_sprite_runtime@4515206`](https://github.com/BeijingDynamics/open_sprite_runtime/tree/4515206c24404e18a2d5c168eccdb7468aea6ab7).**
+This is the pre-reverse Jetson source snapshot for the ICM45686 800 Hz raw
+six-axis pipeline and supervised Xbox forward, stop, and low-speed turning.
+Use the pinned commit, not the runtime repository's moving `main` branch:
+
+```bash
+git clone https://github.com/BeijingDynamics/open_sprite_runtime.git
+git -C open_sprite_runtime checkout --detach 4515206c24404e18a2d5c168eccdb7468aea6ab7
+```
+
+The RL repository's `runtime/` directories contain simulation tools. Neither
+checkout is a ready-to-arm robot installation. Each robot and target Jetson
+still needs:
+
+- **Policy and control parameters:** the matching G74 model3000 ONNX and
+  observation/action contract; a generated native parameter bundle with
+  hardware-validated PD gains, command/feedback limits, and watchdog settings.
+  Do not use the simulation contract's PD gains as motor commands.
+- **31-motor inventory:** CAN FD interfaces, command and feedback IDs,
+  encoder zeros and signs, direct-joint direction and ratios, measured
+  position bounds, torque/speed/current/temperature limits, and each drive's
+  read-back MIT PMAX/VMAX/TMAX.
+- **Differential calibration:** separate measured 2×2 matrices, motor row
+  order, offsets, and usable ranges for each ankle and head pitch/roll.
+- **IMU and gamepad:** verify the pelvis mounting rotation, SPI and INT1 DRDY
+  settings, and projected-gravity and gyro directions. Keep the robot still
+  for the 15-second startup gyro-bias estimate. Pair the Xbox controller and
+  verify its local axes, buttons, and deadman behavior.
+- **Host build and qualification:** install the target ONNX Runtime library,
+  build and qualify the native policy, CAN, and ICM executables, and regenerate
+  machine-specific qualification seals. Verify real-time permissions, run
+  zero-gain preflight, and confirm fall arrest and independent power cutoff
+  before any separately approved powered test.
+
+See the pinned [Xbox deployment notes](https://github.com/BeijingDynamics/open_sprite_runtime/blob/4515206c24404e18a2d5c168eccdb7468aea6ab7/docs/XBOX_DEPLOYMENT_20261019.md)
+and [hardware contract](https://github.com/BeijingDynamics/open_sprite_runtime/blob/4515206c24404e18a2d5c168eccdb7468aea6ab7/docs/HARDWARE_CONTRACT.md).
+The published snapshots do not include site calibration, field binaries, or
+machine-specific qualification seals.
 
 TWIST2 was not used or modified.
 

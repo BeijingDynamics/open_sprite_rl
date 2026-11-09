@@ -17,8 +17,8 @@ Policy 为 50 Hz，仿真物理及 PD 为 500 Hz，输出 31 个关节位置目�
 
 Actor observation 为 795 维：8 帧关节位置、关节速度、上一时刻 action、
 base angular velocity、projected gravity，再加当前 `vx/vy/yaw_rate` 命令。
-其中没有水平本体速度、全局 root 位置和全局 yaw。实际部署的 800 Hz ICM45686
-及硬件控制见 [open_sprite_runtime](https://github.com/BeijingDynamics/open_sprite_runtime)。
+其中没有水平本体速度、全局 root 位置和全局 yaw。对应的 Jetson 真机控制源码见
+[固定的真机 runtime](#固定的真机-runtime)。
 
 最终 checkpoint：
 
@@ -134,11 +134,40 @@ pip install -r requirements-mujoco.txt
 - [数据来源](docs/DATA_PROVENANCE.md)
 - [硬件和部署边界](docs/HARDWARE_AND_DEPLOYMENT.md)
 
-## 安全边界
+## 固定的真机 runtime
 
-本仓库保存训练与 sim2sim 结果，不是可以直接上真机的控制器；真机执行属于
-`open_sprite_runtime`。真机前必须核对电机方向、零位、CAN ID、软硬限位、
-并联机构解算、IMU 坐标、急停、电流和温度限制。
+**G74 model3000 对应的真机源码固定为
+[`open_sprite_runtime@4515206`](https://github.com/BeijingDynamics/open_sprite_runtime/tree/4515206c24404e18a2d5c168eccdb7468aea6ab7)。**
+这是开始训练后退之前的 Jetson 版本，使用 ICM45686 800 Hz 原始六轴，
+已在监督下验证 Xbox 前进、停步和低速左右转向。请检出固定提交，不要用随时会更新的
+`main` 替代：
+
+```bash
+git clone https://github.com/BeijingDynamics/open_sprite_runtime.git
+git -C open_sprite_runtime checkout --detach 4515206c24404e18a2d5c168eccdb7468aea6ab7
+```
+
+本仓库的 `runtime/` 目录是仿真工具。两个仓库都不是克隆后就能上电的部署包；
+每台机器人及目标 Jetson 仍需准备：
+
+- **策略和控制参数：** 配套的 G74 model3000 ONNX、观测和动作契约，以及生成的
+  native 参数包。参数包需包含真机验证过的 PD 增益、命令与反馈限值和看门狗设置，
+  不能把仿真契约的 PD 直接发给电机。
+- **31 个电机的现场清单：** CAN FD 接口、命令和反馈 ID、编码器零点及符号、
+  直连关节方向和传动比、实测位置边界、扭矩/速度/电流/温度限值，以及各驱动
+  回读的 MIT PMAX/VMAX/TMAX。
+- **并联机构标定：** 左踝、右踝及头部 pitch/roll 分别测量 2×2 矩阵，
+  记录电机行顺序、零偏和有效范围。
+- **IMU 和手柄：** 核对 pelvis 安装旋转、SPI 与 INT1 DRDY 配置，
+  验证投影重力和陀螺方向；启动时保持静止 15 秒估计陀螺零偏。
+  配对 Xbox 手柄后，验证现场轴、按键及松开 LT 后速度指令回零的行为。
+- **目标机编译和验收：** 安装匹配的 ONNX Runtime 库，编译并验收 native 策略、
+  CAN 和 ICM 程序，重新生成该机器的验收校验文件。确认实时调度权限，完成零增益预检，
+  并确认防跌支撑和独立断电后，才另行批准有动力测试。
+
+详细步骤见固定版本的 [Xbox 部署说明](https://github.com/BeijingDynamics/open_sprite_runtime/blob/4515206c24404e18a2d5c168eccdb7468aea6ab7/docs/XBOX_DEPLOYMENT_20261019.md)
+和[硬件契约](https://github.com/BeijingDynamics/open_sprite_runtime/blob/4515206c24404e18a2d5c168eccdb7468aea6ab7/docs/HARDWARE_CONTRACT.md)。
+公开快照不包含现场标定、真机可执行文件或机器专用验收校验文件。
 
 TWIST2 未被使用或修改。
 
